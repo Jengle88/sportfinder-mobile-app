@@ -31,6 +31,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import ru.riders.sportfinder.R
+import ru.riders.sportfinder.screen.widget.FilterBar
 import ru.riders.sportfinder.screen.widget.JCMapView
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
@@ -38,33 +39,7 @@ import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 fun SportCourtScreen() {
     lateinit var mapView: JCMapView
 
-    var filterText by remember { mutableStateOf("") }
-
-    val constraintsTopSearch = ConstraintSet {
-        val searchTextField = createRefFor("searchTextField")
-        val spacer = createRefFor("spacer")
-        val filterButton = createRefFor("filterButton")
-
-        constrain(searchTextField) {
-            top.linkTo(parent.top)
-            start.linkTo(parent.start)
-            end.linkTo(spacer.start)
-            width = Dimension.fillToConstraints
-            height = Dimension.wrapContent
-        }
-        constrain(spacer) {
-            width = Dimension.value(4.dp)
-            top.linkTo(parent.top)
-            end.linkTo(filterButton.start)
-        }
-        constrain(filterButton) {
-            top.linkTo(parent.top)
-            bottom.linkTo(parent.bottom)
-            end.linkTo(parent.end)
-            width = Dimension.value(48.dp)
-            height = Dimension.value(48.dp)
-        }
-    }
+    var textForFilter = ""
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -81,36 +56,9 @@ fun SportCourtScreen() {
             mapView
         })
 
-        ConstraintLayout(
-            constraintSet = constraintsTopSearch,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-                .align(Alignment.TopStart)
-        ) {
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .layoutId("searchTextField")
-                ,
-                value = filterText,
-                onValueChange = { newFilter -> filterText = newFilter}
-            )
-
-            IconButton(
-                modifier = Modifier
-                    .background(SportFinderLightColorScheme.primary)
-                    .layoutId("filterButton"),
-                onClick = { }
-            ) {
-                Icon(
-                    modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(id = R.drawable.ic_filter_white_24),
-                    tint = SportFinderLightColorScheme.onPrimary,
-                    contentDescription = null
-                )
-            }
-        }
+        FilterBar(onTextFilterChanged = {
+            textForFilter = it
+        })
 
         Button(
             modifier = Modifier
