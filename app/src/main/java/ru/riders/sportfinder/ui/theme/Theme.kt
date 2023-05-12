@@ -37,13 +37,12 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
-private val SportFinderLightColorScheme = lightColorScheme(
+val SportFinderLightColorScheme = lightColorScheme(
     primary = LightGreen,
     secondary = Green,
     onPrimary = White,
     onSecondary = LightGray,
     tertiary = Pink40
-
 )
 
 @Composable
