@@ -9,7 +9,6 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.di.api.ServerApi
 import ru.riders.sportfinder.di.api.YandexWeatherApi
 import java.util.concurrent.TimeUnit
@@ -32,8 +31,8 @@ object AppModule {
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .client(OkHttpClient().newBuilder()
-            .readTimeout(3, TimeUnit.SECONDS)
-            .writeTimeout(3, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
             .build()
         )
 
@@ -50,8 +49,4 @@ object AppModule {
         .baseUrl(API_URL_SERVER)
         .build()
         .create(ServerApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideMainViewModel() = MainActivityViewModel()
 }

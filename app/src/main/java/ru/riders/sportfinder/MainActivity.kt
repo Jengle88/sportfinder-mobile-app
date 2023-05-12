@@ -6,9 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -54,11 +54,27 @@ class MainActivity : ComponentActivity() {
         MapKitFactory.setApiKey(YANDEX_MAP_APIKEY)
         MapKitFactory.initialize(this)
 
+
         setContent {
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+
             val isSupportedBottomNav = remember { mutableStateOf(false) }
 
             val engine = rememberNavHostEngine()
             val navHostController = engine.rememberNavController()
+
+            val bottomItems = listOf(
+                BottomNavItem(
+                    painterResource(R.drawable.ic_account_white_24)
+                ) { it.navigate("${Screens.PROFILE_SCREEN.route}/${viewModel.userId}}") },
+                BottomNavItem(
+                    painterResource(R.drawable.ic_location_white_24)
+                ) { it.navigate(Screens.SPORT_COURT_SCREEN.route) },
+                BottomNavItem(
+                    painterResource(R.drawable.ic_runner_white_24),
+                    { it.navigate("") }
+                ),
+            )
 
             SportFinderTheme {
                 // A surface container using the 'background' color from the theme
@@ -70,23 +86,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         bottomBar = {
                             if (isSupportedBottomNav.value) {
-                                BottomBar(
-                                    listOf(
-                                        BottomNavItem(
-                                            painterResource(id = R.drawable.ic_account_white_24),
-                                            { it.navigate("") }
-                                        ),
-                                        BottomNavItem(
-                                            painterResource(R.drawable.ic_location_white_24),
-                                            { it.navigate("") }
-                                        ),
-                                        BottomNavItem(
-                                            painterResource(R.drawable.ic_runner_white_24),
-                                            { it.navigate("") }
-                                        ),
-                                    ),
-                                    navHostController
-                                )
+                                BottomBar(bottomItems, navHostController)
                             }
                         }
                     ) { paddingValues ->
@@ -124,8 +124,8 @@ private fun BottomBar(
     navHostController: NavHostController,
 ) {
     var selectedId by remember { mutableStateOf(0) }
-    BottomAppBar(
-        containerColor = SportFinderLightColorScheme.primary
+    BottomNavigation(
+        backgroundColor = SportFinderLightColorScheme.primary
     ) {
         items.forEachIndexed { index, bottomNavItem ->
             BottomNavigationItem(
