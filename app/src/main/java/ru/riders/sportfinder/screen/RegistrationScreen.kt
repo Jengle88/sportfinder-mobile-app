@@ -34,7 +34,7 @@ import ru.riders.sportfinder.ui.theme.LightGreen
 import ru.riders.sportfinder.ui.theme.White
 
 @Composable
-fun Authorization() {
+fun Registration() {
     var login: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
 
@@ -100,11 +100,11 @@ fun Authorization() {
                     modifier = Modifier.fillMaxWidth(0.8f),
                     colors = ButtonDefaults.buttonColors(backgroundColor = LightGreen)
             ) {
-                Text(text = "ВОЙТИ", color = White)
+                Text(text = "ПОДТВЕРДИТЬ", color = White)
             }
 
             Text(
-                    text = "ИЛИ ЗАРЕГИСТРИРОВАТЬСЯ",
+                    text = "ИЛИ ВОЙТИ",
                     modifier = Modifier
                             .fillMaxSize(0.8f)
                             .clickable {
@@ -123,8 +123,7 @@ fun Authorization() {
 
 @Composable
 @Preview
-fun AuthorizationPreview() {
-    Authorization()
+fun RegistrationPreview() {
+    Registration()
 }
-
 
