@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,7 +32,9 @@ fun SportCourtListItem(
         temperature: Float?,
         painter: Painter = painterResource(id = R.drawable.no_image_placeholder)) {
     Box(
-            modifier = Modifier.border(BorderStroke(2.dp, LightGreen), RoundedCornerShape(5))
+            modifier = Modifier
+                .border(BorderStroke(2.dp, LightGreen), RoundedCornerShape(5))
+                .fillMaxWidth()
     ) {
         Column {
             Row {
