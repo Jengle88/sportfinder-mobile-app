@@ -22,16 +22,19 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
     lateinit var serverApi: ServerApi
 
     var isUserAuthorized = mutableStateOf(false, neverEqualPolicy())
-    private var userId = 0
+    var userId = 0
         get() {
             return if (isUserAuthorized.value) field
-            else throw IllegalStateException("User haven`t authorized")
+            else 0 /*throw IllegalStateException("User haven`t authorized")*/
         }
-    private var userToken = ""
+        private set
+    
+    var userToken = ""
         get() {
             return if (isUserAuthorized.value) field
-            else throw IllegalStateException("User haven`t authorized")
+            else "" /*throw IllegalStateException("User haven`t authorized")*/
         }
+        private set
 
 
     fun trySignUp(
@@ -101,7 +104,6 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
             }
         }
     }
-
 
     fun <T : Any> safeApiResult(response: Response<T>, errorMessage: String): ApiResult<T> {
         if (response.isSuccessful) return ApiResult.Success(response.body()!!)

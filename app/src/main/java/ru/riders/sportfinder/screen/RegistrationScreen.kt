@@ -113,6 +113,7 @@ fun RegistrationScreen(
                         password,
                         onSuccess = {
                             Toast.makeText(context, "Вы авторизованы", Toast.LENGTH_SHORT).show()
+                            navHostController?.navigate("${Screens.PROFILE_SCREEN.route}/${viewModel.userId}")
                         },
                         onFailed = {
                             Toast.makeText(context, "Ошибка регистрации", Toast.LENGTH_SHORT).show()
