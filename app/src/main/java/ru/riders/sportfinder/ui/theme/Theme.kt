@@ -37,11 +37,20 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val SportFinderLightColorScheme = lightColorScheme(
+    primary = LightGreen,
+    secondary = Green,
+    onPrimary = White,
+    onSecondary = LightGray,
+    tertiary = Pink40
+
+)
+
 @Composable
 fun SportFinderTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -53,7 +62,7 @@ fun SportFinderTheme(
         }
 
         darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        else -> SportFinderLightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
