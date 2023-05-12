@@ -2,7 +2,6 @@ package ru.riders.sportfinder.screen.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
@@ -29,7 +27,7 @@ import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BoxScope.TopFilterBar(onTextFilterChanged: (String) -> Unit) {
+fun TopFilterBar(onTextFilterChanged: (String) -> Unit) {
     var filterText by remember { mutableStateOf("") }
 
     val constraintsTopSearch = ConstraintSet {
@@ -62,7 +60,6 @@ fun BoxScope.TopFilterBar(onTextFilterChanged: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 4.dp, start = 8.dp, end = 8.dp)
-            .align(Alignment.TopStart)
     ) {
         TextField(modifier = Modifier
             .fillMaxWidth()
