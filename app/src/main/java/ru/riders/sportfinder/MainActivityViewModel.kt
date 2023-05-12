@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import ru.riders.sportfinder.data.ApiResult
+import ru.riders.sportfinder.data.SportCourtInfo
 import ru.riders.sportfinder.data.SignUpRequestBody
 import ru.riders.sportfinder.di.api.ServerApi
 import java.io.IOException
@@ -20,6 +21,12 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     @Inject
     lateinit var serverApi: ServerApi
+
+    var sportsCourts = mutableStateOf(emptyList<SportCourtInfo>())
+        get() {
+            if (field.value.isEmpty()) loadSportCourtsListMock()
+            return field
+        }
 
     var isUserAuthorized = mutableStateOf(false, neverEqualPolicy())
     var userId = 0
@@ -104,7 +111,28 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
             }
         }
     }
-
+    fun loadSportCourtsListMock() {
+        sportsCourts.value = listOf(
+            SportCourtInfo(
+                name = "Девяткино",
+                tegs = listOf("одна дорога на Лаврики", "дыра"),
+                distance = 999.9F,
+                temperature = -666.6F
+            ),
+            SportCourtInfo(
+                name = "Старая Деревня",
+                tegs = listOf("уют", "шава"),
+                distance = 1.3F,
+                temperature = 24.6F
+            ),
+            SportCourtInfo(
+                name = "Новая",
+                tegs = listOf("новая", "без шавы"),
+                distance = 0.3F,
+                temperature = 21.2F
+            ),
+        )
+    }
     fun <T : Any> safeApiResult(response: Response<T>, errorMessage: String): ApiResult<T> {
         if (response.isSuccessful) return ApiResult.Success(response.body()!!)
 
