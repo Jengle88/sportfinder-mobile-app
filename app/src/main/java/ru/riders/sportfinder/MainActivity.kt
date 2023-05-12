@@ -33,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.model.BottomNavItem
 import ru.riders.sportfinder.screen.ProfileScreen
 import ru.riders.sportfinder.screen.Screens
+import ru.riders.sportfinder.screen.SportCourtScreen
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.ui.theme.SportFinderTheme
 import javax.inject.Inject
@@ -152,7 +153,7 @@ fun MainScreenNavHost(
     navHostController: NavHostController,
     isSupportedBottomNav: MutableState<Boolean>
 ) {
-    NavHost(navController = navHostController, startDestination = Screens.PROFILE_SCREEN.route + "/0") {
+    NavHost(navController = navHostController, startDestination = Screens.SPORT_COURT_SCREEN.route) {
         composable(
             route = Screens.PROFILE_SCREEN.route + "/{personId}",
             arguments = listOf(
@@ -163,6 +164,12 @@ fun MainScreenNavHost(
         ) { entry ->
             isSupportedBottomNav.value = true
             ProfileScreen(personId = entry.arguments?.getString("personId") ?: "")
+        }
+        composable(
+            route = Screens.SPORT_COURT_SCREEN.route
+        ) { entry ->
+            isSupportedBottomNav.value = true
+            SportCourtScreen()
         }
     }
 }
