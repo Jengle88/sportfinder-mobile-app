@@ -10,11 +10,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.yandex.mapkit.MapKitFactory
+import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.ui.theme.SportFinderTheme
+import javax.inject.Inject
+import javax.inject.Named
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    @Named("YANDEX_MAP_APIKEY")
+    lateinit var YANDEX_MAP_APIKEY: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MapKitFactory.setApiKey(YANDEX_MAP_APIKEY)
+        MapKitFactory.initialize(this)
+
         setContent {
             SportFinderTheme {
                 // A surface container using the 'background' color from the theme
@@ -26,6 +39,16 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        MapKitFactory.getInstance().onStart()
+    }
+
+    override fun onStop() {
+        MapKitFactory.getInstance().onStop()
+        super.onStop()
     }
 }
 
