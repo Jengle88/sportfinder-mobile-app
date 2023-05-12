@@ -1,9 +1,13 @@
 package ru.riders.sportfinder.screen.widget
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -14,15 +18,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
+import ru.riders.sportfinder.R
+import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BoxScope.FilterBar(onTextFilterChanged: (String) -> Unit) {
+fun BoxScope.TopFilterBar(onTextFilterChanged: (String) -> Unit) {
     var filterText by remember { mutableStateOf("") }
 
     val constraintsTopSearch = ConstraintSet {
@@ -54,7 +61,7 @@ fun BoxScope.FilterBar(onTextFilterChanged: (String) -> Unit) {
         constraintSet = constraintsTopSearch,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp)
+            .padding(top = 4.dp, start = 8.dp, end = 8.dp)
             .align(Alignment.TopStart)
     ) {
         TextField(modifier = Modifier
@@ -65,6 +72,20 @@ fun BoxScope.FilterBar(onTextFilterChanged: (String) -> Unit) {
                 filterText = newFilter
                 onTextFilterChanged(newFilter)
             })
+
+        IconButton(
+            modifier = Modifier
+                .background(SportFinderLightColorScheme.primary)
+                .layoutId("filterButton"),
+            onClick = { }
+        ) {
+            Icon(
+                modifier = Modifier.fillMaxSize(),
+                painter = painterResource(id = R.drawable.ic_filter_white_24),
+                tint = SportFinderLightColorScheme.onPrimary,
+                contentDescription = null
+            )
+        }
     }
 }
 
@@ -72,7 +93,7 @@ fun BoxScope.FilterBar(onTextFilterChanged: (String) -> Unit) {
 @Preview
 fun FilterBarPreview() {
     Box{
-        FilterBar({ _ -> })
+        TopFilterBar({ _ -> })
     }
 }
 
