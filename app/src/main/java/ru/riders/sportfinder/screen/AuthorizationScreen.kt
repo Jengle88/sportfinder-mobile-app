@@ -96,7 +96,9 @@ fun Authorization() {
                     })
 
             Button(
-                    onClick = { /*TODO*/ },
+                    onClick = {
+
+                              },
                     modifier = Modifier.fillMaxWidth(0.8f),
                     colors = ButtonDefaults.buttonColors(backgroundColor = LightGreen)
             ) {
