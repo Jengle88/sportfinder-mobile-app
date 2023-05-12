@@ -31,7 +31,9 @@ import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.model.BottomNavItem
+import ru.riders.sportfinder.screen.AuthorizationScreen
 import ru.riders.sportfinder.screen.ProfileScreen
+import ru.riders.sportfinder.screen.RegistrationScreen
 import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.SportCourtScreen
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
@@ -46,8 +48,6 @@ class MainActivity : ComponentActivity() {
     @Named("YANDEX_MAP_APIKEY")
     lateinit var YANDEX_MAP_APIKEY: String
 
-    lateinit var viewModel: MainActivityViewModel
-
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,8 +55,7 @@ class MainActivity : ComponentActivity() {
         MapKitFactory.initialize(this)
 
         setContent {
-            viewModel = hiltViewModel()
-            val isSupportedBottomNav = remember { mutableStateOf(true) }
+            val isSupportedBottomNav = remember { mutableStateOf(false) }
 
             val engine = rememberNavHostEngine()
             val navHostController = engine.rememberNavController()
@@ -153,7 +152,17 @@ fun MainScreenNavHost(
     navHostController: NavHostController,
     isSupportedBottomNav: MutableState<Boolean>
 ) {
-    NavHost(navController = navHostController, startDestination = Screens.SPORT_COURT_SCREEN.route) {
+    NavHost(navController = navHostController, startDestination = Screens.AUTH_SCREEN.route) {
+        composable(route = Screens.AUTH_SCREEN.route) {
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+            isSupportedBottomNav.value = false
+            AuthorizationScreen(viewModel, navHostController)
+        }
+        composable(route = Screens.REG_SCREEN.route) {
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+            isSupportedBottomNav.value = false
+            RegistrationScreen(viewModel, navHostController)
+        }
         composable(
             route = Screens.PROFILE_SCREEN.route + "/{personId}",
             arguments = listOf(
