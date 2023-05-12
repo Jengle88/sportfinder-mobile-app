@@ -34,99 +34,113 @@ import ru.riders.sportfinder.ui.theme.LightGreen
 import ru.riders.sportfinder.ui.theme.White
 
 @Composable
-fun Authorization() {
+fun AuthorizationScreen(
+    viewModel: MainActivityViewModel?,
+    navHostController: NavHostController?
+) {
     var login: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
 
+    val context = LocalContext.current
+
     Box(
-            modifier = Modifier
-                    .fillMaxSize()
-                    .padding(bottom = 20.dp),
-            contentAlignment = Alignment.BottomCenter
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(vertical = 48.dp),
+        contentAlignment = Alignment.TopCenter
     ) {
 
         Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Bottom
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
             Image(
-                    modifier = Modifier.fillMaxWidth(),
-                    painter = painterResource(R.drawable.sportfinder_logo),
-                    contentDescription = "logo",
-                    alignment = Alignment.Center,
+                modifier = Modifier.fillMaxWidth(),
+                painter = painterResource(R.drawable.sportfinder_logo),
+                contentDescription = "logo",
+                alignment = Alignment.Center,
             )
 
             TextField(
-                    value = login,
-                    shape = RoundedCornerShape(
-                            10
-                    ),
-                    colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.White,
-                            focusedIndicatorColor = LightGreen),
-                    singleLine = true,
-                    modifier = Modifier
-                            .padding(top = 8.dp)
-                            .fillMaxWidth(0.8f),
-                    placeholder = {
-                        Text(text = "ЛОГИН")
-                    },
-                    onValueChange = {
-                        login = it
-                    })
+                value = login,
+                shape = RoundedCornerShape(
+                    10
+                ),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
+                    focusedIndicatorColor = LightGreen
+                ),
+                singleLine = true,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(0.8f),
+                placeholder = {
+                    Text(text = "ЛОГИН")
+                },
+                onValueChange = {
+                    login = it
+                })
 
             TextField(
-                    value = password,
-                    modifier = Modifier
-                            .padding(top = 8.dp)
-                            .fillMaxWidth(0.8f),
-                    shape = RoundedCornerShape(
-                            10
-                    ),
-                    colors = TextFieldDefaults.textFieldColors(
-                            backgroundColor = Color.White,
-                            focusedIndicatorColor = LightGreen),
-                    singleLine = true,
-                    visualTransformation = PasswordVisualTransformation(),
-                    placeholder = {
-                        Text(text = "ПАРОЛЬ")
-                    },
-                    onValueChange = {
-                        password = it
-                    })
+                value = password,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .fillMaxWidth(0.8f),
+                shape = RoundedCornerShape(
+                    10
+                ),
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
+                    focusedIndicatorColor = LightGreen
+                ),
+                singleLine = true,
+                visualTransformation = PasswordVisualTransformation(),
+                placeholder = {
+                    Text(text = "ПАРОЛЬ")
+                },
+                onValueChange = {
+                    password = it
+                })
 
             Button(
-                    onClick = {
-
-                              },
-                    modifier = Modifier.fillMaxWidth(0.8f),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = LightGreen)
+                onClick = {
+                    viewModel?.trySignIn(
+                        login,
+                        password,
+                        onSuccess = {
+                            Toast.makeText(context, "Вы авторизованы", Toast.LENGTH_SHORT).show()
+                        },
+                        onFailed = {
+                            Toast.makeText(context, "Ошибка авторизации", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                },
+                modifier = Modifier.fillMaxWidth(0.8f),
+                colors = ButtonDefaults.buttonColors(backgroundColor = LightGreen)
             ) {
                 Text(text = "ВОЙТИ", color = White)
             }
 
             Text(
-                    text = "ИЛИ ЗАРЕГИСТРИРОВАТЬСЯ",
-                    modifier = Modifier
-                            .fillMaxSize(0.8f)
-                            .clickable {
-                                /*TODO*/
-                            },
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                    color = LightGreen,
+                text = "ИЛИ ЗАРЕГИСТРИРОВАТЬСЯ",
+                modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .clickable {
+                        navHostController?.navigate(Screens.REG_SCREEN.route)
+                    },
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                color = LightGreen,
             )
-
         }
     }
-
 }
 
 @Composable
 @Preview
 fun AuthorizationPreview() {
-    Authorization()
+    AuthorizationScreen(null, null)
 }
 
 

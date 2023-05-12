@@ -9,6 +9,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.di.api.ServerApi
 import ru.riders.sportfinder.di.api.YandexWeatherApi
 import java.util.concurrent.TimeUnit
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     const val API_URL_YANDEXWEATHER = "https://api.weather.yandex.ru/v1/"
-    const val API_URL_SERVER = "https://flask-try.allexkzk.repl.co"
+    const val API_URL_SERVER = "https://flask-try.allexkzk.repl.co/api/"
     @Provides
     @Named("YANDEX_MAP_APIKEY")
     @Singleton
@@ -49,4 +50,8 @@ object AppModule {
         .baseUrl(API_URL_SERVER)
         .build()
         .create(ServerApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideMainViewModel() = MainActivityViewModel()
 }
