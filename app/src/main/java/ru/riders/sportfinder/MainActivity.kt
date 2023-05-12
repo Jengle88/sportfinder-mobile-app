@@ -3,13 +3,20 @@ package ru.riders.sportfinder
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
+import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.ui.theme.SportFinderTheme
@@ -29,13 +36,18 @@ class MainActivity : ComponentActivity() {
         MapKitFactory.initialize(this)
 
         setContent {
+            val engine = rememberNavHostEngine()
+            val navHostController = engine.rememberNavController()
+
             SportFinderTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    MainScreenNavHost(navHostController = navHostController).apply {
+                        navHostController.navigate("main/Hello World")
+                    }
                 }
             }
         }
@@ -53,17 +65,32 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun MainScreen(
+    text: String
+) {
+    Box (modifier = Modifier.fillMaxSize()) {
+        Text(
+            modifier = Modifier.align(Alignment.Center),
+            text = text
+        )
+    }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    SportFinderTheme {
-        Greeting("Android")
+fun MainScreenNavHost(
+    navHostController: NavHostController
+) {
+    NavHost(navController = navHostController, startDestination = "main/{text}") {
+        composable(
+            "main/{text}",
+            arguments = listOf(
+                navArgument("text") {
+                    type = NavType.StringType
+                    defaultValue = "Error"
+                }
+            )
+        ) { entry ->
+            MainScreen(text = entry.arguments?.getString("text") ?: "text")
+        }
     }
 }
