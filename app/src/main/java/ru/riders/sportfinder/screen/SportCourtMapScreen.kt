@@ -18,13 +18,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavHostController
+import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.widget.FilterBar
 import ru.riders.sportfinder.screen.widget.JCMapView
+import ru.riders.sportfinder.screen.widget.TopSearchBar
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
 @Composable
-fun SportCourtScreen() {
+fun SportCourtMapScreen(
+    viewModel: MainActivityViewModel?,
+    navHostController: NavHostController?
+) {
     lateinit var mapView: JCMapView
 
     var textForFilter = ""
@@ -44,7 +49,7 @@ fun SportCourtScreen() {
             mapView
         })
 
-        FilterBar(onTextFilterChanged = {
+        TopSearchBar(onTextSearchChanged = {
             textForFilter = it
         })
 
@@ -57,7 +62,9 @@ fun SportCourtScreen() {
                 contentColor = SportFinderLightColorScheme.onPrimary
             ),
             shape = RoundedCornerShape(28.dp),
-            onClick = {}
+            onClick = {
+                navHostController?.navigate(Screens.SPORT_COURT_LIST_SCREEN.route)
+            }
         ) {
             Row {
                 Icon(painterResource(id = R.drawable.ic_list_bulleted_white_24), null)
@@ -71,6 +78,6 @@ fun SportCourtScreen() {
 
 @Preview
 @Composable
-fun SportCourtScreenPreview() {
-    SportCourtScreen()
+fun SportCourtMapScreenPreview() {
+    SportCourtMapScreen(null, null)
 }

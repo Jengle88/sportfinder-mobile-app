@@ -48,11 +48,12 @@ fun SportCourtListItem(
                                 .size(longImageSide.dp, longImageSide.dp * 2 / 3)
                 )
                 Column(
-                        modifier = Modifier.padding(top = 5.dp)
+                        modifier = Modifier.padding(top = 5.dp).fillMaxWidth()
                 ) {
                     Text(
                             text = name,
-                            style = MaterialTheme.typography.headlineSmall
+                            style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.fillMaxWidth()
                     )
                     tegs?.joinToString(separator = ",")?.let {
                         Text(
@@ -72,7 +73,7 @@ fun SportCourtListItem(
                 val courtIconsAttributesModifier = Modifier.padding(end = 8.dp)
                 distance?.let {
                     Icon(
-                            painter = painterResource(R.drawable.ic_map_marker_white),
+                            painter = painterResource(R.drawable.ic_map_marker_white_24),
                             contentDescription = "Map sign",
                             tint = LightGreen,
                             modifier = courtIconsAttributesModifier

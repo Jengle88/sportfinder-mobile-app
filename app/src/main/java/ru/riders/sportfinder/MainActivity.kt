@@ -27,15 +27,20 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navOptions
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
+import ru.riders.sportfinder.data.TrackInfo
 import ru.riders.sportfinder.model.BottomNavItem
 import ru.riders.sportfinder.screen.AuthorizationScreen
 import ru.riders.sportfinder.screen.ProfileScreen
 import ru.riders.sportfinder.screen.RegistrationScreen
 import ru.riders.sportfinder.screen.Screens
-import ru.riders.sportfinder.screen.SportCourtScreen
+import ru.riders.sportfinder.screen.SportCourtMapScreen
+import ru.riders.sportfinder.screen.SportsCourtListScreen
+import ru.riders.sportfinder.screen.TrackListScreen
+import ru.riders.sportfinder.screen.WatchTrackScreen
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.ui.theme.SportFinderTheme
 import javax.inject.Inject
@@ -69,11 +74,10 @@ class MainActivity : ComponentActivity() {
                 ) { it.navigate("${Screens.PROFILE_SCREEN.route}/${viewModel.userId}}") },
                 BottomNavItem(
                     painterResource(R.drawable.ic_location_white_24)
-                ) { it.navigate(Screens.SPORT_COURT_SCREEN.route) },
+                ) { it.navigate(Screens.SPORT_COURT_MAP_SCREEN.route) },
                 BottomNavItem(
-                    painterResource(R.drawable.ic_runner_white_24),
-                    { it.navigate("") }
-                ),
+                    painterResource(R.drawable.ic_runner_white_24)
+                ) { it.navigate(Screens.TRACK_LIST_SCREEN.route) },
             )
 
             SportFinderTheme {
@@ -174,11 +178,37 @@ fun MainScreenNavHost(
             isSupportedBottomNav.value = true
             ProfileScreen(personId = entry.arguments?.getString("personId") ?: "")
         }
-        composable(
-            route = Screens.SPORT_COURT_SCREEN.route
-        ) { entry ->
+        composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
+            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
-            SportCourtScreen()
+            SportCourtMapScreen(viewModel, navHostController)
+        }
+        composable(route = Screens.SPORT_COURT_LIST_SCREEN.route) {
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+            isSupportedBottomNav.value = true
+            viewModel.loadSportCourtsListMock()
+            SportsCourtListScreen(viewModel, navHostController)
+        }
+        composable(route = Screens.TRACK_LIST_SCREEN.route) {
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+            isSupportedBottomNav.value = true
+            viewModel.loadTrackListMock()
+            TrackListScreen(viewModel, navHostController)
+        }
+        composable(route = Screens.WATCH_TRACK_SCREEN.route + "/{trackInfoNumber}",
+            arguments = listOf(
+                navArgument("trackInfoNumber") {
+                    type = NavType.IntType
+                }
+            )) {entry ->
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+            isSupportedBottomNav.value = true
+            if(viewModel.tracks.value.isEmpty()) viewModel.loadTrackListMock()
+            WatchTrackScreen(
+                viewModel,
+                navHostController,
+                viewModel.tracks.value[entry.arguments?.getInt("trackInfoNumber")?:-1]
+            )
         }
     }
 }

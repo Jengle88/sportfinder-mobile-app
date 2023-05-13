@@ -19,7 +19,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
     const val API_URL_YANDEXWEATHER = "https://api.weather.yandex.ru/v1/"
-    const val API_URL_SERVER = "https://flask-try.allexkzk.repl.co/api/"
+    const val API_URL_SERVER = "https://sportfinder-backend.vercel.app/api/"
     @Provides
     @Named("YANDEX_MAP_APIKEY")
     @Singleton
