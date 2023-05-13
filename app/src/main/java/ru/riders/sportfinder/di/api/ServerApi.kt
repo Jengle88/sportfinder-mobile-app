@@ -5,8 +5,10 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.riders.sportfinder.data.SportCourtsResponse
+import ru.riders.sportfinder.data.networkData.ProfileResponse
 import ru.riders.sportfinder.data.networkData.SignInResponse
 import ru.riders.sportfinder.data.networkData.SignUpRequestBody
 import ru.riders.sportfinder.data.networkData.SignUpResponse
@@ -27,4 +29,8 @@ interface ServerApi {
     @GET("spot")
     fun getSportSpots(): Deferred<Response<SportCourtsResponse>>
 
+    @GET("user/{id}")
+    fun getUserProfile(
+        @Path("id") id: String
+    ): Deferred<Response<ProfileResponse>>
 }

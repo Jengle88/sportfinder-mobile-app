@@ -175,11 +175,14 @@ fun MainScreenNavHost(
             )
         ) { entry ->
             isSupportedBottomNav.value = true
-            ProfileScreen(personId = entry.arguments?.getString("personId") ?: "")
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+            viewModel.loadUserName()
+            ProfileScreen(viewModel)
         }
         composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
             val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
+            viewModel.loadSportCourtsList()
             SportCourtMapScreen(viewModel, navHostController)
         }
         composable(route = Screens.SPORT_COURT_LIST_SCREEN.route) {

@@ -29,15 +29,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.model.TabNavItem
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun ProfileScreen(
-    personId: String
+    viewModel: MainActivityViewModel?
 ) {
     var tabIndex by remember { mutableStateOf(0) }
+    val profileName by remember {
+        viewModel?.profileName ?: mutableStateOf("")
+    }
+
     val tabs = listOf(
         TabNavItem(
             painterResource(id = R.drawable.ic_favorite_inactive_white_24),
@@ -74,7 +79,7 @@ fun ProfileScreen(
                 Text(
                     modifier = Modifier
                         .align(Alignment.CenterVertically),
-                    text = "Name Placeholder",
+                    text = profileName,
                     fontSize = 14.sp,
                     color = SportFinderLightColorScheme.primary
                 )
@@ -109,5 +114,5 @@ fun ProfileScreen(
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(personId = "0")
+    ProfileScreen(null)
 }
