@@ -208,7 +208,9 @@ fun MainScreenNavHost(
             WatchTrackScreen(
                 viewModel,
                 navHostController,
-                viewModel.tracks.value[entry.arguments?.getInt("trackInfoNumber")?:-1]
+                viewModel.tracks.value.first{
+                    it.trackId == (entry.arguments?.getInt("trackInfoNumber")?:-1)
+                }
             )
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
