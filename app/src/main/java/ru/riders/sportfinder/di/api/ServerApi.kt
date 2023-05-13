@@ -6,9 +6,9 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import ru.riders.sportfinder.data.SignInResponse
-import ru.riders.sportfinder.data.SignUpRequestBody
-import ru.riders.sportfinder.data.SignUpResponse
+import ru.riders.sportfinder.data.networkData.SignInResponse
+import ru.riders.sportfinder.data.networkData.SignUpRequestBody
+import ru.riders.sportfinder.data.networkData.SignUpResponse
 
 interface ServerApi {
 

@@ -27,13 +27,13 @@ import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopFilterBar(onTextFilterChanged: (String) -> Unit) {
-    var filterText by remember { mutableStateOf("") }
+fun TopSearchBar(onTextSearchChanged: (String) -> Unit) {
+    var searchText by remember { mutableStateOf("") }
 
     val constraintsTopSearch = ConstraintSet {
         val searchTextField = createRefFor("searchTextField")
         val spacer = createRefFor("spacer")
-        val filterButton = createRefFor("filterButton")
+        val searchButton = createRefFor("searchButton")
 
         constrain(searchTextField) {
             top.linkTo(parent.top)
@@ -45,9 +45,9 @@ fun TopFilterBar(onTextFilterChanged: (String) -> Unit) {
         constrain(spacer) {
             width = Dimension.value(4.dp)
             top.linkTo(parent.top)
-            end.linkTo(filterButton.start)
+            end.linkTo(searchButton.start)
         }
-        constrain(filterButton) {
+        constrain(searchButton) {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
             end.linkTo(parent.end)
@@ -64,21 +64,21 @@ fun TopFilterBar(onTextFilterChanged: (String) -> Unit) {
         TextField(modifier = Modifier
             .fillMaxWidth()
             .layoutId("searchTextField"),
-            value = filterText,
+            value = searchText,
             onValueChange = { newFilter ->
-                filterText = newFilter
-                onTextFilterChanged(newFilter)
+                searchText = newFilter
+                onTextSearchChanged(newFilter)
             })
 
         IconButton(
             modifier = Modifier
                 .background(SportFinderLightColorScheme.primary)
-                .layoutId("filterButton"),
+                .layoutId("searchButton"),
             onClick = { }
         ) {
             Icon(
                 modifier = Modifier.fillMaxSize(),
-                painter = painterResource(id = R.drawable.ic_filter_white_24),
+                painter = painterResource(id = R.drawable.ic_search_white_24),
                 tint = SportFinderLightColorScheme.onPrimary,
                 contentDescription = null
             )
@@ -88,9 +88,9 @@ fun TopFilterBar(onTextFilterChanged: (String) -> Unit) {
 
 @Composable
 @Preview
-fun FilterBarPreview() {
+fun TopSearchBarPreview() {
     Box{
-        TopFilterBar({ _ -> })
+        TopSearchBar({ _ -> })
     }
 }
 
