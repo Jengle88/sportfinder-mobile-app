@@ -59,7 +59,7 @@ fun SportsCourtListScreen(
                     item {
                         SportCourtListItem(
                             name = it.name,
-                            tegs = it.tags,
+                            tags = it.tags,
                             distance = it.distance,
                             temperature = it.temperature
                         )

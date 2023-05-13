@@ -1,9 +1,11 @@
 package ru.riders.sportfinder
 
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.ViewModel
 import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.PlacemarkMapObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +19,7 @@ import ru.riders.sportfinder.data.networkData.SignUpRequestBody
 import ru.riders.sportfinder.di.api.ServerApi
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(): ViewModel() {
@@ -25,6 +28,12 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     @Inject
     lateinit var serverApi: ServerApi
+
+    @Inject
+    @Named("SPB_CENTER_POINT")
+    lateinit var centerSPbPoint: Point
+
+    val trackPoints = mutableStateListOf<PlacemarkMapObject>()
 
     var sportsCourts = mutableStateOf(emptyList<SportCourtInfo>())
 
@@ -130,34 +139,21 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
         }
     }
 
-    fun loadSportCourtsListMock() {
-        // TODO: Заменить на загрузку данных
-        sportsCourts.value = listOf(
-            SportCourtInfo(
-                name = "Девяткино",
-                tags = listOf("одна дорога на Лаврики", "дыра"),
-                distance = 999.9F,
-                temperature = -666.6F,
-                courtId = 1,
-                coordinates = Point()
-            ),
-            SportCourtInfo(
-                name = "Старая Деревня",
-                tags = listOf("уют", "шава"),
-                distance = 1.3F,
-                temperature = 24.6F,
-                courtId = 1,
-                coordinates = Point()
-            ),
-            SportCourtInfo(
-                name = "Новая",
-                tags = listOf("новая", "без шавы"),
-                distance = 0.3F,
-                temperature = 21.2F,
-                courtId = 1,
-                coordinates = Point()
-            ),
-        )
+    fun loadSportCourtsList() {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                val response = serverApi.getSportSpots().await()
+                val result = safeApiResult(response, "Error")
+                when (result) {
+                    is ApiResult.Success -> {
+                        sportsCourts.value = result.data.sportCourts
+                            .filter { it.name.isNotEmpty() && it.coordinates.size == 2 }
+                            .map { it.toSportCourtInfo() }
+                    }
+                    is ApiResult.Error -> {}
+                }
+            } catch (e: Exception) { }
+        }
     }
 
     fun loadTrackListMock() {
