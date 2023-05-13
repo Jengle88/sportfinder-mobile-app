@@ -37,21 +37,15 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     var sportsCourts = mutableStateOf(emptyList<SportCourtInfo>())
 
+    var profileName = mutableStateOf("Name Placeholder")
+
     var tracks = mutableStateOf(emptyList<TrackInfo>())
 
     var isUserAuthorized = mutableStateOf(false, neverEqualPolicy())
     var userId = 0
-        get() {
-            return if (isUserAuthorized.value) field
-            else 0 /*throw IllegalStateException("User haven`t authorized")*/
-        }
         private set
     
     var userToken = ""
-        get() {
-            return if (isUserAuthorized.value) field
-            else "" /*throw IllegalStateException("User haven`t authorized")*/
-        }
         private set
 
 
@@ -75,23 +69,23 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 val result = safeApiResult(response, "Error")
                 when (result) {
                     is ApiResult.Success -> {
-                        isUserAuthorized.value = true
-                        userId = result.data.id
-                        userToken = result.data.token
                         withContext(Dispatchers.Main) {
+                            isUserAuthorized.value = true
+                            userId = result.data.id
+                            userToken = result.data.token
                             onSuccess()
                         }
                     }
                     is ApiResult.Error -> {
-                        isUserAuthorized.value = false
                         withContext(Dispatchers.Main) {
+                            isUserAuthorized.value = false
                             onFailed()
                         }
                     }
                 }
             } catch (e: Exception) {
-                isUserAuthorized.value = false
                 withContext(Dispatchers.Main) {
+                    isUserAuthorized.value = false
                     onFailed()
                 }
             }
@@ -153,6 +147,23 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                     is ApiResult.Error -> {}
                 }
             } catch (e: Exception) { }
+        }
+    }
+
+    fun loadUserName() {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                val response = serverApi.getUserProfile(userId.toString()).await()
+                val result = safeApiResult(response, "Error")
+                when (result) {
+                    is ApiResult.Success -> {
+                        profileName.value = result.data.login
+                    }
+                    is ApiResult.Error -> {}
+                }
+            } catch (e: Exception) {
+                val k = 3
+            }
         }
     }
 

@@ -12,6 +12,9 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavHostController
+import com.yandex.mapkit.map.CameraPosition
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.widget.JCMapView
@@ -30,7 +34,9 @@ fun SportCourtMapScreen(
     viewModel: MainActivityViewModel?,
     navHostController: NavHostController?
 ) {
-    lateinit var mapView: JCMapView
+    val courtsInfo by remember {
+        viewModel?.sportsCourts ?: mutableStateOf(emptyList())
+    }
 
     var textForFilter = ""
 
@@ -40,14 +46,12 @@ fun SportCourtMapScreen(
         AndroidView(
             modifier = Modifier
                 .fillMaxSize(),
-            factory = { context ->
-            mapView = JCMapView(
-                context,
-                { _, _ -> },
-                { _, _ -> }
-            )
-            mapView
-        })
+            factory = { context -> JCMapView(context, { map, point -> }, { _, _ -> }).apply {
+                viewModel?.let {
+                    map.move(CameraPosition(it.centerSPbPoint, 15.0f, 0f, 0f))
+                }
+                courtsInfo.forEach { addPoint(it.coordinates) }
+            } })
 
         TopSearchBar(onTextSearchChanged = {
             textForFilter = it
@@ -72,7 +76,6 @@ fun SportCourtMapScreen(
                 Text(text = "Список", color = SportFinderLightColorScheme.onPrimary)
             }
         }
-
     }
 }
 

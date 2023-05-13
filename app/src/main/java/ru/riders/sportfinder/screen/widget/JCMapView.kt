@@ -44,10 +44,5 @@ class JCMapView(
                 return
             }
         }
-//        map.mapObjects.remove(points[point])
-//        map.mapObjects.remove(points.find { it. }).apply {
-//            setIcon(ImageProvider.fromBitmap(ContextCompat.getDrawable(context, R.drawable.ic_location_white_24)!!.toBitmap()))
-//            addTapListener { _, _ -> true }
-//        }
     }
 }
