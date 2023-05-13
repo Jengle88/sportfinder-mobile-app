@@ -24,7 +24,7 @@ import javax.inject.Named
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(): ViewModel() {
 
-    private var isFreeAccountMode = true
+    private var isFreeAccountMode = false
 
     @Inject
     lateinit var serverApi: ServerApi
