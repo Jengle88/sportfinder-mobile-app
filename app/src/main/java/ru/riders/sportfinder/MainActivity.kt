@@ -34,6 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.data.TrackInfo
 import ru.riders.sportfinder.model.BottomNavItem
 import ru.riders.sportfinder.screen.AuthorizationScreen
+import ru.riders.sportfinder.screen.CreateTrackScreen
 import ru.riders.sportfinder.screen.ProfileScreen
 import ru.riders.sportfinder.screen.RegistrationScreen
 import ru.riders.sportfinder.screen.Screens
@@ -209,6 +210,11 @@ fun MainScreenNavHost(
                 navHostController,
                 viewModel.tracks.value[entry.arguments?.getInt("trackInfoNumber")?:-1]
             )
+        }
+        composable(route = Screens.CREATE_TRACK_SCREEN.route) {
+            val viewModel = hiltViewModel<MainActivityViewModel>()
+            isSupportedBottomNav.value = true
+            CreateTrackScreen()
         }
     }
 }

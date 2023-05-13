@@ -33,17 +33,17 @@ fun WatchTrackScreen(
     lateinit var mapView: JCMapView
     val (name, distance, tempOnStart, tags, points, tempOnEnd) = trackInfo
     Column {
-//        AndroidView(
-//            modifier = Modifier
-//                .fillMaxSize(),
-//            factory = { context ->
-//                mapView = JCMapView(
-//                    context,
-//                    { _, _ -> },
-//                    { _, _ -> }
-//                )
-//                mapView
-//            })
+        AndroidView(
+            modifier = Modifier
+                .fillMaxSize(),
+            factory = { context ->
+                mapView = JCMapView(
+                    context,
+                    { _, _ -> },
+                    { _, _ -> }
+                )
+                mapView
+            })
         Column(
             modifier = Modifier.padding(top = 8.dp, start = 12.dp, bottom = 4.dp)
         ) {

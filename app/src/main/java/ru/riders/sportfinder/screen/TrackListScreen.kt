@@ -84,7 +84,11 @@ fun TrackListScreen(
                 contentColor = SportFinderLightColorScheme.onPrimary
             ),
             shape = CircleShape,
-            onClick = {}
+            onClick = {
+                navHostController?.navigate(
+                    route = Screens.CREATE_TRACK_SCREEN.route
+                )
+            }
         ) {
             Icon(painterResource(id = R.drawable.ic_add_white_24), null)
         }
