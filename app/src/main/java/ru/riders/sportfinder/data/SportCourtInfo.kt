@@ -5,9 +5,9 @@ import com.yandex.mapkit.geometry.Point
 
 data class SportCourtInfo(
     val name: String,
-    val courtId: Int,
+    val courtId: Long,
     val coordinates: Point,
-    val tags: List<String>? = null,
+    val tags: String? = null,
     val distance: Float? = null,
     val temperature: Float? = null,
     val resourceId: Painter? = null

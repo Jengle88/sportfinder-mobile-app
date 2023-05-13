@@ -26,11 +26,11 @@ import ru.riders.sportfinder.ui.theme.LightGreen
 
 @Composable
 fun SportCourtListItem(
-        name: String,
-        tegs: List<String>?,
-        distance: Float?,
-        temperature: Float?,
-        painter: Painter = painterResource(id = R.drawable.no_image_placeholder)) {
+    name: String,
+    tags: String?,
+    distance: Float?,
+    temperature: Float?,
+    painter: Painter = painterResource(id = R.drawable.no_image_placeholder)) {
     Box(
             modifier = Modifier
                 .border(BorderStroke(2.dp, LightGreen), RoundedCornerShape(5))
@@ -44,7 +44,6 @@ fun SportCourtListItem(
                         contentDescription = "Court image",
                         modifier = Modifier
                                 .padding(10.dp)
-
                                 .size(longImageSide.dp, longImageSide.dp * 2 / 3)
                 )
                 Column(
@@ -52,13 +51,13 @@ fun SportCourtListItem(
                 ) {
                     Text(
                             text = name,
-                            style = MaterialTheme.typography.headlineSmall,
+                            style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.fillMaxWidth()
                     )
-                    tegs?.joinToString(separator = ",")?.let {
+                    tags?.let {
                         Text(
                                 text = it,
-                                style = MaterialTheme.typography.titleMedium,
+                                style = MaterialTheme.typography.titleSmall,
                                 color = LightGray
                         )
                     }
@@ -111,5 +110,5 @@ fun SportCourtListItem(
 @Composable
 @Preview
 fun SportCourtListItemPreview() {
-    SportCourtListItem(name = "Старая", tegs = listOf("Вкусно", "Кушать", "Нажор"), distance = 0.3F, temperature = 13.4F)
+    SportCourtListItem(name = "Старая", tags = "Вкусно", distance = 0.3F, temperature = 13.4F)
 }

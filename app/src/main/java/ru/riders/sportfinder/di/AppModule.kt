@@ -1,6 +1,7 @@
 package ru.riders.sportfinder.di
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.yandex.mapkit.geometry.Point
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,12 @@ object AppModule {
     @Named("YANDEX_MAP_APIKEY")
     @Singleton
     fun provideYandexAPIMapKey() = "336e3861-b744-436a-a1f8-d48968b5ca21"
+
+
+    @Provides
+    @Named("SPB_CENTER_POINT")
+    @Singleton
+    fun provideSPbCenterPoint() = Point(59.935227, 30.329152)
 
     @Provides
     @Singleton

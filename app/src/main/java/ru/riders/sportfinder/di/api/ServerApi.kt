@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
+import ru.riders.sportfinder.data.SportCourtsResponse
 import ru.riders.sportfinder.data.networkData.SignInResponse
 import ru.riders.sportfinder.data.networkData.SignUpRequestBody
 import ru.riders.sportfinder.data.networkData.SignUpResponse
@@ -22,5 +23,8 @@ interface ServerApi {
         @Query("login") login: String,
         @Query("password") password: String,
     ): Deferred<Response<SignInResponse>>
+
+    @GET("spot")
+    fun getSportSpots(): Deferred<Response<SportCourtsResponse>>
 
 }

@@ -27,11 +27,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import androidx.navigation.navOptions
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
-import ru.riders.sportfinder.data.TrackInfo
 import ru.riders.sportfinder.model.BottomNavItem
 import ru.riders.sportfinder.screen.AuthorizationScreen
 import ru.riders.sportfinder.screen.CreateTrackScreen
@@ -187,7 +185,7 @@ fun MainScreenNavHost(
         composable(route = Screens.SPORT_COURT_LIST_SCREEN.route) {
             val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
-            viewModel.loadSportCourtsListMock()
+            viewModel.loadSportCourtsList()
             SportsCourtListScreen(viewModel, navHostController)
         }
         composable(route = Screens.TRACK_LIST_SCREEN.route) {
@@ -201,22 +199,24 @@ fun MainScreenNavHost(
                 navArgument("trackInfoNumber") {
                     type = NavType.IntType
                 }
-            )) {entry ->
+            )) { entry ->
             val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
-            if(viewModel.tracks.value.isEmpty()) viewModel.loadTrackListMock()
+            if (viewModel.tracks.value.isEmpty()) viewModel.loadTrackListMock()
+
             WatchTrackScreen(
                 viewModel,
                 navHostController,
                 viewModel.tracks.value.first{
-                    it.trackId == (entry.arguments?.getInt("trackInfoNumber")?:-1)
+                    it.trackId == (entry.arguments?.getInt("trackInfoNumber")
+                    ?: -1)
                 }
             )
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
             val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
-            CreateTrackScreen()
+            CreateTrackScreen(viewModel)
         }
     }
 }

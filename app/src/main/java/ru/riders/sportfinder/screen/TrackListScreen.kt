@@ -16,14 +16,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.widget.TopSearchBar
@@ -56,21 +54,19 @@ fun TrackListScreen(
                 contentPadding = PaddingValues(8.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                var trackNumber = 0
                 tracks.forEach { trackInfo ->
                     item {
-                        Box (
+                        Box(
                             modifier = Modifier.clickable {
-                                val localId = trackNumber
                                 navHostController?.navigate(
                                     route = Screens.WATCH_TRACK_SCREEN.route
-                                            +"/" + (localId-1).toString() )
+                                            + "/" + (trackInfo.trackId).toString()
+                                )
                             }
-                        ){
+                        ) {
                             TrackListItem(trackInfo)
                         }
                     }
-                    ++trackNumber
                 }
             }
         }
