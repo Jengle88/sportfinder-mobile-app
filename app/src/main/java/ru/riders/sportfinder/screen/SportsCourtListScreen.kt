@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -37,7 +38,7 @@ fun SportsCourtListScreen(
     viewModel: MainActivityViewModel?,
     navHostController: NavHostController?
 ) {
-    val courtsInfo by remember {
+    var courtsInfo by remember {
         viewModel?.sportsCourts ?: mutableStateOf(emptyList())
     }
 
@@ -47,7 +48,9 @@ fun SportsCourtListScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TopSearchBar { _ -> }
+            TopSearchBar { str ->
+                courtsInfo = viewModel?.sportsCourts?.value?.filter { str in it.name } ?: emptyList()
+            }
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
