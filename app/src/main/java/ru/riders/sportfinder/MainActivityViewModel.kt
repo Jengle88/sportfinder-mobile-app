@@ -69,23 +69,24 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 val result = safeApiResult(response, "Error")
                 when (result) {
                     is ApiResult.Success -> {
+                        isUserAuthorized.value = true
+                        userId = result.data.id
+                        userToken = result.data.token
                         withContext(Dispatchers.Main) {
-                            isUserAuthorized.value = true
-                            userId = result.data.id
-                            userToken = result.data.token
                             onSuccess()
                         }
                     }
+
                     is ApiResult.Error -> {
+                        isUserAuthorized.value = false
                         withContext(Dispatchers.Main) {
-                            isUserAuthorized.value = false
                             onFailed()
                         }
                     }
                 }
             } catch (e: Exception) {
+                isUserAuthorized.value = false
                 withContext(Dispatchers.Main) {
-                    isUserAuthorized.value = false
                     onFailed()
                 }
             }
@@ -113,6 +114,8 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 when (result) {
                     is ApiResult.Success -> {
                         isUserAuthorized.value = true
+                        userId = result.data.id
+                        userToken = result.data.token
                         withContext(Dispatchers.Main) {
                             onSuccess()
                         }

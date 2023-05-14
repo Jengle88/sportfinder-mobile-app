@@ -65,8 +65,9 @@ fun ProfileScreen(
     ) {
         Column {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.sportfinder_logo),
