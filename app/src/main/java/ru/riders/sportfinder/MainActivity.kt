@@ -181,7 +181,7 @@ fun MainScreenNavHost(
         }
         composable(route = Screens.TRACK_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadTrackListMock()
+            viewModel.loadRunningTracksList()
             TrackListScreen(viewModel, navHostController)
         }
         composable(route = Screens.WATCH_TRACK_SCREEN.route + "/{trackInfoNumber}",
@@ -191,12 +191,12 @@ fun MainScreenNavHost(
                 }
             )) { entry ->
             isSupportedBottomNav.value = true
-            if (viewModel.tracks.value.isEmpty()) viewModel.loadTrackListMock()
+            if (viewModel.tracks.value.runningTracks.isEmpty()) viewModel.loadRunningTracksList()
 
             WatchTrackScreen(
                 viewModel,
                 navHostController,
-                viewModel.tracks.value.first{
+                viewModel.tracks.value.runningTracks.first{
                     it.trackId == (entry.arguments?.getInt("trackInfoNumber")
                     ?: -1)
                 }

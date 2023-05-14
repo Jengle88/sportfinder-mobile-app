@@ -19,13 +19,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yandex.mapkit.geometry.Point
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.TrackInfo
+import ru.riders.sportfinder.data.TrackInfoResponse
 import ru.riders.sportfinder.ui.theme.LightGray
 import ru.riders.sportfinder.ui.theme.LightGreen
 
 @Composable
-fun TrackListItem(trackInfo: TrackInfo) {
-    val (name, distance, tempOnStart, tags, points) = trackInfo
+fun TrackListItem(trackInfoResponse: TrackInfoResponse) {
+    val (name, distance, tempOnStart, tags, points) = trackInfoResponse
 
     Box(
         modifier = Modifier
@@ -43,7 +43,7 @@ fun TrackListItem(trackInfo: TrackInfo) {
                     style = MaterialTheme.typography.headlineSmall
                 )
                 Text(
-                    text = tags.joinToString(separator = ","),
+                    text = tags,
                     style = MaterialTheme.typography.titleMedium,
                     color = LightGray
                 )
@@ -86,7 +86,7 @@ fun TrackListItem(trackInfo: TrackInfo) {
                     modifier = trackIconsAttributesModifier
                 )
                 Text(
-                    text = if(tempOnStart > 0 ) "+" + tempOnStart.toString() + "C"
+                    text = if((tempOnStart ?: 0) > 0 ) "+" + tempOnStart.toString() + "C"
                     else tempOnStart.toString() + "C",
                     modifier = trackAttributesModifier,
                     style = MaterialTheme.typography.titleMedium,
@@ -102,16 +102,11 @@ fun TrackListItem(trackInfo: TrackInfo) {
 fun TrackListItemPreview() {
     val i = 1
     TrackListItem(
-        TrackInfo(
+        TrackInfoResponse(
             "Title $i",
             i * 100.toDouble(),
             i + 10,
-            listOf(
                 "tag ${i + 1}",
-                "tag ${i + 2}",
-                "tag ${i + 3}",
-                "tag ${i + 4}"
-            ),
             listOf(
                 Point(59.991576, 30.319135),
                 Point(59.991015, 30.321215),

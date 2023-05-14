@@ -74,7 +74,7 @@ fun CreateTrackScreen(
                     .padding(8.dp)
             ) {
                 Text(
-                    text = "Дистанция 123км",
+                    text = "Дистанция: 0км",
                     modifier = Modifier
                 )
                 TextField(

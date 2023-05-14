@@ -11,7 +11,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,7 +31,6 @@ import ru.riders.sportfinder.ui.theme.LightGreen
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.ui.theme.White
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopSearchBar(onTextSearchChanged: (String) -> Unit) {
     var searchText by remember { mutableStateOf("") }
@@ -80,7 +78,6 @@ fun TopSearchBar(onTextSearchChanged: (String) -> Unit) {
                 fontSize = 14.sp),
             onValueChange = { newFilter: String ->
                 searchText = newFilter
-                onTextSearchChanged(newFilter)
             },
 
             shape = RoundedCornerShape(10),
@@ -97,8 +94,9 @@ fun TopSearchBar(onTextSearchChanged: (String) -> Unit) {
                 .background(SportFinderLightColorScheme.primary)
                 .layoutId("searchButton")
                 .fillMaxHeight(),
-
-            onClick = { }
+            onClick = {
+                onTextSearchChanged(searchText)
+            }
         ) {
             Icon(
                 modifier = Modifier.fillMaxSize(),

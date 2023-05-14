@@ -8,6 +8,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.riders.sportfinder.data.SportCourtsResponse
+import ru.riders.sportfinder.data.TrackInfoListResponse
 import ru.riders.sportfinder.data.networkData.ProfileResponse
 import ru.riders.sportfinder.data.networkData.SignInResponse
 import ru.riders.sportfinder.data.networkData.SignUpRequestBody
@@ -33,4 +34,7 @@ interface ServerApi {
     fun getUserProfile(
         @Path("id") id: String
     ): Deferred<Response<ProfileResponse>>
+
+    @GET("get_all_running_routes")
+    fun getRunningTracks(): Deferred<Response<TrackInfoListResponse>>
 }
