@@ -8,7 +8,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,7 +17,7 @@ import androidx.navigation.NavHostController
 import com.yandex.mapkit.geometry.Point
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.TrackInfo
+import ru.riders.sportfinder.data.TrackInfoResponse
 import ru.riders.sportfinder.screen.widget.JCMapView
 import ru.riders.sportfinder.ui.theme.LightGreen
 
@@ -27,11 +26,11 @@ import ru.riders.sportfinder.ui.theme.LightGreen
 fun WatchTrackScreen(
     viewModel: MainActivityViewModel?,
     navHostController: NavHostController?,
-    trackInfo: TrackInfo,
+    trackInfoResponse: TrackInfoResponse,
 
-) {
+    ) {
     lateinit var mapView: JCMapView
-    val (name, distance, tempOnStart, tags, points, tempOnEnd) = trackInfo
+    val (name, distance, tempOnStart, tags, points, tempOnEnd) = trackInfoResponse
     Column {
         AndroidView(
             modifier = Modifier
@@ -92,7 +91,7 @@ fun WatchTrackScreen(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = if (tempOnStart > 0) "+" + tempOnStart.toString() + "C"
+                    text = if ((tempOnStart ?: 0) > 0) "+" + tempOnStart.toString() + "C"
                     else tempOnStart.toString() + "C",
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -109,7 +108,7 @@ fun WatchTrackScreen(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Text(
-                    text = if (tempOnEnd > 0) "+" + tempOnEnd.toString() + "C"
+                    text = if ((tempOnEnd ?: 0) > 0) "+" + tempOnEnd.toString() + "C"
                     else tempOnEnd.toString() + "C",
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -123,10 +122,10 @@ fun WatchTrackScreen(
 @Preview
 fun WatchTrackScreenPreview(){
     WatchTrackScreen(
-        null, null, TrackInfo("Маршрут 1",
+        null, null, TrackInfoResponse("Маршрут 1",
             2.3,
             80,
-            listOf("В горку"),
+            "В горку",
             listOf(Point(2.3, 2.4)), -3, 111
         ),)
 }

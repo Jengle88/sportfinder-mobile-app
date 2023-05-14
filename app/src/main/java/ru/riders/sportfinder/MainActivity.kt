@@ -60,8 +60,6 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
-            val viewModel = hiltViewModel<MainActivityViewModel>()
-
             val isSupportedBottomNav = remember { mutableStateOf(false) }
 
             val engine = rememberNavHostEngine()
@@ -70,7 +68,7 @@ class MainActivity : ComponentActivity() {
             val bottomItems = listOf(
                 BottomNavItem(
                     painterResource(R.drawable.ic_account_white_24)
-                ) { it.navigate("${Screens.PROFILE_SCREEN.route}/${viewModel.userId}}") },
+                ) { it.navigate(Screens.PROFILE_SCREEN.route) },
                 BottomNavItem(
                     painterResource(R.drawable.ic_location_white_24)
                 ) { it.navigate(Screens.SPORT_COURT_MAP_SCREEN.route) },
@@ -155,46 +153,35 @@ fun MainScreenNavHost(
     navHostController: NavHostController,
     isSupportedBottomNav: MutableState<Boolean>
 ) {
+    val viewModel = hiltViewModel<MainActivityViewModel>()
+
     NavHost(navController = navHostController, startDestination = Screens.AUTH_SCREEN.route) {
         composable(route = Screens.AUTH_SCREEN.route) {
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = false
             AuthorizationScreen(viewModel, navHostController)
         }
         composable(route = Screens.REG_SCREEN.route) {
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = false
             RegistrationScreen(viewModel, navHostController)
         }
-        composable(
-            route = Screens.PROFILE_SCREEN.route + "/{personId}",
-            arguments = listOf(
-                navArgument("personId") {
-                    type = NavType.StringType
-                }
-            )
-        ) { entry ->
+        composable(route = Screens.PROFILE_SCREEN.route) {
             isSupportedBottomNav.value = true
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             viewModel.loadUserName()
             ProfileScreen(viewModel)
         }
         composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
             viewModel.loadSportCourtsList()
             SportCourtMapScreen(viewModel, navHostController)
         }
         composable(route = Screens.SPORT_COURT_LIST_SCREEN.route) {
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
             viewModel.loadSportCourtsList()
             SportsCourtListScreen(viewModel, navHostController)
         }
         composable(route = Screens.TRACK_LIST_SCREEN.route) {
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
-            viewModel.loadTrackListMock()
+            viewModel.loadRunningTracksList()
             TrackListScreen(viewModel, navHostController)
         }
         composable(route = Screens.WATCH_TRACK_SCREEN.route + "/{trackInfoNumber}",
@@ -203,21 +190,19 @@ fun MainScreenNavHost(
                     type = NavType.IntType
                 }
             )) { entry ->
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
-            if (viewModel.tracks.value.isEmpty()) viewModel.loadTrackListMock()
+            if (viewModel.tracks.value.runningTracks.isEmpty()) viewModel.loadRunningTracksList()
 
             WatchTrackScreen(
                 viewModel,
                 navHostController,
-                viewModel.tracks.value.first{
+                viewModel.tracks.value.runningTracks.first{
                     it.trackId == (entry.arguments?.getInt("trackInfoNumber")
                     ?: -1)
                 }
             )
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
-            val viewModel = hiltViewModel<MainActivityViewModel>()
             isSupportedBottomNav.value = true
             CreateTrackScreen(viewModel)
         }

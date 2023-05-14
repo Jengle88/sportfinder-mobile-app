@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import ru.riders.sportfinder.data.SportCourtInfo
-import ru.riders.sportfinder.data.TrackInfo
+import ru.riders.sportfinder.data.TrackInfoListResponse
 import ru.riders.sportfinder.data.networkData.ApiResult
 import ru.riders.sportfinder.data.networkData.SignUpRequestBody
 import ru.riders.sportfinder.di.api.ServerApi
@@ -39,7 +39,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     var profileName = mutableStateOf("Name Placeholder")
 
-    var tracks = mutableStateOf(emptyList<TrackInfo>())
+    var tracks = mutableStateOf(TrackInfoListResponse())
 
     var isUserAuthorized = mutableStateOf(false, neverEqualPolicy())
     var userId = 0
@@ -69,23 +69,24 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 val result = safeApiResult(response, "Error")
                 when (result) {
                     is ApiResult.Success -> {
+                        isUserAuthorized.value = true
+                        userId = result.data.id
+                        userToken = result.data.token
                         withContext(Dispatchers.Main) {
-                            isUserAuthorized.value = true
-                            userId = result.data.id
-                            userToken = result.data.token
                             onSuccess()
                         }
                     }
+
                     is ApiResult.Error -> {
+                        isUserAuthorized.value = false
                         withContext(Dispatchers.Main) {
-                            isUserAuthorized.value = false
                             onFailed()
                         }
                     }
                 }
             } catch (e: Exception) {
+                isUserAuthorized.value = false
                 withContext(Dispatchers.Main) {
-                    isUserAuthorized.value = false
                     onFailed()
                 }
             }
@@ -113,6 +114,8 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 when (result) {
                     is ApiResult.Success -> {
                         isUserAuthorized.value = true
+                        userId = result.data.id
+                        userToken = result.data.token
                         withContext(Dispatchers.Main) {
                             onSuccess()
                         }
@@ -167,9 +170,25 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
         }
     }
 
-    fun loadTrackListMock() {
+    fun loadRunningTracksList() {
         // TODO: Заменить на загрузку данных
-        tracks.value = mutableListOf<TrackInfo>().apply {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                val response = serverApi.getRunningTracks().await()
+                val result = safeApiResult(response, "Error")
+                when (result) {
+                    is ApiResult.Success -> {
+                        tracks.value = result.data
+                    }
+                    is ApiResult.Error -> {
+                        val k = 3
+                    }
+                }
+            } catch (e: Exception) {
+                val k = 3
+            }
+        }
+/*        tracks.value = mutableListOf<TrackInfo>().apply {
             repeat(10) { i ->
                 add(TrackInfo(
                     "Title $i",
@@ -184,7 +203,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                     i
                 ))
             }
-        }
+        }*/
     }
 
 

@@ -38,9 +38,8 @@ fun SportsCourtListScreen(
     viewModel: MainActivityViewModel?,
     navHostController: NavHostController?
 ) {
-    var courtsInfo by remember {
-        viewModel?.sportsCourts ?: mutableStateOf(emptyList())
-    }
+    val courtsInfo by remember { viewModel?.sportsCourts ?: mutableStateOf(emptyList()) }
+    var searchedText by remember { mutableStateOf("") }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
@@ -48,9 +47,7 @@ fun SportsCourtListScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxWidth()
         ) {
-            TopSearchBar { str ->
-                courtsInfo = viewModel?.sportsCourts?.value?.filter { str in it.name } ?: emptyList()
-            }
+            TopSearchBar { str -> searchedText = str }
 
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
@@ -58,7 +55,12 @@ fun SportsCourtListScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
 
             ) {
-                courtsInfo.forEach {
+                val listOfFilteredSportCourts = if (searchedText.isNotEmpty())
+                    courtsInfo.filter { searchedText in it.name }
+                else
+                    courtsInfo
+
+                listOfFilteredSportCourts.forEach {
                     item {
                         SportCourtListItem(
                             name = it.name,
