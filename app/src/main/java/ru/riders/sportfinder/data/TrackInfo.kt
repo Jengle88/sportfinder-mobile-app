@@ -4,12 +4,12 @@ package ru.riders.sportfinder.data
 import com.google.gson.annotations.SerializedName
 import com.yandex.mapkit.geometry.Point
 
-data class TrackInfoListResponse(
+data class RunningTracksDto(
     @SerializedName("routes")
-    var runningTracks: List<TrackInfoResponse> = emptyList()
+    var runningTracks: List<RunningTrackDto> = emptyList()
 )
 
-data class TrackInfoResponse(
+data class RunningTrackDto(
     val title: String,
     @SerializedName("dist")
     val distance: Double,

@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.data.networkData
+package ru.riders.sportfinder.data.remote.dto
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName

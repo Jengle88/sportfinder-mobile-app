@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.model.TabNavItem
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
 @Composable

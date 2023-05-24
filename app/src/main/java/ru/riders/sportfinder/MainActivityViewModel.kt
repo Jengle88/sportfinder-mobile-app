@@ -13,13 +13,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import ru.riders.sportfinder.data.SportCourtInfo
-import ru.riders.sportfinder.data.TrackInfoListResponse
-import ru.riders.sportfinder.data.networkData.ApiResult
-import ru.riders.sportfinder.data.networkData.SignUpRequestBody
-import ru.riders.sportfinder.di.api.ServerApi
-import java.io.IOException
+import ru.riders.sportfinder.data.RunningTracksDto
+import ru.riders.sportfinder.common.ApiResultState
+import ru.riders.sportfinder.common.Constants
+import ru.riders.sportfinder.data.remote.dto.SignUpRequestBody
+import ru.riders.sportfinder.data.remote.ServerApi
 import javax.inject.Inject
-import javax.inject.Named
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(): ViewModel() {
@@ -29,9 +28,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
     @Inject
     lateinit var serverApi: ServerApi
 
-    @Inject
-    @Named("SPB_CENTER_POINT")
-    lateinit var centerSPbPoint: Point
+    val centerSPbPoint: Point = Constants.SPB_CENTER_POINT
 
     val trackPoints = mutableStateListOf<PlacemarkMapObject>()
 
@@ -39,7 +36,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     var profileName = mutableStateOf("Name Placeholder")
 
-    var tracks = mutableStateOf(TrackInfoListResponse())
+    var tracks = mutableStateOf(RunningTracksDto())
 
     var isUserAuthorized = mutableStateOf(false, neverEqualPolicy())
     var userId = 0
@@ -66,18 +63,20 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 }
 
                 val response = serverApi.signUp(SignUpRequestBody(login, password)).await()
-                val result = safeApiResult(response, "Error")
+                var result = safeApiResult(response, "Error")
+                if (result.data == null)
+                    result = ApiResultState.Error("data is null")
                 when (result) {
-                    is ApiResult.Success -> {
+                    is ApiResultState.Success -> {
                         isUserAuthorized.value = true
-                        userId = result.data.id
-                        userToken = result.data.token
+                        userId = result.data!!.id
+                        userToken = result.data!!.token
                         withContext(Dispatchers.Main) {
                             onSuccess()
                         }
                     }
 
-                    is ApiResult.Error -> {
+                    is ApiResultState.Error -> {
                         isUserAuthorized.value = false
                         withContext(Dispatchers.Main) {
                             onFailed()
@@ -112,7 +111,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 val response = serverApi.signIn(login, password).await()
                 val result = safeApiResult(response, "Error")
                 when (result) {
-                    is ApiResult.Success -> {
+                    is ApiResultState.Success -> {
                         isUserAuthorized.value = true
                         userId = result.data.id
                         userToken = result.data.token
@@ -120,7 +119,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                             onSuccess()
                         }
                     }
-                    is ApiResult.Error -> {
+                    is ApiResultState.Error -> {
                         isUserAuthorized.value = false
                         withContext(Dispatchers.Main) {
                             onFailed()
@@ -139,15 +138,15 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
     fun loadSportCourtsList() {
         CoroutineScope(Dispatchers.Default).launch {
             try {
-                val response = serverApi.getSportSpots().await()
+                val response = serverApi.getSportCourts().await()
                 val result = safeApiResult(response, "Error")
                 when (result) {
-                    is ApiResult.Success -> {
+                    is ApiResultState.Success -> {
                         sportsCourts.value = result.data.sportCourts
                             .filter { it.name.isNotEmpty() && it.coordinates.size == 2 }
                             .map { it.toSportCourtInfo() }
                     }
-                    is ApiResult.Error -> {}
+                    is ApiResultState.Error -> {}
                 }
             } catch (e: Exception) { }
         }
@@ -159,10 +158,10 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 val response = serverApi.getUserProfile(userId.toString()).await()
                 val result = safeApiResult(response, "Error")
                 when (result) {
-                    is ApiResult.Success -> {
+                    is ApiResultState.Success -> {
                         profileName.value = result.data.login
                     }
-                    is ApiResult.Error -> {}
+                    is ApiResultState.Error -> {}
                 }
             } catch (e: Exception) {
                 val k = 3
@@ -177,10 +176,10 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 val response = serverApi.getRunningTracks().await()
                 val result = safeApiResult(response, "Error")
                 when (result) {
-                    is ApiResult.Success -> {
+                    is ApiResultState.Success -> {
                         tracks.value = result.data
                     }
-                    is ApiResult.Error -> {
+                    is ApiResultState.Error -> {
                         val k = 3
                     }
                 }
@@ -207,10 +206,10 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
     }
 
 
-    fun <T : Any> safeApiResult(response: Response<T>, errorMessage: String): ApiResult<T> {
-        if (response.isSuccessful) return ApiResult.Success(response.body()!!)
+    fun <T : Any> safeApiResult(response: Response<T>, errorMessage: String): ApiResultState<T> {
+        if (response.isSuccessful) return ApiResultState.Success(response.body()!!)
 
-        return ApiResult.Error(IOException("Error Occurred during getting safe Api result, Custom ERROR - $errorMessage"))
+        return ApiResultState.Error("Error Occurred during getting safe Api result, Custom ERROR - $errorMessage")
     }
 
 }

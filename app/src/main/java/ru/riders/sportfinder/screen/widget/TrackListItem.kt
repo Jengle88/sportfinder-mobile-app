@@ -19,13 +19,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.yandex.mapkit.geometry.Point
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.TrackInfoResponse
+import ru.riders.sportfinder.data.RunningTrackDto
 import ru.riders.sportfinder.ui.theme.LightGray
 import ru.riders.sportfinder.ui.theme.LightGreen
 
 @Composable
-fun TrackListItem(trackInfoResponse: TrackInfoResponse) {
-    val (name, distance, tempOnStart, tags, points) = trackInfoResponse
+fun TrackListItem(runningTrackDto: RunningTrackDto) {
+    val (name, distance, tempOnStart, tags, points) = runningTrackDto
 
     Box(
         modifier = Modifier
@@ -102,7 +102,7 @@ fun TrackListItem(trackInfoResponse: TrackInfoResponse) {
 fun TrackListItemPreview() {
     val i = 1
     TrackListItem(
-        TrackInfoResponse(
+        RunningTrackDto(
             "Title $i",
             i * 100.toDouble(),
             i + 10,

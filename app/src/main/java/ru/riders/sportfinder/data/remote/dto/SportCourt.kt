@@ -1,13 +1,8 @@
-package ru.riders.sportfinder.data
+package ru.riders.sportfinder.data.remote.dto
 
 import androidx.compose.ui.graphics.painter.Painter
-import com.google.gson.annotations.SerializedName
 import com.yandex.mapkit.geometry.Point
-
-data class SportCourtsResponse(
-    @SerializedName("data")
-    val sportCourts: ArrayList<SportCourt>
-)
+import ru.riders.sportfinder.data.SportCourtInfo
 
 data class SportCourt(
     val name: String,

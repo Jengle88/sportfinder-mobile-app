@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.di.api
+package ru.riders.sportfinder.data.remote
 
 import kotlinx.coroutines.Deferred
 import retrofit2.Response

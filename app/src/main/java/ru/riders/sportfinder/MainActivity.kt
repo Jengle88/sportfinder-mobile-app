@@ -30,8 +30,9 @@ import androidx.navigation.navArgument
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
-import ru.riders.sportfinder.model.BottomNavItem
+import ru.riders.sportfinder.common.Constants
 import ru.riders.sportfinder.screen.AuthorizationScreen
+import ru.riders.sportfinder.screen.BottomNavItem
 import ru.riders.sportfinder.screen.CreateTrackScreen
 import ru.riders.sportfinder.screen.ProfileScreen
 import ru.riders.sportfinder.screen.RegistrationScreen
@@ -42,20 +43,14 @@ import ru.riders.sportfinder.screen.TrackListScreen
 import ru.riders.sportfinder.screen.WatchTrackScreen
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.ui.theme.SportFinderTheme
-import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject
-    @Named("YANDEX_MAP_APIKEY")
-    lateinit var YANDEX_MAP_APIKEY: String
-
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MapKitFactory.setApiKey(YANDEX_MAP_APIKEY)
+        MapKitFactory.setApiKey(Constants.YANDEX_MAP_APIKEY)
         MapKitFactory.initialize(this)
 
 

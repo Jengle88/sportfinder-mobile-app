@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.TrackInfoListResponse
+import ru.riders.sportfinder.data.RunningTracksDto
 import ru.riders.sportfinder.screen.widget.TopSearchBar
 import ru.riders.sportfinder.screen.widget.TrackListItem
 import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
@@ -35,7 +35,7 @@ fun TrackListScreen(
     viewModel: MainActivityViewModel?,
     navHostController: NavHostController?
 ) {
-    val tracks by remember { viewModel?.tracks ?: mutableStateOf(TrackInfoListResponse()) }
+    val tracks by remember { viewModel?.tracks ?: mutableStateOf(RunningTracksDto()) }
     var searchedText by remember { mutableStateOf("") }
 
     Box(
