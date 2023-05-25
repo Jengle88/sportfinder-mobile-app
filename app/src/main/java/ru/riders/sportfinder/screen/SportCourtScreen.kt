@@ -19,9 +19,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import ru.riders.sportfinder.R
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.screen.widget.FilterBar
 import ru.riders.sportfinder.screen.widget.JCMapView
-import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun SportCourtScreen() {

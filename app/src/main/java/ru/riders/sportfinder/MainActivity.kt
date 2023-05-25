@@ -31,18 +31,18 @@ import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.common.Constants
-import ru.riders.sportfinder.screen.AuthorizationScreen
 import ru.riders.sportfinder.screen.BottomNavItem
 import ru.riders.sportfinder.screen.CreateTrackScreen
 import ru.riders.sportfinder.screen.ProfileScreen
-import ru.riders.sportfinder.screen.RegistrationScreen
 import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.SportCourtMapScreen
 import ru.riders.sportfinder.screen.SportsCourtListScreen
 import ru.riders.sportfinder.screen.TrackListScreen
 import ru.riders.sportfinder.screen.WatchTrackScreen
-import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
-import ru.riders.sportfinder.ui.theme.SportFinderTheme
+import ru.riders.sportfinder.screen.authorization_screen.AuthorizationScreen
+import ru.riders.sportfinder.screen.registration_screen.RegistrationScreen
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
+import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -153,11 +153,11 @@ fun MainScreenNavHost(
     NavHost(navController = navHostController, startDestination = Screens.AUTH_SCREEN.route) {
         composable(route = Screens.AUTH_SCREEN.route) {
             isSupportedBottomNav.value = false
-            AuthorizationScreen(viewModel, navHostController)
+            AuthorizationScreen(navHostController)
         }
         composable(route = Screens.REG_SCREEN.route) {
             isSupportedBottomNav.value = false
-            RegistrationScreen(viewModel, navHostController)
+            RegistrationScreen(navHostController)
         }
         composable(route = Screens.PROFILE_SCREEN.route) {
             isSupportedBottomNav.value = true

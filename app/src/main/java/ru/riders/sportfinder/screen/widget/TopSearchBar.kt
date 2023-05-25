@@ -27,9 +27,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.ui.theme.LightGreen
-import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
-import ru.riders.sportfinder.ui.theme.White
+import ru.riders.sportfinder.screen.ui.theme.LightGreen
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
+import ru.riders.sportfinder.screen.ui.theme.White
 
 @Composable
 fun TopSearchBar(onTextSearchChanged: (String) -> Unit) {

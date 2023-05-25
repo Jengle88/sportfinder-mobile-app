@@ -7,16 +7,11 @@ import androidx.lifecycle.ViewModel
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.PlacemarkMapObject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Response
-import ru.riders.sportfinder.data.SportCourtInfo
-import ru.riders.sportfinder.data.RunningTracksDto
 import ru.riders.sportfinder.common.ApiResultState
 import ru.riders.sportfinder.common.Constants
-import ru.riders.sportfinder.data.remote.dto.SignUpRequestBody
+import ru.riders.sportfinder.data.RunningTracksDto
+import ru.riders.sportfinder.data.SportCourtInfo
 import ru.riders.sportfinder.data.remote.ServerApi
 import javax.inject.Inject
 
@@ -45,98 +40,8 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
     var userToken = ""
         private set
 
-
-    fun trySignUp(
-        login: String,
-        password: String,
-        onSuccess: () -> Unit,
-        onFailed: () -> Unit
-    ) {
-        CoroutineScope(Dispatchers.Default).launch {
-            try {
-                // FIXME: Запрос без авторизации, для удобства тестирования
-                if (isFreeAccountMode) {
-                    withContext(Dispatchers.Main) {
-                        onSuccess()
-                    }
-                    return@launch
-                }
-
-                val response = serverApi.signUp(SignUpRequestBody(login, password)).await()
-                var result = safeApiResult(response, "Error")
-                if (result.data == null)
-                    result = ApiResultState.Error("data is null")
-                when (result) {
-                    is ApiResultState.Success -> {
-                        isUserAuthorized.value = true
-                        userId = result.data!!.id
-                        userToken = result.data!!.token
-                        withContext(Dispatchers.Main) {
-                            onSuccess()
-                        }
-                    }
-
-                    is ApiResultState.Error -> {
-                        isUserAuthorized.value = false
-                        withContext(Dispatchers.Main) {
-                            onFailed()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                isUserAuthorized.value = false
-                withContext(Dispatchers.Main) {
-                    onFailed()
-                }
-            }
-        }
-    }
-
-    fun trySignIn(
-        login: String,
-        password: String,
-        onSuccess: () -> Unit,
-        onFailed: () -> Unit
-    ) {
-        CoroutineScope(Dispatchers.Default).launch {
-            try {
-                // FIXME: Запрос без авторизации, для удобства тестирования
-                if (isFreeAccountMode) {
-                    withContext(Dispatchers.Main) {
-                        onSuccess()
-                    }
-                    return@launch
-                }
-
-                val response = serverApi.signIn(login, password).await()
-                val result = safeApiResult(response, "Error")
-                when (result) {
-                    is ApiResultState.Success -> {
-                        isUserAuthorized.value = true
-                        userId = result.data.id
-                        userToken = result.data.token
-                        withContext(Dispatchers.Main) {
-                            onSuccess()
-                        }
-                    }
-                    is ApiResultState.Error -> {
-                        isUserAuthorized.value = false
-                        withContext(Dispatchers.Main) {
-                            onFailed()
-                        }
-                    }
-                }
-            } catch (e: Exception) {
-                isUserAuthorized.value = false
-                withContext(Dispatchers.Main) {
-                    onFailed()
-                }
-            }
-        }
-    }
-
     fun loadSportCourtsList() {
-        CoroutineScope(Dispatchers.Default).launch {
+/*        CoroutineScope(Dispatchers.Default).launch {
             try {
                 val response = serverApi.getSportCourts().await()
                 val result = safeApiResult(response, "Error")
@@ -149,11 +54,11 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                     is ApiResultState.Error -> {}
                 }
             } catch (e: Exception) { }
-        }
+        }*/
     }
 
     fun loadUserName() {
-        CoroutineScope(Dispatchers.Default).launch {
+/*        CoroutineScope(Dispatchers.Default).launch {
             try {
                 val response = serverApi.getUserProfile(userId.toString()).await()
                 val result = safeApiResult(response, "Error")
@@ -166,12 +71,12 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
             } catch (e: Exception) {
                 val k = 3
             }
-        }
+        }*/
     }
 
     fun loadRunningTracksList() {
         // TODO: Заменить на загрузку данных
-        CoroutineScope(Dispatchers.Default).launch {
+/*        CoroutineScope(Dispatchers.Default).launch {
             try {
                 val response = serverApi.getRunningTracks().await()
                 val result = safeApiResult(response, "Error")
@@ -186,7 +91,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
             } catch (e: Exception) {
                 val k = 3
             }
-        }
+        }*/
 /*        tracks.value = mutableListOf<TrackInfo>().apply {
             repeat(10) { i ->
                 add(TrackInfo(

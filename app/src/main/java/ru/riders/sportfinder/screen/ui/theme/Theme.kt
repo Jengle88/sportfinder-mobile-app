@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.ui.theme
+package ru.riders.sportfinder.screen.ui.theme
 
 import android.app.Activity
 import android.os.Build

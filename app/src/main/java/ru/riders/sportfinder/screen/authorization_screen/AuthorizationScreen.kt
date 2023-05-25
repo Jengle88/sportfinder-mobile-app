@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen
+package ru.riders.sportfinder.screen.authorization_screen
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -16,10 +16,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,19 +27,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.ui.theme.LightGreen
-import ru.riders.sportfinder.ui.theme.White
+import ru.riders.sportfinder.screen.Screens
+import ru.riders.sportfinder.screen.ui.theme.LightGreen
+import ru.riders.sportfinder.screen.ui.theme.White
 
 @Composable
-fun RegistrationScreen(
-    viewModel: MainActivityViewModel?,
-    navHostController: NavHostController?
+fun AuthorizationScreen(
+    navHostController: NavHostController?,
+    viewModel: AuthorizationViewModel = hiltViewModel()
 ) {
-    var login: String by remember { mutableStateOf("") }
-    var password: String by remember { mutableStateOf("") }
+
+    val (login, password, errorMessage, isLoading) = viewModel.state.value
+/*    var login: String by remember { mutableStateOf("") }
+    var password: String by remember { mutableStateOf("") }*/
 
     val context = LocalContext.current
 
@@ -82,7 +81,7 @@ fun RegistrationScreen(
                     Text(text = "ЛОГИН")
                 },
                 onValueChange = {
-                    login = it
+                    viewModel.updateLogin(it)
                 })
 
             TextField(
@@ -103,12 +102,19 @@ fun RegistrationScreen(
                     Text(text = "ПАРОЛЬ")
                 },
                 onValueChange = {
-                    password = it
+                    viewModel.updatePassword(it)
                 })
 
             Button(
                 onClick = {
-                    viewModel?.trySignUp(
+                    viewModel.trySignInUser(
+                        onSuccess = {
+                            Toast.makeText(context, "Вы авторизованы", Toast.LENGTH_SHORT).show()
+                            navHostController?.navigate(Screens.PROFILE_SCREEN.route)
+                        }
+                    )
+
+/*                    viewModel.trySignIn(
                         login,
                         password,
                         onSuccess = {
@@ -116,22 +122,22 @@ fun RegistrationScreen(
                             navHostController?.navigate(Screens.PROFILE_SCREEN.route)
                         },
                         onFailed = {
-                            Toast.makeText(context, "Ошибка регистрации", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Ошибка авторизации", Toast.LENGTH_SHORT).show()
                         }
-                    )
+                    )*/
                 },
                 modifier = Modifier.fillMaxWidth(0.8f),
                 colors = ButtonDefaults.buttonColors(backgroundColor = LightGreen)
             ) {
-                Text(text = "ПОДТВЕРДИТЬ", color = White)
+                Text(text = "ВОЙТИ", color = White)
             }
 
             Text(
-                text = "ИЛИ ВОЙТИ",
+                text = "ИЛИ ЗАРЕГИСТРИРОВАТЬСЯ",
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .clickable {
-                        navHostController?.navigate(Screens.AUTH_SCREEN.route)
+                        navHostController?.navigate(Screens.REG_SCREEN.route)
                     },
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -144,7 +150,8 @@ fun RegistrationScreen(
 
 @Composable
 @Preview
-fun RegistrationPreview() {
-    RegistrationScreen(null, null)
+fun AuthorizationPreview() {
+    AuthorizationScreen(null)
 }
+
 

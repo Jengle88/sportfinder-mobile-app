@@ -21,6 +21,7 @@ ksp = "1.7.20-1.0.8"
 destination = "1.9.42-beta"
 navigation = "2.4.0-beta02"
 material = "1.4.3"
+room = "2.5.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -69,6 +70,10 @@ compose-destination-ksp = { group = "io.github.raamcosta.compose-destinations", 
 material = { group = "androidx.compose.material", name = "material", version.ref = "material"}
 
 androidx-constraintlayout-compose = { group = "androidx.constraintlayout", name = "constraintlayout-compose", version = "1.1.0-alpha09" }
+
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 [plugins]
 com-android-application = { id = "com.android.application", version.ref = "com-android-application" }

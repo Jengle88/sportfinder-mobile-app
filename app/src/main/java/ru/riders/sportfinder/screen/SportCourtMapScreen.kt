@@ -27,7 +27,7 @@ import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.widget.JCMapView
 import ru.riders.sportfinder.screen.widget.TopSearchBar
-import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun SportCourtMapScreen(

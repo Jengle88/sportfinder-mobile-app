@@ -20,8 +20,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.ui.theme.LightGray
-import ru.riders.sportfinder.ui.theme.LightGreen
+import ru.riders.sportfinder.screen.ui.theme.LightGray
+import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 
 @Composable

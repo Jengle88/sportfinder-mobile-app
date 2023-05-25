@@ -11,14 +11,14 @@ import javax.inject.Inject
 class UserProfileRepositoryImpl @Inject constructor(
     private val api: ServerApi
 ) : UserProfileRepository {
-    override suspend fun singUpUser(
+    override suspend fun signUpUser(
         login: String,
         password: String
     ): SignUpDto {
         return api.signUp(SignUpRequestBody(login, password))
     }
 
-    override suspend fun singInUser(
+    override suspend fun signInUser(
         login: String,
         password: String
     ): SignInDto {

@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.ui.theme
+package ru.riders.sportfinder.screen.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

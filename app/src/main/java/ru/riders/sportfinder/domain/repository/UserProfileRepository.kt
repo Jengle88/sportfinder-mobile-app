@@ -6,9 +6,9 @@ import ru.riders.sportfinder.data.remote.dto.UserProfileDto
 
 interface UserProfileRepository {
 
-    suspend fun singUpUser(login: String, password: String): SignUpDto
+    suspend fun signUpUser(login: String, password: String): SignUpDto
 
-    suspend fun singInUser(login: String, password: String): SignInDto
+    suspend fun signInUser(login: String, password: String): SignInDto
 
     suspend fun getUserInfo(userId: String): UserProfileDto
 }

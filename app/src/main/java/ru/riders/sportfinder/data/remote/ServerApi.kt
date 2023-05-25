@@ -15,24 +15,24 @@ import ru.riders.sportfinder.data.remote.dto.UserProfileDto
 interface ServerApi {
 
     @POST("reg")
-    fun signUp(
+    suspend fun signUp(
         @Body signUpRequestBody: SignUpRequestBody
     ): SignUpDto
 
     @GET("login")
-    fun signIn(
+    suspend fun signIn(
         @Query("login") login: String,
         @Query("password") password: String,
     ): SignInDto
 
     @GET("spot")
-    fun getSportCourts(): SportCourtsDto
+    suspend fun getSportCourts(): SportCourtsDto
 
     @GET("user/{id}")
-    fun getUserProfile(
+    suspend fun getUserProfile(
         @Path("id") userId: String
     ): UserProfileDto
 
     @GET("get_all_running_routes")
-    fun getRunningTracks(): RunningTracksDto
+    suspend fun getRunningTracks(): RunningTracksDto
 }

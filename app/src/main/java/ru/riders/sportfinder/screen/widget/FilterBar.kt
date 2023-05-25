@@ -22,7 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.Dimension
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
