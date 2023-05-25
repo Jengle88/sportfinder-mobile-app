@@ -2,13 +2,10 @@ package ru.riders.sportfinder
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.neverEqualPolicy
 import androidx.lifecycle.ViewModel
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.PlacemarkMapObject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import retrofit2.Response
-import ru.riders.sportfinder.common.ApiResultState
 import ru.riders.sportfinder.common.Constants
 import ru.riders.sportfinder.data.RunningTracksDto
 import ru.riders.sportfinder.data.SportCourtInfo
@@ -29,16 +26,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     var sportsCourts = mutableStateOf(emptyList<SportCourtInfo>())
 
-    var profileName = mutableStateOf("Name Placeholder")
-
     var tracks = mutableStateOf(RunningTracksDto())
-
-    var isUserAuthorized = mutableStateOf(false, neverEqualPolicy())
-    var userId = 0
-        private set
-    
-    var userToken = ""
-        private set
 
     fun loadSportCourtsList() {
 /*        CoroutineScope(Dispatchers.Default).launch {
@@ -54,23 +42,6 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                     is ApiResultState.Error -> {}
                 }
             } catch (e: Exception) { }
-        }*/
-    }
-
-    fun loadUserName() {
-/*        CoroutineScope(Dispatchers.Default).launch {
-            try {
-                val response = serverApi.getUserProfile(userId.toString()).await()
-                val result = safeApiResult(response, "Error")
-                when (result) {
-                    is ApiResultState.Success -> {
-                        profileName.value = result.data.login
-                    }
-                    is ApiResultState.Error -> {}
-                }
-            } catch (e: Exception) {
-                val k = 3
-            }
         }*/
     }
 
@@ -109,12 +80,4 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
             }
         }*/
     }
-
-
-    fun <T : Any> safeApiResult(response: Response<T>, errorMessage: String): ApiResultState<T> {
-        if (response.isSuccessful) return ApiResultState.Success(response.body()!!)
-
-        return ApiResultState.Error("Error Occurred during getting safe Api result, Custom ERROR - $errorMessage")
-    }
-
 }

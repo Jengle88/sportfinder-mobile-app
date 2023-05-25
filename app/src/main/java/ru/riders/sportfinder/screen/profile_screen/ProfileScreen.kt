@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen
+package ru.riders.sportfinder.screen.profile_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,10 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,18 +25,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ru.riders.sportfinder.MainActivityViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import ru.riders.sportfinder.R
+import ru.riders.sportfinder.screen.profile_screen.components.TabNavItem
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun ProfileScreen(
-    viewModel: MainActivityViewModel?
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
-    var tabIndex by remember { mutableStateOf(0) }
-    val profileName by remember {
-        viewModel?.profileName ?: mutableStateOf("")
-    }
+    val (tabIndex, profileName) = viewModel.state.value
 
     val tabs = listOf(
         TabNavItem(
@@ -91,7 +85,7 @@ fun ProfileScreen(
                     Tab(
                         selected = tabIndex == index,
                         onClick = {
-                            tabIndex = index
+                            viewModel.switchTab(index)
                             tabNavItem.onTabClick()
                         },
                         selectedContentColor = SportFinderLightColorScheme.primary,
@@ -114,5 +108,5 @@ fun ProfileScreen(
 @Preview
 @Composable
 fun ProfileScreenPreview() {
-    ProfileScreen(null)
+    ProfileScreen()
 }

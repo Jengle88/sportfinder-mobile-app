@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.yandex.mapkit.map.CameraPosition
 import ru.riders.sportfinder.MainActivityViewModel
-import ru.riders.sportfinder.screen.widget.JCMapView
+import ru.riders.sportfinder.screen.commonComponents.JCMapView
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 import ru.riders.sportfinder.screen.ui.theme.White
 

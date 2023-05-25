@@ -26,7 +26,7 @@ import androidx.navigation.NavHostController
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.data.RunningTracksDto
-import ru.riders.sportfinder.screen.widget.TopSearchBar
+import ru.riders.sportfinder.screen.commonComponents.TopSearchBar
 import ru.riders.sportfinder.screen.widget.TrackListItem
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 

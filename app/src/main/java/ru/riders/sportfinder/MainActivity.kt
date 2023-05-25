@@ -31,15 +31,15 @@ import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.common.Constants
-import ru.riders.sportfinder.screen.BottomNavItem
 import ru.riders.sportfinder.screen.CreateTrackScreen
-import ru.riders.sportfinder.screen.ProfileScreen
 import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.SportCourtMapScreen
 import ru.riders.sportfinder.screen.SportsCourtListScreen
 import ru.riders.sportfinder.screen.TrackListScreen
 import ru.riders.sportfinder.screen.WatchTrackScreen
 import ru.riders.sportfinder.screen.authorization_screen.AuthorizationScreen
+import ru.riders.sportfinder.screen.commonComponents.BottomNavItem
+import ru.riders.sportfinder.screen.profile_screen.ProfileScreen
 import ru.riders.sportfinder.screen.registration_screen.RegistrationScreen
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
@@ -161,8 +161,7 @@ fun MainScreenNavHost(
         }
         composable(route = Screens.PROFILE_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadUserName()
-            ProfileScreen(viewModel)
+            ProfileScreen()
         }
         composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
             isSupportedBottomNav.value = true
