@@ -16,6 +16,8 @@ class AuthorizationViewModel @Inject constructor(
     private val signInUser: SignInUser
 ): ViewModel() {
 
+    private val isAdminMode = true
+
     private val _state = mutableStateOf(AuthorizationState())
     val state: State<AuthorizationState> = _state
 
@@ -29,7 +31,9 @@ class AuthorizationViewModel @Inject constructor(
     fun trySignInUser(
         onSuccess: () -> Unit
     ) {
-        signInUser(state.value.login, state.value.password).onEach { result ->
+        val login = if(isAdminMode) "admin" else state.value.login
+        val password = if(isAdminMode) "admin" else state.value.password
+        signInUser(login, password).onEach { result ->
             when (result) {
                 is ApiResultState.Success -> {
                     onSuccess()

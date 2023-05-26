@@ -38,8 +38,6 @@ fun WatchTrackScreen(
             factory = { context ->
                 mapView = JCMapView(
                     context,
-                    { _, _ -> },
-                    { _, _ -> }
                 )
                 mapView
             })

@@ -13,27 +13,28 @@ import ru.riders.sportfinder.R
 import java.lang.Math.abs
 
 class JCMapView(
-    context: Context,
-    private val onMapTapImpl: (map: Map, point: Point) -> Unit,
-    private val onMapLongTapImpl: (map: Map, point: Point) -> Unit
+    context: Context
 ) : MapView(context), InputListener {
 
-    val points = mutableMapOf<Point, PlacemarkMapObject>()
+    private val points = mutableMapOf<Point, PlacemarkMapObject>()
+    val onMapTapAction: ((Map, Point) -> Unit)? = null
+    val onMapLongTapAction: ((Map, Point) -> Unit)? = null
+
 
     init {
         this.map.addInputListener(this)
     }
     override fun onMapTap(p0: Map, p1: Point) {
-        onMapTapImpl(p0, p1)
+        onMapTapAction?.invoke(p0, p1)
     }
 
     override fun onMapLongTap(p0: Map, p1: Point) {
-        onMapLongTapImpl(p0, p1)
+        onMapLongTapAction?.invoke(p0, p1)
     }
 
     fun addPoint(point: Point) {
         points[point] = map.mapObjects.addPlacemark(point).apply {
-            setIcon(ImageProvider.fromBitmap(ContextCompat.getDrawable(context, R.drawable.ic_location_white_24)!!.toBitmap()))
+            setIcon(ImageProvider.fromBitmap(ContextCompat.getDrawable(context, R.drawable.ic_location_black_24)!!.toBitmap()))
             addTapListener { _, _ -> true }
         }
     }

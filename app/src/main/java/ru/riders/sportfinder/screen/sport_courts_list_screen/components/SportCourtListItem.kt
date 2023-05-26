@@ -20,16 +20,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.domain.model.SportCourtListItem
+import ru.riders.sportfinder.domain.model.sport_court.SportCourtForList
 import ru.riders.sportfinder.screen.ui.theme.LightGray
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 
 @Composable
 fun SportCourtListItem(
-    sportCourtListItem: SportCourtListItem
+    sportCourtListItem: SportCourtForList
 ) {
-    val (courtId, name, tags, distance, temperature) = sportCourtListItem
+    val (courtId, name, tags, distance, temperature, resourceId) = sportCourtListItem
     val painter: Painter = painterResource(id = R.drawable.no_image_placeholder)
 
     Box(
@@ -111,5 +111,14 @@ fun SportCourtListItem(
 @Composable
 @Preview
 fun SportCourtListItemPreview() {
-    SportCourtListItem(SportCourtListItem(courtId = 0, name = "Старая", tags = "Вкусно", distance = 0.3F, temperature = 13.4F))
+    SportCourtListItem(
+        SportCourtForList(
+        courtId = 0,
+        name = "Старая",
+        tags = "Вкусно",
+        distance = 0.3F,
+        temperature = 13.4F,
+        resourceId = null
+    )
+    )
 }

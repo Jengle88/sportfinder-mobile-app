@@ -43,13 +43,7 @@ fun CreateTrackScreen(
         AndroidView(modifier = Modifier,
             factory = { context ->
                 mapView = JCMapView(
-                    context,
-                    { map, point ->
-//                        viewModel?.trackPoints?.add(mapView.addPoint(point))
-                    },
-                    { map, point ->
-//                        viewModel?.trackPoints?.remove(viewModel.trackPoints.)
-                    }
+                    context
                 ).apply {
                     viewModel?.let { viewModel ->
                         map.move(
