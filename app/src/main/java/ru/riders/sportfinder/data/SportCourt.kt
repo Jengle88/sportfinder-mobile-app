@@ -3,7 +3,7 @@ package ru.riders.sportfinder.data
 import androidx.compose.ui.graphics.painter.Painter
 import com.yandex.mapkit.geometry.Point
 
-data class SportCourtInfo(
+data class SportCourt(
     val name: String,
     val courtId: Long,
     val coordinates: Point,

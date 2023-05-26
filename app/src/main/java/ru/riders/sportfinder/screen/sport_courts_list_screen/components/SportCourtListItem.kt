@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen.widget
+package ru.riders.sportfinder.screen.sport_courts_list_screen.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -20,17 +20,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.riders.sportfinder.R
+import ru.riders.sportfinder.domain.model.SportCourtListItem
 import ru.riders.sportfinder.screen.ui.theme.LightGray
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 
 @Composable
 fun SportCourtListItem(
-    name: String,
-    tags: String?,
-    distance: Float?,
-    temperature: Float?,
-    painter: Painter = painterResource(id = R.drawable.no_image_placeholder)) {
+    sportCourtListItem: SportCourtListItem
+) {
+    val (courtId, name, tags, distance, temperature) = sportCourtListItem
+    val painter: Painter = painterResource(id = R.drawable.no_image_placeholder)
+
     Box(
             modifier = Modifier
                 .border(BorderStroke(2.dp, LightGreen), RoundedCornerShape(5))
@@ -110,5 +111,5 @@ fun SportCourtListItem(
 @Composable
 @Preview
 fun SportCourtListItemPreview() {
-    SportCourtListItem(name = "Старая", tags = "Вкусно", distance = 0.3F, temperature = 13.4F)
+    SportCourtListItem(SportCourtListItem(courtId = 0, name = "Старая", tags = "Вкусно", distance = 0.3F, temperature = 13.4F))
 }

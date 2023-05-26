@@ -34,7 +34,7 @@ import ru.riders.sportfinder.common.Constants
 import ru.riders.sportfinder.screen.CreateTrackScreen
 import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.SportCourtMapScreen
-import ru.riders.sportfinder.screen.SportsCourtListScreen
+import ru.riders.sportfinder.screen.sport_courts_list_screen.SportCourtsListScreen
 import ru.riders.sportfinder.screen.TrackListScreen
 import ru.riders.sportfinder.screen.WatchTrackScreen
 import ru.riders.sportfinder.screen.authorization_screen.AuthorizationScreen
@@ -165,13 +165,11 @@ fun MainScreenNavHost(
         }
         composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadSportCourtsList()
             SportCourtMapScreen(viewModel, navHostController)
         }
         composable(route = Screens.SPORT_COURT_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadSportCourtsList()
-            SportsCourtListScreen(viewModel, navHostController)
+            SportCourtsListScreen(navHostController)
         }
         composable(route = Screens.TRACK_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true

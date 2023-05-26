@@ -8,7 +8,7 @@ import com.yandex.mapkit.map.PlacemarkMapObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ru.riders.sportfinder.common.Constants
 import ru.riders.sportfinder.data.RunningTracksDto
-import ru.riders.sportfinder.data.SportCourtInfo
+import ru.riders.sportfinder.data.SportCourt
 import ru.riders.sportfinder.data.remote.ServerApi
 import javax.inject.Inject
 
@@ -24,26 +24,9 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     val trackPoints = mutableStateListOf<PlacemarkMapObject>()
 
-    var sportsCourts = mutableStateOf(emptyList<SportCourtInfo>())
+    var sportsCourts = mutableStateOf(emptyList<SportCourt>())
 
     var tracks = mutableStateOf(RunningTracksDto())
-
-    fun loadSportCourtsList() {
-/*        CoroutineScope(Dispatchers.Default).launch {
-            try {
-                val response = serverApi.getSportCourts().await()
-                val result = safeApiResult(response, "Error")
-                when (result) {
-                    is ApiResultState.Success -> {
-                        sportsCourts.value = result.data.sportCourts
-                            .filter { it.name.isNotEmpty() && it.coordinates.size == 2 }
-                            .map { it.toSportCourtInfo() }
-                    }
-                    is ApiResultState.Error -> {}
-                }
-            } catch (e: Exception) { }
-        }*/
-    }
 
     fun loadRunningTracksList() {
         // TODO: Заменить на загрузку данных

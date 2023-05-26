@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen
+package ru.riders.sportfinder.screen.sport_courts_list_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -26,19 +27,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.widget.SportCourtListItem
+import ru.riders.sportfinder.screen.Screens
+import ru.riders.sportfinder.screen.sport_courts_list_screen.components.SportCourtListItem
 import ru.riders.sportfinder.screen.commonComponents.TopSearchBar
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
-fun SportsCourtListScreen(
-    viewModel: MainActivityViewModel?,
-    navHostController: NavHostController?
+fun SportCourtsListScreen(
+    navHostController: NavHostController?,
+    viewModel: SportCourtListViewModel = hiltViewModel()
 ) {
-    val courtsInfo by remember { viewModel?.sportsCourts ?: mutableStateOf(emptyList()) }
+    val listSportCourts = viewModel.listSportCourts.value
+
     var searchedText by remember { mutableStateOf("") }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -56,19 +59,12 @@ fun SportsCourtListScreen(
 
             ) {
                 val listOfFilteredSportCourts = if (searchedText.isNotEmpty())
-                    courtsInfo.filter { searchedText in it.name }
+                    listSportCourts.filter { searchedText in it.name }
                 else
-                    courtsInfo
+                    listSportCourts
 
-                listOfFilteredSportCourts.forEach {
-                    item {
-                        SportCourtListItem(
-                            name = it.name,
-                            tags = it.tags,
-                            distance = it.distance,
-                            temperature = it.temperature
-                        )
-                    }
+                items(listOfFilteredSportCourts) {
+                    SportCourtListItem(it)
                 }
             }
         }
@@ -98,7 +94,7 @@ fun SportsCourtListScreen(
 @Preview
 @Composable
 fun SportsCourtListScreenPreview() {
-    SportsCourtListScreen(null, null)
+    SportCourtsListScreen(null)
 }
 
 

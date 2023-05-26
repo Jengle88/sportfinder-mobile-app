@@ -18,12 +18,13 @@ import ru.riders.sportfinder.data.db.UserProfileDao
 import ru.riders.sportfinder.data.remote.ServerApi
 import ru.riders.sportfinder.data.remote.YandexWeatherApi
 import ru.riders.sportfinder.data.repository.RunningTracksRepositoryImpl
-import ru.riders.sportfinder.data.repository.SportCourtsRepositoryImpl
+import ru.riders.sportfinder.data.repository.SportCourtsListRepositoryImpl
 import ru.riders.sportfinder.data.repository.UserProfileRepositoryImpl
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
-import ru.riders.sportfinder.domain.repository.SportCourtsRepository
+import ru.riders.sportfinder.domain.repository.SportCourtsListRepository
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
 import ru.riders.sportfinder.domain.use_case.GetUserProfile
+import ru.riders.sportfinder.domain.use_case.LoadSportCourtsList
 import ru.riders.sportfinder.domain.use_case.SignInUser
 import ru.riders.sportfinder.domain.use_case.SignUpUser
 import java.util.concurrent.TimeUnit
@@ -80,8 +81,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSportCourtsRepository(serverApi: ServerApi): SportCourtsRepository =
-        SportCourtsRepositoryImpl(serverApi)
+    fun provideSportCourtListRepository(serverApi: ServerApi): SportCourtsListRepository =
+        SportCourtsListRepositoryImpl(serverApi)
 
     @Provides
     @Singleton
@@ -108,4 +109,10 @@ object AppModule {
         userProfileDao: UserProfileDao,
         userProfileRepository: UserProfileRepository
     ) = GetUserProfile(userProfileDao, userProfileRepository)
+
+    @Provides
+    @Singleton
+    fun provideLoadSportCourtsList(
+        loadSportCourtsListRepository: SportCourtsListRepository
+    ) = LoadSportCourtsList(loadSportCourtsListRepository)
 }
