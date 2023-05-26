@@ -32,15 +32,14 @@ import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.screen.CreateTrackScreen
 import ru.riders.sportfinder.screen.Screens
-import ru.riders.sportfinder.screen.sport_courts_map_screen.SportCourtMapScreen
-import ru.riders.sportfinder.screen.sport_courts_list_screen.SportCourtsListScreen
-import ru.riders.sportfinder.screen.TrackListScreen
-import ru.riders.sportfinder.screen.WatchTrackScreen
 import ru.riders.sportfinder.screen.authorization_screen.AuthorizationScreen
-import ru.riders.sportfinder.screen.commonComponents.BottomNavItem
-import ru.riders.sportfinder.screen.commonComponents.JCMapView
+import ru.riders.sportfinder.screen.common_components.BottomNavItem
+import ru.riders.sportfinder.screen.common_components.JCMapView
 import ru.riders.sportfinder.screen.profile_screen.ProfileScreen
 import ru.riders.sportfinder.screen.registration_screen.RegistrationScreen
+import ru.riders.sportfinder.screen.running_tracks_list_screen.RunningTracksListScreen
+import ru.riders.sportfinder.screen.sport_courts_list_screen.SportCourtsListScreen
+import ru.riders.sportfinder.screen.sport_courts_map_screen.SportCourtMapScreen
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
 
@@ -184,8 +183,7 @@ fun MainScreenNavHost(
         composable(route = Screens.TRACK_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true
             jcMapView.onStop()
-            viewModel.loadRunningTracksList()
-            TrackListScreen(viewModel, navHostController)
+            RunningTracksListScreen(navHostController)
         }
         composable(route = Screens.WATCH_TRACK_SCREEN.route + "/{trackInfoNumber}",
             arguments = listOf(
@@ -195,16 +193,16 @@ fun MainScreenNavHost(
             )) { entry ->
             isSupportedBottomNav.value = true
             jcMapView.onStop()
-            if (viewModel.tracks.value.runningTracks.isEmpty()) viewModel.loadRunningTracksList()
+//            if (viewModel.tracks.value.runningTracks.isEmpty()) viewModel.loadRunningTracksList()
 
-            WatchTrackScreen(
+/*            WatchTrackScreen(
                 viewModel,
                 navHostController,
                 viewModel.tracks.value.runningTracks.first{
                     it.trackId == (entry.arguments?.getInt("trackInfoNumber")
                     ?: -1)
                 }
-            )
+            )*/
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
             isSupportedBottomNav.value = true

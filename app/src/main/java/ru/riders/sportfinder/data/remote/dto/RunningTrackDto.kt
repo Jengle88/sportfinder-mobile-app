@@ -1,13 +1,8 @@
-package ru.riders.sportfinder.data
-
+package ru.riders.sportfinder.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import com.yandex.mapkit.geometry.Point
-
-data class RunningTracksDto(
-    @SerializedName("routes")
-    var runningTracks: List<RunningTrackDto> = emptyList()
-)
+import ru.riders.sportfinder.domain.model.running_track.RunningTrack
 
 data class RunningTrackDto(
     val title: String,
@@ -21,3 +16,14 @@ data class RunningTrackDto(
     @SerializedName("id")
     val trackId: Int
 )
+
+fun RunningTrackDto.toRunningTrack() =
+    RunningTrack(
+        title = title,
+        distance = distance,
+        tempOnStart = tempOnStart,
+        tags = tags,
+        points = points,
+        tempOnEnd = tempOnEnd,
+        trackId = trackId,
+    )

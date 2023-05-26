@@ -1,6 +1,6 @@
 package ru.riders.sportfinder.domain.repository
 
-import ru.riders.sportfinder.data.RunningTracksDto
+import ru.riders.sportfinder.data.remote.dto.RunningTracksDto
 
 interface RunningTracksRepository {
 

@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen.commonComponents
+package ru.riders.sportfinder.screen.common_components
 
 import android.content.Context
 import androidx.core.content.ContextCompat

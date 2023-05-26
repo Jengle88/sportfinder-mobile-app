@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.riders.sportfinder.data.RunningTracksDto
+import ru.riders.sportfinder.data.remote.dto.RunningTracksDto
 import ru.riders.sportfinder.data.remote.dto.SignInDto
 import ru.riders.sportfinder.data.remote.dto.SignUpDto
 import ru.riders.sportfinder.data.remote.dto.SignUpRequestBody

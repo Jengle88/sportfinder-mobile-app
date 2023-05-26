@@ -17,8 +17,8 @@ import androidx.navigation.NavHostController
 import com.yandex.mapkit.geometry.Point
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.RunningTrackDto
-import ru.riders.sportfinder.screen.commonComponents.JCMapView
+import ru.riders.sportfinder.data.remote.dto.RunningTrackDto
+import ru.riders.sportfinder.screen.common_components.JCMapView
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 

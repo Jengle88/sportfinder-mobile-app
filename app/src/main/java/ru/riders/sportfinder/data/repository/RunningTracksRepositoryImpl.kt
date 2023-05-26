@@ -1,7 +1,7 @@
 package ru.riders.sportfinder.data.repository
 
-import ru.riders.sportfinder.data.RunningTracksDto
 import ru.riders.sportfinder.data.remote.ServerApi
+import ru.riders.sportfinder.data.remote.dto.RunningTracksDto
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 
 class RunningTracksRepositoryImpl(

@@ -22,8 +22,8 @@ import androidx.navigation.NavHostController
 import com.yandex.mapkit.map.CameraPosition
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.Screens
-import ru.riders.sportfinder.screen.commonComponents.JCMapView
-import ru.riders.sportfinder.screen.commonComponents.TopSearchBar
+import ru.riders.sportfinder.screen.common_components.JCMapView
+import ru.riders.sportfinder.screen.common_components.TopSearchBar
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable

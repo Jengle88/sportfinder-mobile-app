@@ -31,8 +31,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.Screens
+import ru.riders.sportfinder.screen.common_components.TopSearchBar
 import ru.riders.sportfinder.screen.sport_courts_list_screen.components.SportCourtListItem
-import ru.riders.sportfinder.screen.commonComponents.TopSearchBar
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable

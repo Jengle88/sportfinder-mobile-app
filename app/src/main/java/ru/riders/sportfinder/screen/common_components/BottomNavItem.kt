@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen.commonComponents
+package ru.riders.sportfinder.screen.common_components
 
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.navigation.NavHostController

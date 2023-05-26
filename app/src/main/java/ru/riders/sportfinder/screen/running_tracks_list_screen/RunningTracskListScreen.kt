@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen
+package ru.riders.sportfinder.screen.running_tracks_list_screen
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,20 +22,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.RunningTracksDto
-import ru.riders.sportfinder.screen.commonComponents.TopSearchBar
-import ru.riders.sportfinder.screen.widget.TrackListItem
+import ru.riders.sportfinder.screen.Screens
+import ru.riders.sportfinder.screen.common_components.TopSearchBar
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
+import ru.riders.sportfinder.screen.widget.TrackListItem
 
 @Composable
-fun TrackListScreen(
-    viewModel: MainActivityViewModel?,
-    navHostController: NavHostController?
+fun RunningTracksListScreen(
+    navHostController: NavHostController?,
+    viewModel: RunningTracksListViewModel = hiltViewModel()
 ) {
-    val tracks by remember { viewModel?.tracks ?: mutableStateOf(RunningTracksDto()) }
+    val runningTracks = viewModel.listRunningTracks.value
+
     var searchedText by remember { mutableStateOf("") }
 
     Box(
@@ -53,9 +54,9 @@ fun TrackListScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 val listOfFilteredTracks = if (searchedText.isNotEmpty())
-                    tracks.runningTracks.filter { searchedText in it.title }
+                    runningTracks.filter { searchedText in it.title }
                 else
-                    tracks.runningTracks
+                    runningTracks
 
                 listOfFilteredTracks.forEach { trackInfo ->
                     item {
@@ -98,5 +99,5 @@ fun TrackListScreen(
 @Preview
 @Composable
 fun TrackListScreenPreview() {
-    TrackListScreen(null, null)
+    RunningTracksListScreen(null)
 }
