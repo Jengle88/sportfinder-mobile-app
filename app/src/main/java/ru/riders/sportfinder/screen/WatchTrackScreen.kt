@@ -17,20 +17,20 @@ import androidx.navigation.NavHostController
 import com.yandex.mapkit.geometry.Point
 import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.TrackInfoResponse
-import ru.riders.sportfinder.screen.widget.JCMapView
-import ru.riders.sportfinder.ui.theme.LightGreen
+import ru.riders.sportfinder.data.remote.dto.RunningTrackDto
+import ru.riders.sportfinder.screen.common_components.JCMapView
+import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 
 @Composable
 fun WatchTrackScreen(
     viewModel: MainActivityViewModel?,
     navHostController: NavHostController?,
-    trackInfoResponse: TrackInfoResponse,
+    runningTrackDto: RunningTrackDto,
 
     ) {
     lateinit var mapView: JCMapView
-    val (name, distance, tempOnStart, tags, points, tempOnEnd) = trackInfoResponse
+    val (name, distance, tempOnStart, tags, points, tempOnEnd) = runningTrackDto
     Column {
         AndroidView(
             modifier = Modifier
@@ -38,8 +38,6 @@ fun WatchTrackScreen(
             factory = { context ->
                 mapView = JCMapView(
                     context,
-                    { _, _ -> },
-                    { _, _ -> }
                 )
                 mapView
             })
@@ -122,7 +120,7 @@ fun WatchTrackScreen(
 @Preview
 fun WatchTrackScreenPreview(){
     WatchTrackScreen(
-        null, null, TrackInfoResponse("Маршрут 1",
+        null, null, RunningTrackDto("Маршрут 1",
             2.3,
             80,
             "В горку",

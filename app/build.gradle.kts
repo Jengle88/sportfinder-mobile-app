@@ -99,7 +99,15 @@ dependencies {
 
     implementation(libs.material)
 
+    // ConstraintLayout
     implementation(libs.androidx.constraintlayout.compose)
+
+    // Room
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+
+    // Kotlin Extensions and Coroutines support for Room
+    implementation(libs.room.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

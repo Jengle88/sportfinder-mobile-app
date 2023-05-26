@@ -30,34 +30,29 @@ import androidx.navigation.navArgument
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
-import ru.riders.sportfinder.model.BottomNavItem
-import ru.riders.sportfinder.screen.AuthorizationScreen
 import ru.riders.sportfinder.screen.CreateTrackScreen
-import ru.riders.sportfinder.screen.ProfileScreen
-import ru.riders.sportfinder.screen.RegistrationScreen
 import ru.riders.sportfinder.screen.Screens
-import ru.riders.sportfinder.screen.SportCourtMapScreen
-import ru.riders.sportfinder.screen.SportsCourtListScreen
-import ru.riders.sportfinder.screen.TrackListScreen
-import ru.riders.sportfinder.screen.WatchTrackScreen
-import ru.riders.sportfinder.ui.theme.SportFinderLightColorScheme
-import ru.riders.sportfinder.ui.theme.SportFinderTheme
-import javax.inject.Inject
-import javax.inject.Named
+import ru.riders.sportfinder.screen.authorization_screen.AuthorizationScreen
+import ru.riders.sportfinder.screen.common_components.BottomNavItem
+import ru.riders.sportfinder.screen.common_components.JCMapView
+import ru.riders.sportfinder.screen.profile_screen.ProfileScreen
+import ru.riders.sportfinder.screen.registration_screen.RegistrationScreen
+import ru.riders.sportfinder.screen.running_tracks_list_screen.RunningTracksListScreen
+import ru.riders.sportfinder.screen.sport_courts_list_screen.SportCourtsListScreen
+import ru.riders.sportfinder.screen.sport_courts_map_screen.SportCourtMapScreen
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
+import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    @Inject
-    @Named("YANDEX_MAP_APIKEY")
-    lateinit var YANDEX_MAP_APIKEY: String
+    lateinit var jcMapView: JCMapView
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        MapKitFactory.setApiKey(YANDEX_MAP_APIKEY)
         MapKitFactory.initialize(this)
 
+        jcMapView = JCMapView(this)
 
         setContent {
             val isSupportedBottomNav = remember { mutableStateOf(false) }
@@ -97,6 +92,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(paddingValues)
                         ) {
                             MainScreenNavHost(
+                                jcMapView = jcMapView,
                                 navHostController = navHostController,
                                 isSupportedBottomNav = isSupportedBottomNav
                             )
@@ -110,10 +106,12 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         MapKitFactory.getInstance().onStart()
+        jcMapView.onStart()
     }
 
     override fun onStop() {
         MapKitFactory.getInstance().onStop()
+        jcMapView.onStop()
         super.onStop()
     }
 }
@@ -150,6 +148,7 @@ private fun BottomBar(
 
 @Composable
 fun MainScreenNavHost(
+    jcMapView: JCMapView,
     navHostController: NavHostController,
     isSupportedBottomNav: MutableState<Boolean>
 ) {
@@ -158,31 +157,33 @@ fun MainScreenNavHost(
     NavHost(navController = navHostController, startDestination = Screens.AUTH_SCREEN.route) {
         composable(route = Screens.AUTH_SCREEN.route) {
             isSupportedBottomNav.value = false
-            AuthorizationScreen(viewModel, navHostController)
+            jcMapView.onStop()
+            AuthorizationScreen(navHostController)
         }
         composable(route = Screens.REG_SCREEN.route) {
             isSupportedBottomNav.value = false
-            RegistrationScreen(viewModel, navHostController)
+            jcMapView.onStop()
+            RegistrationScreen(navHostController)
         }
         composable(route = Screens.PROFILE_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadUserName()
-            ProfileScreen(viewModel)
+            jcMapView.onStop()
+            ProfileScreen()
         }
         composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadSportCourtsList()
-            SportCourtMapScreen(viewModel, navHostController)
+            jcMapView.onStart()
+            SportCourtMapScreen(navHostController, jcMapView)
         }
         composable(route = Screens.SPORT_COURT_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadSportCourtsList()
-            SportsCourtListScreen(viewModel, navHostController)
+            jcMapView.onStop()
+            SportCourtsListScreen(navHostController)
         }
         composable(route = Screens.TRACK_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true
-            viewModel.loadRunningTracksList()
-            TrackListScreen(viewModel, navHostController)
+            jcMapView.onStop()
+            RunningTracksListScreen(navHostController)
         }
         composable(route = Screens.WATCH_TRACK_SCREEN.route + "/{trackInfoNumber}",
             arguments = listOf(
@@ -191,19 +192,21 @@ fun MainScreenNavHost(
                 }
             )) { entry ->
             isSupportedBottomNav.value = true
-            if (viewModel.tracks.value.runningTracks.isEmpty()) viewModel.loadRunningTracksList()
+            jcMapView.onStop()
+//            if (viewModel.tracks.value.runningTracks.isEmpty()) viewModel.loadRunningTracksList()
 
-            WatchTrackScreen(
+/*            WatchTrackScreen(
                 viewModel,
                 navHostController,
                 viewModel.tracks.value.runningTracks.first{
                     it.trackId == (entry.arguments?.getInt("trackInfoNumber")
                     ?: -1)
                 }
-            )
+            )*/
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
             isSupportedBottomNav.value = true
+            jcMapView.onStop()
             CreateTrackScreen(viewModel)
         }
     }
