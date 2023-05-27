@@ -187,12 +187,7 @@ fun MainScreenNavHost(
 
             WatchRunningTrackScreen(
                 navHostController,
-                jcMapView,
-                0
-//                viewModel.tracks.value.runningTracks.first{
-//                    it.trackId == (entry.arguments?.getInt("trackInfoNumber")
-//                    ?: -1)
-//                }
+                jcMapView
             )
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {

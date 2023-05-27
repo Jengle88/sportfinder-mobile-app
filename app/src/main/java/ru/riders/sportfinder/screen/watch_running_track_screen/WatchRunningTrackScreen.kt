@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.yandex.mapkit.Animation
 import com.yandex.mapkit.map.CameraPosition
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.domain.model.running_track.RunningTrack
@@ -25,15 +26,15 @@ import ru.riders.sportfinder.screen.ui.theme.LightGreen
 fun WatchRunningTrackScreen(
     navHostController: NavHostController?,
     jcMapView: JCMapView,
-    runningTrackId: Int,
     viewModel: WatchRunningTracksViewModel = hiltViewModel()
-//    runningTrackDto: RunningTrackDto
 ) {
-    val (name, distance, tempOnStart, tags, points, tempOnEnd) = viewModel.runningTrack.value ?: RunningTrack(
-        "", 0.0, 0, "", emptyList(), 0, 0
-    )
+    val (name, distance, tempOnStart, tags, points, tempOnEnd) = viewModel.runningTrack.value
+        ?: RunningTrack("", 0.0, 0, "", emptyList(), 0, 0)
 
-    jcMapView.drawRunningTrack()
+    if (viewModel.runningTrack.value?.points?.isNotEmpty() == true) {
+        jcMapView.drawRunningTrack(viewModel.runningTrack.value?.points ?: emptyList())
+        jcMapView.map.move(viewModel.getOptimalCameraPosition(), Animation(Animation.Type.SMOOTH, 0.5f), null)
+    }
 
     Column {
         AndroidView(

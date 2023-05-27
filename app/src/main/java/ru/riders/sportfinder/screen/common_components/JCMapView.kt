@@ -66,15 +66,7 @@ class JCMapView(
         }
     }
 
-    fun drawRunningTrack(/*points: List<Point>*/) {
-
-        val points = mutableListOf<Point>()
-        val start = Point(59.935227, 30.329152)
-        points.add(start)
-        points.add(Point(start.latitude, start.longitude + 0.03))
-        points.add(Point(start.latitude + 0.03, start.longitude + 0.03))
-        points.add(Point(start.latitude + 0.03, start.longitude))
-
+    fun drawRunningTrack(points: List<Point>) {
         pointsRunningTrack = points to this.map.mapObjects.addPolyline(Polyline(points)).apply {
             outlineColor = Color.Blue.toArgb()
             setStrokeColor(Color.Green.toArgb())
