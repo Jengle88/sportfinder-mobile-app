@@ -2,7 +2,8 @@ package ru.riders.sportfinder.screen.watch_running_track_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -33,13 +34,19 @@ fun WatchRunningTrackScreen(
 
     if (viewModel.runningTrack.value?.points?.isNotEmpty() == true) {
         jcMapView.drawRunningTrack(viewModel.runningTrack.value?.points ?: emptyList())
-        jcMapView.map.move(viewModel.getOptimalCameraPosition(), Animation(Animation.Type.SMOOTH, 0.5f), null)
+        jcMapView.map.move(
+            viewModel.getOptimalCameraPosition(),
+            Animation(Animation.Type.SMOOTH, 0.5f),
+            null
+        )
     }
 
     Column {
         AndroidView(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f)
+                .padding(8.dp),
             factory = { _ ->
                 jcMapView.prepareForNewStart()
                 jcMapView.onStart()
