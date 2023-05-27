@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen.widget
+package ru.riders.sportfinder.screen.running_tracks_list_screen.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
