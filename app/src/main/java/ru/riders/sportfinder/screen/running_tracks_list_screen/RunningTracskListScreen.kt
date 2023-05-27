@@ -28,7 +28,7 @@ import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.common_components.TopSearchBar
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
-import ru.riders.sportfinder.screen.widget.TrackListItem
+import ru.riders.sportfinder.screen.running_tracks_list_screen.components.TrackListItem
 
 @Composable
 fun RunningTracksListScreen(

@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import ru.riders.sportfinder.MainActivityViewModel
 import ru.riders.sportfinder.screen.common_components.JCMapView
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 import ru.riders.sportfinder.screen.ui.theme.White
@@ -33,7 +32,7 @@ import ru.riders.sportfinder.screen.ui.theme.White
 
 @Composable
 fun CreateTrackScreen(
-    viewModel: MainActivityViewModel?
+    // TODO: Добавить соответствующую ViewModel
 ) {
     var trackName: String by remember { mutableStateOf("") }
     lateinit var mapView: JCMapView
@@ -44,11 +43,7 @@ fun CreateTrackScreen(
                 mapView = JCMapView(
                     context
                 ).apply {
-/*                    viewModel?.let { viewModel ->
-                        map.move(
-                            CameraPosition(viewModel.centerSPbPoint, 15.0f, 0f, 0f)
-                        )
-                    }*/
+                    // TODO: Центрировать камеру на средней точке от всех точек
                 }
                 mapView
             })
@@ -107,6 +102,6 @@ fun CreateTrackScreen(
 @Composable
 @Preview
 fun CreateTrackScreenPreview() {
-    CreateTrackScreen(null)
+    CreateTrackScreen()
 
 }

@@ -21,7 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -152,8 +151,6 @@ fun MainScreenNavHost(
     navHostController: NavHostController,
     isSupportedBottomNav: MutableState<Boolean>
 ) {
-    val viewModel = hiltViewModel<MainActivityViewModel>()
-
     NavHost(navController = navHostController, startDestination = Screens.AUTH_SCREEN.route) {
         composable(route = Screens.AUTH_SCREEN.route) {
             isSupportedBottomNav.value = false
@@ -192,11 +189,9 @@ fun MainScreenNavHost(
                 }
             )) { entry ->
             isSupportedBottomNav.value = true
-            jcMapView.onStop()
-//            if (viewModel.tracks.value.runningTracks.isEmpty()) viewModel.loadRunningTracksList()
+            jcMapView.onStart()
 
 /*            WatchTrackScreen(
-                viewModel,
                 navHostController,
                 viewModel.tracks.value.runningTracks.first{
                     it.trackId == (entry.arguments?.getInt("trackInfoNumber")
@@ -207,7 +202,7 @@ fun MainScreenNavHost(
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
             isSupportedBottomNav.value = true
             jcMapView.onStop()
-            CreateTrackScreen(viewModel)
+            CreateTrackScreen()
         }
     }
 }
