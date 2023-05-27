@@ -49,11 +49,17 @@ fun SportCourtMapScreen(
             modifier = Modifier
                 .fillMaxSize(),
             factory = { context ->
+                jcMapView.prepareForNewStart()
+                jcMapView.onStart()
                 jcMapView.apply {
                     map.move(CameraPosition(viewModel.centerSPbPoint, 15.0f, 0f, 0f))
                 }
                 jcMapView
-            })
+            },
+            onReset = {
+                it.onStop()
+            }
+        )
 
         TopSearchBar(onTextSearchChanged = {
             textForFilter = it

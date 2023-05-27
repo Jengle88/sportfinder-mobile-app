@@ -63,7 +63,7 @@ fun RunningTracksListScreen(
                         Box(
                             modifier = Modifier.clickable {
                                 navHostController?.navigate(
-                                    route = Screens.WATCH_TRACK_SCREEN.route
+                                    route = Screens.WATCH_RUNNING_TRACK_SCREEN.route
                                             + "/" + (trackInfo.trackId).toString()
                                 )
                             }

@@ -41,6 +41,7 @@ import ru.riders.sportfinder.screen.sport_courts_list_screen.SportCourtsListScre
 import ru.riders.sportfinder.screen.sport_courts_map_screen.SportCourtMapScreen
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
+import ru.riders.sportfinder.screen.watch_running_track_screen.WatchRunningTrackScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -68,7 +69,7 @@ class MainActivity : ComponentActivity() {
                 ) { it.navigate(Screens.SPORT_COURT_MAP_SCREEN.route) },
                 BottomNavItem(
                     painterResource(R.drawable.ic_runner_white_24)
-                ) { it.navigate(Screens.TRACK_LIST_SCREEN.route) },
+                ) { it.navigate(Screens.RUNNING_TRACKS_LIST_SCREEN.route) },
             )
 
             SportFinderTheme {
@@ -154,54 +155,43 @@ fun MainScreenNavHost(
     NavHost(navController = navHostController, startDestination = Screens.AUTH_SCREEN.route) {
         composable(route = Screens.AUTH_SCREEN.route) {
             isSupportedBottomNav.value = false
-            jcMapView.onStop()
             AuthorizationScreen(navHostController)
         }
         composable(route = Screens.REG_SCREEN.route) {
             isSupportedBottomNav.value = false
-            jcMapView.onStop()
             RegistrationScreen(navHostController)
         }
         composable(route = Screens.PROFILE_SCREEN.route) {
             isSupportedBottomNav.value = true
-            jcMapView.onStop()
             ProfileScreen()
         }
         composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
             isSupportedBottomNav.value = true
-            jcMapView.onStart()
             SportCourtMapScreen(navHostController, jcMapView)
         }
         composable(route = Screens.SPORT_COURT_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true
-            jcMapView.onStop()
             SportCourtsListScreen(navHostController)
         }
-        composable(route = Screens.TRACK_LIST_SCREEN.route) {
+        composable(route = Screens.RUNNING_TRACKS_LIST_SCREEN.route) {
             isSupportedBottomNav.value = true
-            jcMapView.onStop()
             RunningTracksListScreen(navHostController)
         }
-        composable(route = Screens.WATCH_TRACK_SCREEN.route + "/{trackInfoNumber}",
+        composable(route = Screens.WATCH_RUNNING_TRACK_SCREEN.route + "/{trackInfoNumber}",
             arguments = listOf(
                 navArgument("trackInfoNumber") {
                     type = NavType.IntType
                 }
             )) { entry ->
             isSupportedBottomNav.value = true
-            jcMapView.onStart()
 
-/*            WatchTrackScreen(
+            WatchRunningTrackScreen(
                 navHostController,
-                viewModel.tracks.value.runningTracks.first{
-                    it.trackId == (entry.arguments?.getInt("trackInfoNumber")
-                    ?: -1)
-                }
-            )*/
+                jcMapView
+            )
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
             isSupportedBottomNav.value = true
-            jcMapView.onStop()
             CreateTrackScreen()
         }
     }

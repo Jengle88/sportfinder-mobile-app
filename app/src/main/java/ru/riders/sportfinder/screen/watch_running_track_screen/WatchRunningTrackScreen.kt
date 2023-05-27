@@ -1,8 +1,9 @@
-package ru.riders.sportfinder.screen
+package ru.riders.sportfinder.screen.watch_running_track_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -10,34 +11,54 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.Animation
+import com.yandex.mapkit.map.CameraPosition
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.data.remote.dto.RunningTrackDto
+import ru.riders.sportfinder.domain.model.running_track.RunningTrack
 import ru.riders.sportfinder.screen.common_components.JCMapView
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 
 @Composable
-fun WatchTrackScreen(
+fun WatchRunningTrackScreen(
     navHostController: NavHostController?,
-    runningTrackDto: RunningTrackDto
+    jcMapView: JCMapView,
+    viewModel: WatchRunningTracksViewModel = hiltViewModel()
 ) {
-    lateinit var mapView: JCMapView
-    val (name, distance, tempOnStart, tags, points, tempOnEnd) = runningTrackDto
+    val (name, distance, tempOnStart, tags, points, tempOnEnd) = viewModel.runningTrack.value
+        ?: RunningTrack("", 0.0, 0, "", emptyList(), 0, 0)
+
+    if (viewModel.runningTrack.value?.points?.isNotEmpty() == true) {
+        jcMapView.drawRunningTrack(viewModel.runningTrack.value?.points ?: emptyList())
+        jcMapView.map.move(
+            viewModel.getOptimalCameraPosition(),
+            Animation(Animation.Type.SMOOTH, 0.5f),
+            null
+        )
+    }
+
     Column {
         AndroidView(
             modifier = Modifier
-                .fillMaxSize(),
-            factory = { context ->
-                mapView = JCMapView(
-                    context,
-                )
-                mapView
-            })
+                .fillMaxWidth()
+                .fillMaxHeight(0.8f)
+                .padding(8.dp),
+            factory = { _ ->
+                jcMapView.prepareForNewStart()
+                jcMapView.onStart()
+                jcMapView.apply {
+                    map.move(CameraPosition(viewModel.centerSPbPoint, 15.0f, 0f, 0f))
+                }
+                jcMapView
+            },
+            onReset = {
+                it.onStop()
+            }
+        )
         Column(
             modifier = Modifier.padding(top = 8.dp, start = 12.dp, bottom = 4.dp)
         ) {
@@ -110,20 +131,4 @@ fun WatchTrackScreen(
             }
         }
     }
-}
-
-
-@Composable
-@Preview
-fun WatchTrackScreenPreview() {
-    WatchTrackScreen(
-        null,
-        RunningTrackDto(
-            "Маршрут 1",
-            2.3,
-            80,
-            "В горку",
-            listOf(Point(2.3, 2.4)), -3, 111
-        ),
-    )
 }
