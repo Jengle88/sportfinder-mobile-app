@@ -1,7 +1,6 @@
 package ru.riders.sportfinder.screen.common_components
 
 import android.content.Context
-import android.view.ViewGroup
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
@@ -52,17 +51,6 @@ class JCMapView(
                 pointsSportCourts.remove(placePoint)
                 return
             }
-        }
-    }
-
-    fun prepareForNewStart() {
-        this.map.mapObjects.clear()
-
-        pointsSportCourts.clear()
-        pointsRunningTrack = null
-
-        if (this.parent != null) {
-            (this.parent as ViewGroup).removeView(this)
         }
     }
 
