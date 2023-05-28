@@ -23,16 +23,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.common_components.TopSearchBar
-import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.screen.running_tracks_list_screen.components.TrackListItem
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun RunningTracksListScreen(
-    navHostController: NavHostController?,
+    navigateToWatchRunningTrackScreen: (Int) -> Unit,
+    navigateToCreateTrackScreen: () -> Unit,
     viewModel: RunningTracksListViewModel = hiltViewModel()
 ) {
     val runningTracks = viewModel.listRunningTracks.value
@@ -62,10 +61,7 @@ fun RunningTracksListScreen(
                     item {
                         Box(
                             modifier = Modifier.clickable {
-                                navHostController?.navigate(
-                                    route = Screens.WATCH_RUNNING_TRACK_SCREEN.route
-                                            + "/" + (trackInfo.trackId).toString()
-                                )
+                                navigateToWatchRunningTrackScreen(trackInfo.trackId)
                             }
                         ) {
                             TrackListItem(trackInfo)
@@ -85,9 +81,7 @@ fun RunningTracksListScreen(
             ),
             shape = CircleShape,
             onClick = {
-                navHostController?.navigate(
-                    route = Screens.CREATE_TRACK_SCREEN.route
-                )
+                navigateToCreateTrackScreen()
             }
         ) {
             Icon(painterResource(id = R.drawable.ic_add_white_24), null)
@@ -99,5 +93,5 @@ fun RunningTracksListScreen(
 @Preview
 @Composable
 fun TrackListScreenPreview() {
-    RunningTracksListScreen(null)
+    RunningTracksListScreen({}, {})
 }

@@ -18,18 +18,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.yandex.mapkit.map.CameraPosition
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.common_components.JCMapView
 import ru.riders.sportfinder.screen.common_components.TopSearchBar
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun SportCourtMapScreen(
-    navHostController: NavHostController,
     jcMapView: JCMapView,
+    navigateToSportCourtListScreen: () -> Unit,
     viewModel: SportCourtsMapViewModel = hiltViewModel()
 ) {
     val courtsInfo = viewModel.listSportCourts.value
@@ -75,7 +73,7 @@ fun SportCourtMapScreen(
             ),
             shape = RoundedCornerShape(28.dp),
             onClick = {
-                navHostController.navigate(Screens.SPORT_COURT_LIST_SCREEN.route)
+                navigateToSportCourtListScreen()
             }
         ) {
             Row {
