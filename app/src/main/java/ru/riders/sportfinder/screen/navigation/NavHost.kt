@@ -2,6 +2,7 @@ package ru.riders.sportfinder.screen.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,7 +21,6 @@ import ru.riders.sportfinder.screen.watch_running_track_screen.WatchRunningTrack
 
 @Composable
 fun MainScreenNavHost(
-    jcMapView: JCMapView,
     navHostController: NavHostController,
     isSupportedBottomNav: MutableState<Boolean>
 ) {
@@ -45,6 +45,8 @@ fun MainScreenNavHost(
         }
         composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
             isSupportedBottomNav.value = true
+            val jcMapView = JCMapView(LocalContext.current)
+
             SportCourtMapScreen(
                 jcMapView,
                 navigateToSportCourtListScreen = { navHostController.navigate(Screens.SPORT_COURT_LIST_SCREEN.route) }
@@ -66,7 +68,9 @@ fun MainScreenNavHost(
         composable(route = Screens.WATCH_RUNNING_TRACK_SCREEN.route + "/{trackInfoNumber}",
             arguments = listOf(navArgument("trackInfoNumber") {
                 type = NavType.IntType
-            })) { entry ->
+            })) {
+            val jcMapView = JCMapView(LocalContext.current)
+
             isSupportedBottomNav.value = true
             WatchRunningTrackScreen(jcMapView)
         }

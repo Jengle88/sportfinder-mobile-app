@@ -25,7 +25,6 @@ import com.ramcosta.composedestinations.rememberNavHostEngine
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.screen.common_components.BottomNavItem
-import ru.riders.sportfinder.screen.common_components.JCMapView
 import ru.riders.sportfinder.screen.navigation.MainScreenNavHost
 import ru.riders.sportfinder.screen.navigation.Screens
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
@@ -33,14 +32,10 @@ import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    lateinit var jcMapView: JCMapView
-
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         MapKitFactory.initialize(this)
-
-        jcMapView = JCMapView(this)
 
         setContent {
             val isSupportedBottomNav = remember { mutableStateOf(false) }
@@ -80,7 +75,6 @@ class MainActivity : ComponentActivity() {
                                 .padding(paddingValues)
                         ) {
                             MainScreenNavHost(
-                                jcMapView = jcMapView,
                                 navHostController = navHostController,
                                 isSupportedBottomNav = isSupportedBottomNav
                             )
@@ -94,12 +88,10 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         MapKitFactory.getInstance().onStart()
-        jcMapView.onStart()
     }
 
     override fun onStop() {
         MapKitFactory.getInstance().onStop()
-        jcMapView.onStop()
         super.onStop()
     }
 }

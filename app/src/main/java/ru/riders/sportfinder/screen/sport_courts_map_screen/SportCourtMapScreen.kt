@@ -12,6 +12,7 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -34,6 +35,11 @@ fun SportCourtMapScreen(
 
     var textForFilter = ""
 
+    // запускает карты, выполняется один раз при старте экрана
+    LaunchedEffect(true) {
+        jcMapView.onStart()
+    }
+
     if (courtsInfo.isNotEmpty()) {
         jcMapView.apply {
             courtsInfo.forEach { addPoint(it.coordinates) }
@@ -47,8 +53,6 @@ fun SportCourtMapScreen(
             modifier = Modifier
                 .fillMaxSize(),
             factory = { context ->
-                jcMapView.prepareForNewStart()
-                jcMapView.onStart()
                 jcMapView.apply {
                     map.move(CameraPosition(viewModel.centerSPbPoint, 15.0f, 0f, 0f))
                 }

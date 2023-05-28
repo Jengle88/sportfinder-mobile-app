@@ -9,6 +9,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,11 @@ fun WatchRunningTrackScreen(
     val (name, distance, tempOnStart, tags, points, tempOnEnd) = viewModel.runningTrack.value
         ?: RunningTrack("", 0.0, 0, "", emptyList(), 0, 0)
 
+    // запускает карты, выполняется один раз при старте экрана
+    LaunchedEffect(true) {
+        jcMapView.onStart()
+    }
+
     if (viewModel.runningTrack.value?.points?.isNotEmpty() == true) {
         jcMapView.drawRunningTrack(viewModel.runningTrack.value?.points ?: emptyList())
         jcMapView.map.move(
@@ -46,8 +52,6 @@ fun WatchRunningTrackScreen(
                 .fillMaxHeight(0.8f)
                 .padding(8.dp),
             factory = { _ ->
-                jcMapView.prepareForNewStart()
-                jcMapView.onStart()
                 jcMapView.apply {
                     map.move(CameraPosition(viewModel.centerSPbPoint, 15.0f, 0f, 0f))
                 }
