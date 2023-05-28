@@ -28,15 +28,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 import ru.riders.sportfinder.screen.ui.theme.White
 
 @Composable
 fun AuthorizationScreen(
-    navHostController: NavHostController?,
+    navigateToProfileScreen: () -> Unit,
+    navigateToRegistrationScreen: () -> Unit,
     viewModel: AuthorizationViewModel = hiltViewModel()
 ) {
 
@@ -110,7 +109,7 @@ fun AuthorizationScreen(
                     viewModel.trySignInUser(
                         onSuccess = {
                             Toast.makeText(context, "Вы авторизованы", Toast.LENGTH_SHORT).show()
-                            navHostController?.navigate(Screens.PROFILE_SCREEN.route)
+                            navigateToProfileScreen()
                         }
                     )
 
@@ -137,7 +136,7 @@ fun AuthorizationScreen(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .clickable {
-                        navHostController?.navigate(Screens.REG_SCREEN.route)
+                        navigateToRegistrationScreen()
                     },
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -151,7 +150,7 @@ fun AuthorizationScreen(
 @Composable
 @Preview
 fun AuthorizationPreview() {
-    AuthorizationScreen(null)
+    AuthorizationScreen({}, {})
 }
 
 

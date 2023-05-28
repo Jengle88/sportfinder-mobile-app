@@ -28,16 +28,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.common_components.TopSearchBar
 import ru.riders.sportfinder.screen.sport_courts_list_screen.components.SportCourtListItem
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun SportCourtsListScreen(
-    navHostController: NavHostController?,
+    navigateToSportCourtMapScreen: () -> Unit,
     viewModel: SportCourtListViewModel = hiltViewModel()
 ) {
     val listSportCourts = viewModel.listSportCourts.value
@@ -78,7 +76,7 @@ fun SportCourtsListScreen(
             ),
             shape = RoundedCornerShape(28.dp),
             onClick = {
-                navHostController?.navigate(Screens.SPORT_COURT_MAP_SCREEN.route)
+                navigateToSportCourtMapScreen()
             }
         ) {
             Row {
@@ -94,7 +92,7 @@ fun SportCourtsListScreen(
 @Preview
 @Composable
 fun SportsCourtListScreenPreview() {
-    SportCourtsListScreen(null)
+    SportCourtsListScreen({})
 }
 
 

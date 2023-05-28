@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen
+package ru.riders.sportfinder.screen.navigation
 
 enum class Screens(val route: String) {
     AUTH_SCREEN("auth_screen"),
@@ -9,6 +9,4 @@ enum class Screens(val route: String) {
     RUNNING_TRACKS_LIST_SCREEN("running_tracks_list_screen"),
     WATCH_RUNNING_TRACK_SCREEN("watch_running_track_screen"),
     CREATE_TRACK_SCREEN("create_track_screen"),
-
-
 }

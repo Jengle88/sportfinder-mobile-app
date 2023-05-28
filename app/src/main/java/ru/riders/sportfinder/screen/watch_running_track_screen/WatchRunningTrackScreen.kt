@@ -14,7 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.yandex.mapkit.Animation
 import com.yandex.mapkit.map.CameraPosition
 import ru.riders.sportfinder.R
@@ -25,7 +24,6 @@ import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 @Composable
 fun WatchRunningTrackScreen(
-    navHostController: NavHostController?,
     jcMapView: JCMapView,
     viewModel: WatchRunningTracksViewModel = hiltViewModel()
 ) {

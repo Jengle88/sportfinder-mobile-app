@@ -28,15 +28,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.Screens
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 import ru.riders.sportfinder.screen.ui.theme.White
 
 @Composable
 fun RegistrationScreen(
-    navHostController: NavHostController?,
+    navigateToProfileScreen: () -> Unit,
+    navigateToAuthorizationScreen: () -> Unit,
     viewModel: RegistrationViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -105,7 +104,7 @@ fun RegistrationScreen(
                           viewModel.trySignUpUser(
                               onSuccess = {
                                   Toast.makeText(context, "Вы авторизованы", Toast.LENGTH_SHORT).show()
-                                  navHostController?.navigate(Screens.PROFILE_SCREEN.route)
+                                  navigateToProfileScreen()
                               }
                           )
 /*                    viewModel.trySignUp(
@@ -131,7 +130,7 @@ fun RegistrationScreen(
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .clickable {
-                        navHostController?.navigate(Screens.AUTH_SCREEN.route)
+                        navigateToAuthorizationScreen()
                     },
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
@@ -145,6 +144,6 @@ fun RegistrationScreen(
 @Composable
 @Preview
 fun RegistrationPreview() {
-    RegistrationScreen(null)
+    RegistrationScreen({}, {})
 }
 
