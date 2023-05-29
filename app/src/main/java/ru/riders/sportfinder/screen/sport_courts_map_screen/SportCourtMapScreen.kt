@@ -12,9 +12,11 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -35,9 +37,19 @@ fun SportCourtMapScreen(
 
     var textForFilter = ""
 
-    // запускает карты, выполняется один раз при старте экрана
-    LaunchedEffect(true) {
-        jcMapView.onStart()
+    val lifecycleOwner = rememberUpdatedState(newValue = LocalLifecycleOwner.current)
+
+    // привязывает ЖЦ карт к ЖЦ экрана, выполняется один раз при старте экрана
+    DisposableEffect(key1 = true) {
+        // ЖЦ экрана для наблюдения
+        val lifecycle = lifecycleOwner.value.lifecycle
+
+        jcMapView.attachToLifecycle(lifecycle)
+
+        onDispose {
+            // удаляем наблюдателя
+            jcMapView.detachFromLifecycle(lifecycle)
+        }
     }
 
     if (courtsInfo.isNotEmpty()) {
@@ -56,10 +68,6 @@ fun SportCourtMapScreen(
                 jcMapView.apply {
                     map.move(CameraPosition(viewModel.centerSPbPoint, 15.0f, 0f, 0f))
                 }
-                jcMapView
-            },
-            onReset = {
-                it.onStop()
             }
         )
 
