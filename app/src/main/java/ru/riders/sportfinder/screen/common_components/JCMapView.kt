@@ -5,6 +5,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.geometry.Polyline
 import com.yandex.mapkit.map.InputListener
@@ -25,7 +28,7 @@ class JCMapView(
 
     val onMapTapAction: ((Map, Point) -> Unit)? = null
     val onMapLongTapAction: ((Map, Point) -> Unit)? = null
-
+    private var lifecycleEventObserver: LifecycleEventObserver? = null
 
     init {
         this.map.addInputListener(this)
@@ -36,6 +39,26 @@ class JCMapView(
 
     override fun onMapLongTap(p0: Map, p1: Point) {
         onMapLongTapAction?.invoke(p0, p1)
+    }
+
+    fun attachToLifecycle(lifecycle: Lifecycle) {
+        // Наблюдатель за ЖЦ экрана
+        lifecycleEventObserver = LifecycleEventObserver { _: LifecycleOwner, event: Lifecycle.Event ->
+            when (event) {
+                Lifecycle.Event.ON_START -> {
+                    this.onStart()
+                }
+                Lifecycle.Event.ON_STOP -> {
+                    this.onStop()
+                }
+                else -> {}
+            }
+        }
+        lifecycleEventObserver?.let { lifecycle.addObserver(it) }
+    }
+
+    fun detachFromLifecycle(lifecycle: Lifecycle) {
+        lifecycleEventObserver?.let { lifecycle.removeObserver(it) }
     }
 
     fun addPoint(point: Point) {
