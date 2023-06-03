@@ -23,6 +23,7 @@ import ru.riders.sportfinder.data.repository.UserProfileRepositoryImpl
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import ru.riders.sportfinder.domain.repository.SportCourtsListRepository
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
+import ru.riders.sportfinder.domain.use_case.GetTags
 import ru.riders.sportfinder.domain.use_case.GetUserProfile
 import ru.riders.sportfinder.domain.use_case.LoadRunningTrack
 import ru.riders.sportfinder.domain.use_case.LoadRunningTracksList
@@ -129,4 +130,8 @@ object AppModule {
     fun provideLoadRunningTrack(
         runningTracksRepository: RunningTracksRepository
     ) = LoadRunningTrack(runningTracksRepository)
+
+    @Provides
+    @Singleton
+    fun provideGetTags() = GetTags()
 }

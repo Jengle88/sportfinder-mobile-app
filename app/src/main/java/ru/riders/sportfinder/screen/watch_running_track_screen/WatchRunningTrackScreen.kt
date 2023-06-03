@@ -62,7 +62,7 @@ fun WatchRunningTrackScreen(
                 .fillMaxWidth()
                 .fillMaxHeight(0.8f)
                 .padding(8.dp),
-            factory = { _ ->
+            factory = {
                 viewModel.initMapView(jcMapView)
             }
         )
