@@ -7,7 +7,7 @@ import retrofit2.HttpException
 import ru.riders.sportfinder.common.ApiResultState
 import ru.riders.sportfinder.data.remote.dto.RunningTrackDto
 import ru.riders.sportfinder.data.remote.dto.toRunningTrack
-import ru.riders.sportfinder.domain.model.running_track.RunningTrack
+import ru.riders.sportfinder.domain.model.running_track.RunningTrackVO
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import java.io.IOException
 import javax.inject.Inject
@@ -16,7 +16,7 @@ class LoadRunningTrack @Inject constructor(
     private val runningTracksRepository: RunningTracksRepository
 ) {
 
-    operator fun invoke(runningTrackId: Int): Flow<ApiResultState<RunningTrack>> = flow {
+    operator fun invoke(runningTrackId: Int): Flow<ApiResultState<RunningTrackVO>> = flow {
         try {
             emit(ApiResultState.Loading())
 

@@ -8,9 +8,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import ru.riders.sportfinder.screen.CreateTrackScreen
 import ru.riders.sportfinder.screen.authorization_screen.AuthorizationScreen
 import ru.riders.sportfinder.screen.common_components.JCMapView
+import ru.riders.sportfinder.screen.create_running_track_screen.CreateRunningTrackScreen
 import ru.riders.sportfinder.screen.profile_screen.ProfileScreen
 import ru.riders.sportfinder.screen.registration_screen.RegistrationScreen
 import ru.riders.sportfinder.screen.running_tracks_list_screen.RunningTracksListScreen
@@ -76,7 +76,10 @@ fun MainScreenNavHost(
         }
         composable(route = Screens.CREATE_TRACK_SCREEN.route) {
             isSupportedBottomNav.value = true
-            CreateTrackScreen()
+
+            val jcMapView = JCMapView(LocalContext.current)
+
+            CreateRunningTrackScreen(jcMapView)
         }
     }
 }

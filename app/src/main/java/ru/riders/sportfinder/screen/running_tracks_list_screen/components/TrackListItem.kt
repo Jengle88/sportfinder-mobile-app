@@ -18,12 +18,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.domain.model.running_track.RunningTrackForList
+import ru.riders.sportfinder.domain.model.running_track.RunningTrackVOForList
 import ru.riders.sportfinder.screen.ui.theme.LightGray
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 @Composable
-fun TrackListItem(runningTrackDto: RunningTrackForList) {
+fun TrackListItem(runningTrackDto: RunningTrackVOForList) {
     val (trackId, title, distance, tags, tempOnStart) = runningTrackDto
 
     Box(
@@ -101,7 +101,7 @@ fun TrackListItem(runningTrackDto: RunningTrackForList) {
 fun TrackListItemPreview() {
     val i = 1
     TrackListItem(
-        RunningTrackForList(
+        RunningTrackVOForList(
             0,
             "Title $i",
             i * 100.toDouble(),
