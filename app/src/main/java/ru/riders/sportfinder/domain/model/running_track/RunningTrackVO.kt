@@ -2,7 +2,7 @@ package ru.riders.sportfinder.domain.model.running_track
 
 import com.yandex.mapkit.geometry.Point
 
-data class RunningTrack(
+data class RunningTrackVO(
     val title: String,
     val distance: Double,
     val tempOnStart: Int?,
@@ -12,8 +12,8 @@ data class RunningTrack(
     val trackId: Int
 )
 
-fun RunningTrack.toRunningTrackForList() =
-    RunningTrackForList(
+fun RunningTrackVO.toRunningTrackForList() =
+    RunningTrackVOForList(
         trackId = trackId,
         title = title,
         distance = distance,
@@ -21,8 +21,8 @@ fun RunningTrack.toRunningTrackForList() =
         tempOnStart = tempOnStart
     )
 
-fun RunningTrack.toRunningTrackForMap() =
-    RunningTrackForMap(
+fun RunningTrackVO.toRunningTrackForMap() =
+    RunningTrackVOForMap(
         trackId = trackId,
         distance = distance,
         points = points,

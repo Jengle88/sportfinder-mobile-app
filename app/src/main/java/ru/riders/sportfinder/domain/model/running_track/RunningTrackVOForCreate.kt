@@ -1,9 +1,8 @@
 package ru.riders.sportfinder.domain.model.running_track
 
-data class RunningTrackForList(
-    val trackId: Int,
+data class RunningTrackVOForCreate(
     val title: String,
     val distance: Double,
-    val tags: String,
-    val tempOnStart: Int?
+    val tags: List<Int>,
+    val points: List<List<Double>>
 )

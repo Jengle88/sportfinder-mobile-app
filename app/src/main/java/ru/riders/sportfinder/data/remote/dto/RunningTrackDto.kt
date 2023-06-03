@@ -2,7 +2,7 @@ package ru.riders.sportfinder.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import com.yandex.mapkit.geometry.Point
-import ru.riders.sportfinder.domain.model.running_track.RunningTrack
+import ru.riders.sportfinder.domain.model.running_track.RunningTrackVO
 
 data class RunningTrackDto(
     val title: String,
@@ -18,7 +18,7 @@ data class RunningTrackDto(
 )
 
 fun RunningTrackDto.toRunningTrack() =
-    RunningTrack(
+    RunningTrackVO(
         title = title,
         distance = distance,
         tempOnStart = tempOnStart,

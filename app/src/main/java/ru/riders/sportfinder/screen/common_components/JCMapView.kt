@@ -10,24 +10,19 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.geometry.Polyline
+import com.yandex.mapkit.map.IconStyle
 import com.yandex.mapkit.map.InputListener
 import com.yandex.mapkit.map.Map
-import com.yandex.mapkit.map.PlacemarkMapObject
-import com.yandex.mapkit.map.PolylineMapObject
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import ru.riders.sportfinder.R
-import java.lang.Math.abs
 
 class JCMapView(
     context: Context
 ) : MapView(context), InputListener {
 
-    private val pointsSportCourts = mutableMapOf<Point, PlacemarkMapObject>()
-    private var pointsRunningTrack: Pair<List<Point>, PolylineMapObject>? = null
-
-    val onMapTapAction: ((Map, Point) -> Unit)? = null
-    val onMapLongTapAction: ((Map, Point) -> Unit)? = null
+    var onMapTapAction: ((map: Map, point: Point) -> Unit)? = null
+    var onMapLongTapAction: ((map: Map, point: Point) -> Unit)? = null
     private var lifecycleEventObserver: LifecycleEventObserver? = null
 
     init {
@@ -62,28 +57,31 @@ class JCMapView(
     }
 
     fun addPoint(point: Point) {
-        pointsSportCourts[point] = map.mapObjects.addPlacemark(point).apply {
+        map.mapObjects.addPlacemark(point).apply {
             setIcon(ImageProvider.fromBitmap(ContextCompat.getDrawable(context, R.drawable.ic_location_black_24)!!.toBitmap()))
             addTapListener { _, _ -> true }
         }
     }
-    fun removePoint(point: Point) {
-        for ((placePoint, placeObject) in pointsSportCourts) {
-            if (abs(point.latitude - placePoint.latitude) < 1e-3 && abs(point.longitude - placePoint.longitude) < 1e-3) {
-                map.mapObjects.remove(placeObject)
-                pointsSportCourts.remove(placePoint)
-                return
-            }
-        }
-    }
 
-    fun drawRunningTrack(points: List<Point>) {
-        pointsRunningTrack = points to this.map.mapObjects.addPolyline(Polyline(points)).apply {
+    fun drawRunningTrack(points: List<Point>, withPointMark: Boolean = false) {
+        if (withPointMark) {
+            val imageProvider = ImageProvider.fromBitmap(context.getDrawable(R.drawable.ic_placemark_point)?.toBitmap())
+            val pointStyle = IconStyle().apply {
+                zIndex = 2f
+            }
+            this.map.mapObjects.addPlacemarks(points, imageProvider, pointStyle)
+        }
+        this.map.mapObjects.addPolyline(Polyline(points)).apply {
             outlineColor = Color.Blue.toArgb()
             setStrokeColor(Color.Green.toArgb())
             strokeWidth = 4f
             outlineWidth = 1.5f
-            zIndex = 25f
+            zIndex = 1f
         }
+
+    }
+
+    fun clearDrownRunningTrack() {
+        this.map.mapObjects.clear()
     }
 }
