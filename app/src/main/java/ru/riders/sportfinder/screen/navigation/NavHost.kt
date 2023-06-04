@@ -9,14 +9,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import ru.riders.sportfinder.screen.auth_screens.authorization_screen.AuthorizationScreen
-import ru.riders.sportfinder.screen.common_components.JCMapView
-import ru.riders.sportfinder.screen.running_track_screens.create_running_track_screen.CreateRunningTrackScreen
-import ru.riders.sportfinder.screen.profile_screens.profile_screen.ProfileScreen
 import ru.riders.sportfinder.screen.auth_screens.registration_screen.RegistrationScreen
+import ru.riders.sportfinder.screen.common_components.JCMapView
+import ru.riders.sportfinder.screen.profile_screens.profile_screen.ProfileScreen
+import ru.riders.sportfinder.screen.running_track_screens.create_running_track_screen.CreateRunningTrackScreen
 import ru.riders.sportfinder.screen.running_track_screens.running_tracks_list_screen.RunningTracksListScreen
+import ru.riders.sportfinder.screen.running_track_screens.watch_running_track_screen.WatchRunningTrackScreen
 import ru.riders.sportfinder.screen.sport_court_screens.sport_courts_list_screen.SportCourtsListScreen
 import ru.riders.sportfinder.screen.sport_court_screens.sport_courts_map_screen.SportCourtMapScreen
-import ru.riders.sportfinder.screen.running_track_screens.watch_running_track_screen.WatchRunningTrackScreen
 
 
 @Composable
