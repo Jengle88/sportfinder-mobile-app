@@ -12,24 +12,8 @@ import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.riders.sportfinder.common.Constants.API_URL_SERVER
-import ru.riders.sportfinder.common.Constants.API_URL_YANDEXWEATHER
 import ru.riders.sportfinder.data.db.SportFinderDatabase
-import ru.riders.sportfinder.data.db.UserProfileDao
 import ru.riders.sportfinder.data.remote.ServerApi
-import ru.riders.sportfinder.data.remote.YandexWeatherApi
-import ru.riders.sportfinder.data.repository.RunningTracksRepositoryImpl
-import ru.riders.sportfinder.data.repository.SportCourtsListRepositoryImpl
-import ru.riders.sportfinder.data.repository.UserProfileRepositoryImpl
-import ru.riders.sportfinder.domain.repository.RunningTracksRepository
-import ru.riders.sportfinder.domain.repository.SportCourtsListRepository
-import ru.riders.sportfinder.domain.repository.UserProfileRepository
-import ru.riders.sportfinder.domain.use_case.GetTags
-import ru.riders.sportfinder.domain.use_case.GetUserProfile
-import ru.riders.sportfinder.domain.use_case.LoadRunningTrack
-import ru.riders.sportfinder.domain.use_case.LoadRunningTracksList
-import ru.riders.sportfinder.domain.use_case.LoadSportCourtsList
-import ru.riders.sportfinder.domain.use_case.SignInUser
-import ru.riders.sportfinder.domain.use_case.SignUpUser
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -39,7 +23,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitBuilder() = Retrofit.Builder()
+    fun provideRetrofitBuilder(): Retrofit.Builder = Retrofit.Builder()
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
         .client(OkHttpClient().newBuilder()
@@ -50,14 +34,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideYandexWeatherApi(retrofitBuilder: Retrofit.Builder) = retrofitBuilder
-        .baseUrl(API_URL_YANDEXWEATHER)
-        .build()
-        .create(YandexWeatherApi::class.java)
-
-    @Provides
-    @Singleton
-    fun provideServerApi(retrofitBuilder: Builder) = retrofitBuilder
+    fun provideServerApi(retrofitBuilder: Builder): ServerApi = retrofitBuilder
         .baseUrl(API_URL_SERVER)
         .build()
         .create(ServerApi::class.java)
@@ -76,62 +53,4 @@ object AppModule {
     @Singleton
     fun provideUserProfileDao(sportFinderDatabase: SportFinderDatabase) =
         sportFinderDatabase.userProfileDao
-
-    @Provides
-    @Singleton
-    fun provideUserProfileRepository(serverApi: ServerApi): UserProfileRepository =
-        UserProfileRepositoryImpl(serverApi)
-
-    @Provides
-    @Singleton
-    fun provideSportCourtListRepository(serverApi: ServerApi): SportCourtsListRepository =
-        SportCourtsListRepositoryImpl(serverApi)
-
-    @Provides
-    @Singleton
-    fun provideRunningTracksRepository(serverApi: ServerApi): RunningTracksRepository =
-        RunningTracksRepositoryImpl(serverApi)
-
-    @Provides
-    @Singleton
-    fun provideSignUpUser(
-        userProfileDao: UserProfileDao,
-        userProfileRepository: UserProfileRepository
-    ) = SignUpUser(userProfileDao, userProfileRepository)
-
-    @Provides
-    @Singleton
-    fun provideSignInUser(
-        userProfileDao: UserProfileDao,
-        userProfileRepository: UserProfileRepository
-    ) = SignInUser(userProfileDao, userProfileRepository)
-
-    @Provides
-    @Singleton
-    fun provideGetUserProfile(
-        userProfileDao: UserProfileDao,
-        userProfileRepository: UserProfileRepository
-    ) = GetUserProfile(userProfileDao, userProfileRepository)
-
-    @Provides
-    @Singleton
-    fun provideLoadSportCourtsList(
-        sportCourtsListRepository: SportCourtsListRepository
-    ) = LoadSportCourtsList(sportCourtsListRepository)
-
-    @Provides
-    @Singleton
-    fun provideLoadRunningTracksList(
-        runningTracksRepository: RunningTracksRepository
-    ) = LoadRunningTracksList(runningTracksRepository)
-
-    @Provides
-    @Singleton
-    fun provideLoadRunningTrack(
-        runningTracksRepository: RunningTracksRepository
-    ) = LoadRunningTrack(runningTracksRepository)
-
-    @Provides
-    @Singleton
-    fun provideGetTags() = GetTags()
 }
