@@ -10,3 +10,10 @@ enum class Screens(val route: String) {
     WATCH_RUNNING_TRACK_SCREEN("watch_running_track_screen"),
     CREATE_TRACK_SCREEN("create_track_screen"),
 }
+
+enum class ScreensSubgraphs(val route: String) {
+    AUTH("auth"),
+    PROFILE("profile"),
+    SPORT_COURT("sport_court"),
+    RUNNING_TRACK("running_track")
+}

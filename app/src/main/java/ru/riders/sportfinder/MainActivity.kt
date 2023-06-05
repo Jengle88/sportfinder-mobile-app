@@ -26,7 +26,7 @@ import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.screen.common_components.BottomNavItem
 import ru.riders.sportfinder.screen.navigation.MainScreenNavHost
-import ru.riders.sportfinder.screen.navigation.Screens
+import ru.riders.sportfinder.screen.navigation.ScreensSubgraphs
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
 
@@ -46,13 +46,13 @@ class MainActivity : ComponentActivity() {
             val bottomItems = listOf(
                 BottomNavItem(
                     painterResource(R.drawable.ic_account_white_24)
-                ) { it.navigate(Screens.PROFILE_SCREEN.route) },
+                ) { it.navigate(ScreensSubgraphs.PROFILE.route) },
                 BottomNavItem(
                     painterResource(R.drawable.ic_location_white_24)
-                ) { it.navigate(Screens.SPORT_COURT_MAP_SCREEN.route) },
+                ) { it.navigate(ScreensSubgraphs.SPORT_COURT.route) },
                 BottomNavItem(
                     painterResource(R.drawable.ic_runner_white_24)
-                ) { it.navigate(Screens.RUNNING_TRACKS_LIST_SCREEN.route) },
+                ) { it.navigate(ScreensSubgraphs.RUNNING_TRACK.route) },
             )
 
             SportFinderTheme {
