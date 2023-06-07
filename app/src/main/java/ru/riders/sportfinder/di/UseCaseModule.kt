@@ -5,9 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ru.riders.sportfinder.data.db.UserProfileDao
+import ru.riders.sportfinder.data.remote.ServerApi
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import ru.riders.sportfinder.domain.repository.SportCourtsListRepository
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
+import ru.riders.sportfinder.domain.use_case.CheckTokenValidity
 import ru.riders.sportfinder.domain.use_case.GetTags
 import ru.riders.sportfinder.domain.use_case.GetUserProfile
 import ru.riders.sportfinder.domain.use_case.LoadRunningTrack
@@ -55,4 +57,10 @@ object UseCaseModule {
 
     @Provides
     fun provideGetTags() = GetTags()
+
+    @Provides
+    fun provideCheckTokenValidity(
+        serverApi: ServerApi,
+        userProfileDao: UserProfileDao
+    ) = CheckTokenValidity(serverApi, userProfileDao)
 }

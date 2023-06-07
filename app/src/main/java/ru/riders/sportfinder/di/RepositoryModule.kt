@@ -17,7 +17,8 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindUserProfileRepository(
-        userProfileRepositoryImpl: UserProfileRepositoryImpl): UserProfileRepository
+        userProfileRepositoryImpl: UserProfileRepositoryImpl
+    ): UserProfileRepository
 
     @Binds
     abstract fun bindSportCourtListRepository(

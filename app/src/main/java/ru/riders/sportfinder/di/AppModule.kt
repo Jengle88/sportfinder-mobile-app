@@ -23,14 +23,17 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitBuilder(): Retrofit.Builder = Retrofit.Builder()
+    fun provideOkHttpClient() = OkHttpClient().newBuilder()
+        .readTimeout(10, TimeUnit.SECONDS)
+        .writeTimeout(10, TimeUnit.SECONDS)
+        .build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofitBuilder(okHttpClient: OkHttpClient): Retrofit.Builder = Retrofit.Builder()
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .addConverterFactory(GsonConverterFactory.create())
-        .client(OkHttpClient().newBuilder()
-            .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .build()
-        )
+        .client(okHttpClient)
 
     @Provides
     @Singleton
@@ -47,7 +50,6 @@ object AppModule {
             SportFinderDatabase::class.java,
             SportFinderDatabase.DATABASE_NAME
         ).build()
-
 
     @Provides
     @Singleton

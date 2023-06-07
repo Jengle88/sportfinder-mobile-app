@@ -32,7 +32,13 @@ class RegistrationViewModel @Inject constructor(
         signUpUser(state.value.login, state.value.password).onEach { result ->
             when (result) {
                 is ApiResultState.Success -> {
-                    onSuccess()
+                    if (result.data == true)
+                        onSuccess()
+                    else
+                        _state.value = _state.value.copy(
+                            errorMessage = result.message ?: "Api result error",
+                            isLoading = false
+                        )
                 }
                 is ApiResultState.Error -> {
                     _state.value = _state.value.copy(
