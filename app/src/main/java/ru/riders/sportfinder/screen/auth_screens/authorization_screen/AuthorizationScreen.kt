@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,12 +39,24 @@ fun AuthorizationScreen(
     navigateToRegistrationScreen: () -> Unit,
     viewModel: AuthorizationViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+
+    // Проверка на то, что пользователь уже заходил и его токен активен
+    LaunchedEffect(key1 = true) {
+        viewModel.checkTokenValidity(
+            onValidToken = {
+                navigateToProfileScreen()
+            },
+            onOutdatedToken = {
+                Toast.makeText(context, "Ошибка получения токена или токен недействителен", Toast.LENGTH_SHORT).show()
+            }
+        )
+    }
 
     val (login, password, errorMessage, isLoading) = viewModel.state.value
 /*    var login: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }*/
 
-    val context = LocalContext.current
 
     Box(
         modifier = Modifier

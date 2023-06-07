@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.riders.sportfinder.common.ApiResultState
 import ru.riders.sportfinder.data.db.UserProfileDao
+import ru.riders.sportfinder.data.remote.dto.UserProfileDto
 import ru.riders.sportfinder.data.remote.dto.toUserProfile
 import ru.riders.sportfinder.domain.model.UserProfile
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
@@ -20,7 +21,9 @@ class GetUserProfile @Inject constructor(
         try {
             emit(ApiResultState.Loading())
 
-            val userProfile = userProfileRepository.getUserInfo(userProfileDao.getUserInfo().id.toString())
+            // FIXME: Вернуть на нормальную загрузку после реализации на бэкенде
+            /*val userProfile = userProfileRepository.getUserInfo(userProfileDao.getUserToken().token.toString())*/
+            val userProfile = UserProfileDto("0", "Admin Placeholder")
             emit(ApiResultState.Success(userProfile.toUserProfile()))
         } catch (e: HttpException) {
             emit(ApiResultState.Error(e.localizedMessage ?: "An unexpected error occurred"))

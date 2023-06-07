@@ -2,10 +2,9 @@ package ru.riders.sportfinder.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import ru.riders.sportfinder.domain.model.SignUp
 
 @Database(
-    entities = [SignUp::class],
+    entities = [UserTokenEntity::class],
     version = 1
 )
 abstract class SportFinderDatabase: RoomDatabase() {

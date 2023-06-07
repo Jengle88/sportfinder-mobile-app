@@ -5,9 +5,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.riders.sportfinder.common.ApiResultState
 import ru.riders.sportfinder.data.db.UserProfileDao
-import ru.riders.sportfinder.data.remote.dto.toSignIn
-import ru.riders.sportfinder.domain.model.SignIn
-import ru.riders.sportfinder.domain.model.toSignUp
+import ru.riders.sportfinder.data.remote.dto.toUserTokenEntity
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
 import java.io.IOException
 import javax.inject.Inject
@@ -16,14 +14,14 @@ class SignInUser @Inject constructor(
     private val userProfileDao: UserProfileDao,
     private val userProfileRepository: UserProfileRepository
 ) {
-    operator fun invoke(login: String, password: String): Flow<ApiResultState<SignIn>> =
+    operator fun invoke(login: String, password: String): Flow<ApiResultState<Boolean>> =
         flow {
             try {
                 emit(ApiResultState.Loading())
 
-                val signInData = userProfileRepository.signInUser(login, password).toSignIn()
-                userProfileDao.insertUserProfile(signInData.toSignUp())
-                emit(ApiResultState.Success(signInData))
+                val signInData = userProfileRepository.signInUser(login, password)
+                userProfileDao.insertUserProfile(signInData.toUserTokenEntity())
+                emit(ApiResultState.Success(true))
             } catch (e: HttpException) {
                 emit(ApiResultState.Error(e.localizedMessage ?: "An unexpected error occurred"))
             } catch (e: IOException) {
