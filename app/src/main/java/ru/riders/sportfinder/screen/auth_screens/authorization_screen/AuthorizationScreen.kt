@@ -45,6 +45,7 @@ fun AuthorizationScreen(
     LaunchedEffect(key1 = true) {
         viewModel.checkTokenValidity(
             onValidToken = {
+                Toast.makeText(context, "Вход выполнен", Toast.LENGTH_SHORT).show()
                 navigateToProfileScreen()
             },
             onOutdatedToken = {

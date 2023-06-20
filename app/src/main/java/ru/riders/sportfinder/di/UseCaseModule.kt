@@ -4,8 +4,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import ru.riders.sportfinder.data.db.UserProfileDao
-import ru.riders.sportfinder.data.remote.ServerApi
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import ru.riders.sportfinder.domain.repository.SportCourtsListRepository
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
@@ -24,21 +22,18 @@ object UseCaseModule {
 
     @Provides
     fun provideSignUpUser(
-        userProfileDao: UserProfileDao,
         userProfileRepository: UserProfileRepository
-    ) = SignUpUser(userProfileDao, userProfileRepository)
+    ) = SignUpUser(userProfileRepository)
 
     @Provides
     fun provideSignInUser(
-        userProfileDao: UserProfileDao,
         userProfileRepository: UserProfileRepository
-    ) = SignInUser(userProfileDao, userProfileRepository)
+    ) = SignInUser(userProfileRepository)
 
     @Provides
     fun provideGetUserProfile(
-        userProfileDao: UserProfileDao,
         userProfileRepository: UserProfileRepository
-    ) = GetUserProfile(userProfileDao, userProfileRepository)
+    ) = GetUserProfile(userProfileRepository)
 
     @Provides
     fun provideLoadSportCourtsList(
@@ -60,7 +55,6 @@ object UseCaseModule {
 
     @Provides
     fun provideCheckTokenValidity(
-        serverApi: ServerApi,
-        userProfileDao: UserProfileDao
-    ) = CheckTokenValidity(serverApi, userProfileDao)
+        userProfileRepository: UserProfileRepository
+    ) = CheckTokenValidity(userProfileRepository)
 }

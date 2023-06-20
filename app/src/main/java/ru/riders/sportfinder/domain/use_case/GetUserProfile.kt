@@ -4,7 +4,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.riders.sportfinder.common.ApiResultState
-import ru.riders.sportfinder.data.db.UserProfileDao
 import ru.riders.sportfinder.data.remote.dto.UserProfileDto
 import ru.riders.sportfinder.data.remote.dto.toUserProfile
 import ru.riders.sportfinder.domain.model.UserProfile
@@ -13,7 +12,6 @@ import java.io.IOException
 import javax.inject.Inject
 
 class GetUserProfile @Inject constructor(
-    private val userProfileDao: UserProfileDao,
     private val userProfileRepository: UserProfileRepository
 ) {
 
@@ -22,7 +20,7 @@ class GetUserProfile @Inject constructor(
             emit(ApiResultState.Loading())
 
             // FIXME: Вернуть на нормальную загрузку после реализации на бэкенде
-            /*val userProfile = userProfileRepository.getUserInfo(userProfileDao.getUserToken().token.toString())*/
+            /*val userProfile = userProfileRepository.getUserInfo()*/
             val userProfile = UserProfileDto("0", "Admin Placeholder")
             emit(ApiResultState.Success(userProfile.toUserProfile()))
         } catch (e: HttpException) {

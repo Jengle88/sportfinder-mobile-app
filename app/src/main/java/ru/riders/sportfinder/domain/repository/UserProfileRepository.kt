@@ -9,5 +9,7 @@ interface UserProfileRepository {
 
     suspend fun signInUser(login: String, password: String): AuthDto
 
-    suspend fun getUserInfo(userId: String): UserProfileDto
+    suspend fun getUserInfo(): UserProfileDto
+
+    suspend fun checkTokenValidity(): Boolean
 }
