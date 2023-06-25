@@ -1,12 +1,12 @@
 package ru.riders.sportfinder.domain.model.sport_court
 
 import androidx.compose.ui.graphics.painter.Painter
-import com.yandex.mapkit.geometry.Point
+import com.google.android.gms.maps.model.LatLng
 
 data class SportCourt(
     val courtId: Long,
     val name: String,
-    val coordinates: Point,
+    val coordinates: LatLng,
     val tags: String? = null,
     val distance: Float? = null,
     val temperature: Float? = null,

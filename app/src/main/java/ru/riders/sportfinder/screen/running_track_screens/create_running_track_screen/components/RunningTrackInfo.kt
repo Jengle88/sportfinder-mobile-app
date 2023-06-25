@@ -33,7 +33,8 @@ import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 fun RunningTrackInfo(
     modifier: Modifier = Modifier,
     viewModel: CreateRunningTrackViewModel,
-    showTagAlertDialog: () -> Unit
+    showTagAlertDialog: () -> Unit,
+    onSaveClick: () -> Unit
 ) {
     Row (
         modifier = modifier,
@@ -93,7 +94,7 @@ fun RunningTrackInfo(
                     .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = LightGreen),
                 onClick = {
-                    // TODO: сделать сохранение
+                    onSaveClick()
                 }
             ) {
                 Text(text = "Сохранить", color = SportFinderLightColorScheme.onPrimary)

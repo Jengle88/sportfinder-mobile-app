@@ -1,13 +1,13 @@
 package ru.riders.sportfinder.domain.model.running_track
 
-import com.yandex.mapkit.geometry.Point
+import com.google.android.gms.maps.model.LatLng
 
 data class RunningTrackVO(
     val title: String,
     val distance: Double,
     val tempOnStart: Int?,
     val tags: String,
-    val points: List<Point>?,
+    val points: List<LatLng>? = emptyList(),
     val tempOnEnd: Int?,
     val trackId: Int
 )

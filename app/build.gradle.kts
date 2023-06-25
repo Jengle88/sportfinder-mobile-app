@@ -67,8 +67,13 @@ dependencies {
     // Easy permission
     implementation(libs.easypermissions)
 
-    // MapKit
-    implementation(libs.mapkit)
+/*    // MapKit
+    implementation(libs.mapkit)*/
+
+    // Google Maps Location Services
+    implementation(libs.googlemaps.compose)
+    implementation(libs.googlemaps.playservices)
+    implementation(libs.googlemaps.utils)
 
     // Retrofit
     implementation(libs.retrofit)
