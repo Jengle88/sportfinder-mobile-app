@@ -1,8 +1,8 @@
 package ru.riders.sportfinder.domain.model.sport_court
 
-import com.yandex.mapkit.geometry.Point
+import com.google.android.gms.maps.model.LatLng
 
 data class SportCourtForMap(
     val courtId: Long,
-    val coordinates: Point,
+    val coordinates: LatLng,
 )

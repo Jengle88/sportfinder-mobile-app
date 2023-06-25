@@ -23,7 +23,7 @@ class CreateRunningTrackViewModel @Inject constructor(
     getTags: GetTags
 ) : ViewModel() {
 
-    private val listOfPoints = mutableListOf<Point>()
+    val listOfPoints = mutableStateListOf<LatLng>()
 
     private val _distance = mutableStateOf(0.0)
     val distance: State<Double> = _distance
@@ -44,33 +44,22 @@ class CreateRunningTrackViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun initMapView(mapView: JCMapView): JCMapView {
-        return mapView.apply {
-            map.move(CameraPosition(Constants.SPB_CENTER_POINT, 15.0f, 0f, 0f))
-
-            onMapTapAction = { map, point ->
-                val matchedPoints =
-                    MapTools.findPointInList(point, listOfPoints)
-                if (matchedPoints.isEmpty()) {
-                    listOfPoints.add(point)
-                    updateRunningTrack(mapView)
-                }
-            }
-            onMapLongTapAction = { map, point ->
-                val matchedPoints =
-                    MapTools.findPointInList(point, listOfPoints)
-                if (matchedPoints.isNotEmpty()) {
-                    listOfPoints.remove(matchedPoints.first())
-                    updateRunningTrack(mapView)
-                }
-            }
+    fun addPoint(point: LatLng) {
+        val matchedPoints =
+            MapTools.findPointInList(point, listOfPoints)
+        if (matchedPoints.isEmpty()) {
+            listOfPoints.add(point)
         }
+        _distance.value = MapTools.calcDistance(listOfPoints)
     }
 
-    private fun updateRunningTrack(mapView: JCMapView) {
-        mapView.clearDrownRunningTrack()
+    fun removePoint(point: LatLng) {
+        val matchedPoints =
+            MapTools.findPointInList(point, listOfPoints)
+        if (matchedPoints.isNotEmpty()) {
+            listOfPoints.remove(matchedPoints.first())
+        }
         _distance.value = MapTools.calcDistance(listOfPoints)
-        mapView.drawRunningTrack(listOfPoints, true)
     }
 
     fun addTagToList(tagVO: TagVO) {

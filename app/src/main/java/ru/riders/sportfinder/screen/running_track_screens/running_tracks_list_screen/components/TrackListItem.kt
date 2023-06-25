@@ -61,7 +61,7 @@ fun TrackListItem(runningTrackDto: RunningTrackVOForList) {
                     modifier = trackIconsAttributesModifier
                 )
                 Text(
-                    text = distance.toString() + "Km",
+                    text =  "%.2f".format(distance) + "m",
                     modifier = trackAttributesModifier,
                     style = MaterialTheme.typography.titleMedium,
                 )
@@ -73,7 +73,7 @@ fun TrackListItem(runningTrackDto: RunningTrackVOForList) {
                     modifier = trackIconsAttributesModifier
                 )
                 Text(
-                    text = distance.toString() + "Km",
+                    text =  "%.2f".format(distance) + "m",
                     modifier = trackAttributesModifier,
                     style = MaterialTheme.typography.titleMedium,
                 )

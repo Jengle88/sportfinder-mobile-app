@@ -12,24 +12,27 @@ import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.yandex.mapkit.map.CameraPosition
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.rememberCameraPositionState
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.common_components.JCMapView
+import ru.riders.sportfinder.common.Constants
+import ru.riders.sportfinder.screen.common_components.DefaultGoogleMap
 import ru.riders.sportfinder.screen.common_components.TopSearchBar
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun SportCourtMapScreen(
-    jcMapView: JCMapView,
     navigateToSportCourtListScreen: () -> Unit,
     viewModel: SportCourtsMapViewModel = hiltViewModel()
 ) {
@@ -37,40 +40,35 @@ fun SportCourtMapScreen(
 
     var textForFilter = ""
 
-    val lifecycleOwner = rememberUpdatedState(newValue = LocalLifecycleOwner.current)
-
-    // привязывает ЖЦ карт к ЖЦ экрана, выполняется один раз при старте экрана
-    DisposableEffect(key1 = true) {
-        // ЖЦ экрана для наблюдения
-        val lifecycle = lifecycleOwner.value.lifecycle
-
-        jcMapView.attachToLifecycle(lifecycle)
-
-        onDispose {
-            // удаляем наблюдателя
-            jcMapView.detachFromLifecycle(lifecycle)
-        }
-    }
-
-    if (courtsInfo.isNotEmpty()) {
-        jcMapView.apply {
-            courtsInfo.forEach { addPoint(it.coordinates) }
-        }
+    val context = LocalContext.current
+    val cameraPosition = rememberCameraPositionState().apply {
+        position = CameraPosition.fromLatLngZoom(Constants.SPB_CENTER_POINT, 15.0f)
     }
 
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        AndroidView(
+        DefaultGoogleMap(
             modifier = Modifier
                 .fillMaxSize(),
-            factory = { context ->
-                jcMapView.apply {
-                    map.move(CameraPosition(viewModel.centerSPbPoint, 15.0f, 0f, 0f))
+            cameraPositionState = cameraPosition
+        ) {
+            if (courtsInfo.isNotEmpty()) {
+                courtsInfo.forEach {
+                    Marker(
+                        state = MarkerState(it.coordinates),
+                        title = "Id: ${it.courtId}",
+                        icon = BitmapDescriptorFactory
+                            .fromBitmap(
+                                ContextCompat.getDrawable(
+                                    context,
+                                    R.drawable.ic_location_green_24
+                                )!!.toBitmap()
+                            )
+                    )
                 }
             }
-        )
-
+        }
         TopSearchBar(onTextSearchChanged = {
             textForFilter = it
         })

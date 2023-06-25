@@ -2,7 +2,6 @@ package ru.riders.sportfinder.screen.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -11,7 +10,6 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import ru.riders.sportfinder.screen.auth_screens.authorization_screen.AuthorizationScreen
 import ru.riders.sportfinder.screen.auth_screens.registration_screen.RegistrationScreen
-import ru.riders.sportfinder.screen.common_components.JCMapView
 import ru.riders.sportfinder.screen.profile_screens.profile_screen.ProfileScreen
 import ru.riders.sportfinder.screen.running_track_screens.create_running_track_screen.CreateRunningTrackScreen
 import ru.riders.sportfinder.screen.running_track_screens.running_tracks_list_screen.RunningTracksListScreen
@@ -64,10 +62,7 @@ fun MainScreenNavHost(
         navigation(startDestination = Screens.SPORT_COURT_MAP_SCREEN.route, route = ScreensSubgraphs.SPORT_COURT.route) {
             composable(route = Screens.SPORT_COURT_MAP_SCREEN.route) {
                 isSupportedBottomNav.value = true
-                val jcMapView = JCMapView(LocalContext.current)
-
                 SportCourtMapScreen(
-                    jcMapView,
                     navigateToSportCourtListScreen = { navHostController.navigate(Screens.SPORT_COURT_LIST_SCREEN.route) }
                 )
             }
@@ -91,17 +86,14 @@ fun MainScreenNavHost(
                 arguments = listOf(navArgument("trackInfoNumber") {
                     type = NavType.IntType
                 })) {
-                val jcMapView = JCMapView(LocalContext.current)
-
                 isSupportedBottomNav.value = true
-                WatchRunningTrackScreen(jcMapView)
+                WatchRunningTrackScreen()
             }
             composable(route = Screens.CREATE_TRACK_SCREEN.route) {
                 isSupportedBottomNav.value = true
-
-                val jcMapView = JCMapView(LocalContext.current)
-
-                CreateRunningTrackScreen(jcMapView)
+                CreateRunningTrackScreen(
+                    navigateToRunningTrackScreen = { trackId -> navHostController.navigate(Screens.WATCH_RUNNING_TRACK_SCREEN.route + "/$trackId") }
+                )
             }
         }
     }

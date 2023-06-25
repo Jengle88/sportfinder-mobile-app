@@ -8,7 +8,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import ru.riders.sportfinder.common.ApiResultState
-import ru.riders.sportfinder.common.Constants
 import ru.riders.sportfinder.domain.model.sport_court.SportCourtForMap
 import ru.riders.sportfinder.domain.model.sport_court.toSportCourtForMap
 import ru.riders.sportfinder.domain.use_case.LoadSportCourtsList
@@ -22,7 +21,6 @@ class SportCourtsMapViewModel @Inject constructor(
     private val _listSportCourts = mutableStateOf(emptyList<SportCourtForMap>())
     val listSportCourts: State<List<SportCourtForMap>> = _listSportCourts
 
-    val centerSPbPoint = Constants.SPB_CENTER_POINT
     init {
         updateListSportCourts()
     }

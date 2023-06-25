@@ -11,6 +11,9 @@ compose-bom = "2022.10.00"
 
 easypermissions = "3.0.0"
 mapkit = "4.3.1-lite"
+maps-compose = "2.11.0"
+maps-playservices = "18.1.0"
+maps-utils = "3.4.0"
 retrofit = "2.9.0"
 retrofit-coroutines-adapter = "0.9.2"
 dagger = "2.42"
@@ -42,6 +45,10 @@ material3 = { group = "androidx.compose.material3", name = "material3" }
 easypermissions = { group = "pub.devrel", name = "easypermissions", version.ref = "easypermissions" }
 
 mapkit = { group = "com.yandex.android", name = "maps.mobile", version.ref = "mapkit" }
+
+googlemaps-compose = { group = "com.google.maps.android", name = "maps-compose", version.ref = "maps-compose" }
+googlemaps-playservices = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "maps-playservices" }
+googlemaps-utils = { group = "com.google.maps.android", name = "android-maps-utils", version.ref = "maps-utils" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-coroutines-adapter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlin-coroutines-adapter", version.ref = "retrofit-coroutines-adapter" }
