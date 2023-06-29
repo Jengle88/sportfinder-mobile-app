@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -25,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.common_components.TopSearchBar
+import ru.riders.sportfinder.screen.common_components.shimmerEffect
 import ru.riders.sportfinder.screen.running_track_screens.running_tracks_list_screen.components.TrackListItem
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
@@ -35,6 +39,7 @@ fun RunningTracksListScreen(
     viewModel: RunningTracksListViewModel = hiltViewModel()
 ) {
     val runningTracks = viewModel.listRunningTracks.value
+    val isLoading by viewModel.isLoading
 
     var searchedText by remember { mutableStateOf("") }
 
@@ -57,15 +62,23 @@ fun RunningTracksListScreen(
                 else
                     runningTracks
 
-                listOfFilteredTracks.forEach { trackInfo ->
-                    item {
-                        Box(
+                if (isLoading) {
+                    items(8) {
+                        Box(modifier = Modifier
+                            .height(100.dp)
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                            .shimmerEffect()
+                        )
+                    }
+                } else {
+                    items(listOfFilteredTracks) { trackInfo ->
+                        TrackListItem(
+                            trackInfo,
                             modifier = Modifier.clickable {
                                 navigateToWatchRunningTrackScreen(trackInfo.trackId)
                             }
-                        ) {
-                            TrackListItem(trackInfo)
-                        }
+                        )
                     }
                 }
             }
