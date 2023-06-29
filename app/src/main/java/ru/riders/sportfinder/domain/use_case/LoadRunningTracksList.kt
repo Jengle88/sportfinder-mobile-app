@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.riders.sportfinder.common.ApiResultState
-import ru.riders.sportfinder.data.remote.dto.toRunningTrack
+import ru.riders.sportfinder.data.remote.dto.toRunningTrackVO
 import ru.riders.sportfinder.domain.model.running_track.RunningTrackVO
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import java.io.IOException
@@ -20,7 +20,7 @@ class LoadRunningTracksList @Inject constructor(
 
             val sportCourts = runningTracksRepository.getRunningTracks()
             emit(ApiResultState.Success(sportCourts.runningTracks
-                .map { it.toRunningTrack() }))
+                .map { it.toRunningTrackVO() }))
         } catch (e: HttpException) {
             emit(ApiResultState.Error(e.localizedMessage ?: "An unexpected error occurred"))
         } catch (e: IOException) {

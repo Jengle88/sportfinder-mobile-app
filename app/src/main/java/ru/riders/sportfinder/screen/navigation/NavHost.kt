@@ -12,8 +12,8 @@ import ru.riders.sportfinder.screen.auth_screens.authorization_screen.Authorizat
 import ru.riders.sportfinder.screen.auth_screens.registration_screen.RegistrationScreen
 import ru.riders.sportfinder.screen.profile_screens.profile_screen.ProfileScreen
 import ru.riders.sportfinder.screen.running_track_screens.create_running_track_screen.CreateRunningTrackScreen
+import ru.riders.sportfinder.screen.running_track_screens.running_track_map_screen.RunningTrackMapScreen
 import ru.riders.sportfinder.screen.running_track_screens.running_tracks_list_screen.RunningTracksListScreen
-import ru.riders.sportfinder.screen.running_track_screens.watch_running_track_screen.WatchRunningTrackScreen
 import ru.riders.sportfinder.screen.sport_court_screens.sport_courts_list_screen.SportCourtsListScreen
 import ru.riders.sportfinder.screen.sport_court_screens.sport_courts_map_screen.SportCourtMapScreen
 
@@ -78,21 +78,21 @@ fun MainScreenNavHost(
             composable(route = Screens.RUNNING_TRACKS_LIST_SCREEN.route) {
                 isSupportedBottomNav.value = true
                 RunningTracksListScreen(
-                    navigateToWatchRunningTrackScreen = { trackId -> navHostController.navigate(Screens.WATCH_RUNNING_TRACK_SCREEN.route + "/$trackId") },
+                    navigateToWatchRunningTrackScreen = { trackId -> navHostController.navigate(Screens.RUNNING_TRACK_MAP_SCREEN.route + "/$trackId") },
                     navigateToCreateTrackScreen = { navHostController.navigate(Screens.CREATE_TRACK_SCREEN.route) }
                 )
             }
-            composable(route = Screens.WATCH_RUNNING_TRACK_SCREEN.route + "/{trackInfoNumber}",
+            composable(route = Screens.RUNNING_TRACK_MAP_SCREEN.route + "/{trackInfoNumber}",
                 arguments = listOf(navArgument("trackInfoNumber") {
                     type = NavType.IntType
                 })) {
                 isSupportedBottomNav.value = true
-                WatchRunningTrackScreen()
+                RunningTrackMapScreen()
             }
             composable(route = Screens.CREATE_TRACK_SCREEN.route) {
                 isSupportedBottomNav.value = true
                 CreateRunningTrackScreen(
-                    navigateToRunningTrackScreen = { trackId -> navHostController.navigate(Screens.WATCH_RUNNING_TRACK_SCREEN.route + "/$trackId") }
+                    navigateToRunningTrackScreen = { trackId -> navHostController.navigate(Screens.RUNNING_TRACK_MAP_SCREEN.route + "/$trackId") }
                 )
             }
         }

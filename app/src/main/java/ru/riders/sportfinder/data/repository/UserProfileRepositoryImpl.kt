@@ -5,9 +5,9 @@ import ru.riders.sportfinder.common.utils.NetworkUtils
 import ru.riders.sportfinder.data.db.UserProfileDao
 import ru.riders.sportfinder.data.remote.ServerApi
 import ru.riders.sportfinder.data.remote.dto.AuthDto
-import ru.riders.sportfinder.data.remote.dto.SignUpRequestBody
 import ru.riders.sportfinder.data.remote.dto.UserProfileDto
 import ru.riders.sportfinder.data.remote.dto.toUserTokenEntity
+import ru.riders.sportfinder.data.remote.request_body.SignUpRequestBody
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
 import javax.inject.Inject
 

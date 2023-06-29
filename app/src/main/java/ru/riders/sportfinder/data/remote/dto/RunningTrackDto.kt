@@ -1,29 +1,34 @@
 package ru.riders.sportfinder.data.remote.dto
 
+import android.util.Log
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
-import com.yandex.mapkit.geometry.Point
 import ru.riders.sportfinder.domain.model.running_track.RunningTrackVO
 
 data class RunningTrackDto(
+    val id: Int,
+    @SerializedName("label")
     val title: String,
-    @SerializedName("dist")
+    val points: Array<Array<Double>>?,
     val distance: Double,
-    val tempOnStart: Int?,
-    @SerializedName("tag")
-    val tags: String,
-    val points: List<Point>?,
-    val tempOnEnd: Int?,
-    @SerializedName("id")
-    val trackId: Int
+    val creator: RunningTrackCreatorDto
 )
 
-fun RunningTrackDto.toRunningTrack() =
-    RunningTrackVO(
+fun RunningTrackDto.toRunningTrackVO(): RunningTrackVO {
+    val points =
+        if (this.points?.all { it.size == 2 } == true) this.points.map { LatLng(it[0], it[1]) }
+        else {
+            Log.d("RunningTrackDto", "Список содержит невалидные точки")
+            emptyList()
+        }
+    // FIXME: Исправить на выставление получаемых параметров
+    return RunningTrackVO(
         title = title,
         distance = distance,
-        tempOnStart = tempOnStart,
-        tags = tags,
+        tempOnStart = 0,
+        tags = "",
         points = points,
-        tempOnEnd = tempOnEnd,
-        trackId = trackId,
+        tempOnEnd = 0,
+        trackId = id,
     )
+}

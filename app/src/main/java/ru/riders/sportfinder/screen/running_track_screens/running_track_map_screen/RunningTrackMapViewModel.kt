@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen.running_track_screens.watch_running_track_screen
+package ru.riders.sportfinder.screen.running_track_screens.running_track_map_screen
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +14,7 @@ import ru.riders.sportfinder.domain.use_case.LoadRunningTrack
 import javax.inject.Inject
 
 @HiltViewModel
-class WatchRunningTracksViewModel @Inject constructor(
+class RunningTrackMapViewModel @Inject constructor(
     private val loadRunningTrack: LoadRunningTrack,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {

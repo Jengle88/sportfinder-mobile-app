@@ -8,6 +8,7 @@ import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import ru.riders.sportfinder.domain.repository.SportCourtsListRepository
 import ru.riders.sportfinder.domain.repository.UserProfileRepository
 import ru.riders.sportfinder.domain.use_case.CheckTokenValidity
+import ru.riders.sportfinder.domain.use_case.CreateRunningTrack
 import ru.riders.sportfinder.domain.use_case.GetTags
 import ru.riders.sportfinder.domain.use_case.GetUserProfile
 import ru.riders.sportfinder.domain.use_case.LoadRunningTrack
@@ -57,4 +58,9 @@ object UseCaseModule {
     fun provideCheckTokenValidity(
         userProfileRepository: UserProfileRepository
     ) = CheckTokenValidity(userProfileRepository)
+
+    @Provides
+    fun provideCreateRunningTrack(
+        runningTracksRepository: RunningTracksRepository
+    ) = CreateRunningTrack(runningTracksRepository)
 }

@@ -1,12 +1,10 @@
 package ru.riders.sportfinder.domain.use_case
 
-import com.yandex.mapkit.geometry.Point
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import ru.riders.sportfinder.common.ApiResultState
-import ru.riders.sportfinder.data.remote.dto.RunningTrackDto
-import ru.riders.sportfinder.data.remote.dto.toRunningTrack
+import ru.riders.sportfinder.data.remote.dto.toRunningTrackVO
 import ru.riders.sportfinder.domain.model.running_track.RunningTrackVO
 import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import java.io.IOException
@@ -20,30 +18,9 @@ class LoadRunningTrack @Inject constructor(
         try {
             emit(ApiResultState.Loading())
 
-            // FIXME: Добавить загрузку из сети
-//            val runningTrack = runningTracksRepository.getRunningTrack()
+            val runningTrack = runningTracksRepository.getRunningTrack(runningTrackId)
 
-            // ------------
-            val points = mutableListOf<Point>()
-            val start = Point(59.935227, 30.329152)
-            points.add(start)
-            points.add(Point(start.latitude, start.longitude + 0.013))
-            points.add(Point(start.latitude + 0.063, start.longitude + 0.037))
-            points.add(Point(start.latitude + 0.083, start.longitude))
-            points.add(Point(start.latitude + 0.039, start.longitude))
-
-            val runningTrack = RunningTrackDto(
-                "Беговой маршрут 1",
-                1.5,
-                12,
-                "Набережная",
-                points,
-                15,
-                runningTrackId
-            )
-            // ------------
-
-            emit(ApiResultState.Success(runningTrack.toRunningTrack()))
+            emit(ApiResultState.Success(runningTrack.toRunningTrackVO()))
         } catch (e: HttpException) {
             emit(ApiResultState.Error(e.localizedMessage ?: "An unexpected error occurred"))
         } catch (e: IOException) {
