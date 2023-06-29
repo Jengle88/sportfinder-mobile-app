@@ -9,19 +9,28 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,9 +38,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.riders.sportfinder.R
-import ru.riders.sportfinder.screen.ui.theme.LightGreen
-import ru.riders.sportfinder.screen.ui.theme.White
+import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun RegistrationScreen(
     navigateToProfileScreen: () -> Unit,
@@ -40,13 +49,13 @@ fun RegistrationScreen(
 ) {
     val context = LocalContext.current
     val (login, password, errorMessage, isLoading) = viewModel.state.value
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .padding(vertical = 48.dp),
         contentAlignment = Alignment.TopCenter
     ) {
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
@@ -57,20 +66,22 @@ fun RegistrationScreen(
                 contentDescription = "logo",
                 alignment = Alignment.Center,
             )
+            val (loginFieldFocus, passwordFieldFocus) = remember { FocusRequester.createRefs() }
 
             TextField(
                 value = login,
-                shape = RoundedCornerShape(
-                    10
-                ),
+                shape = RoundedCornerShape(10),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
-                    focusedIndicatorColor = LightGreen
+                    focusedIndicatorColor = SportFinderLightColorScheme.primary
                 ),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
                 singleLine = true,
                 modifier = Modifier
                     .padding(top = 8.dp)
-                    .fillMaxWidth(0.8f),
+                    .fillMaxWidth(0.8f)
+                    .focusRequester(loginFieldFocus)
+                    .focusProperties { next = passwordFieldFocus },
                 placeholder = {
                     Text(text = "ЛОГИН")
                 },
@@ -82,13 +93,12 @@ fun RegistrationScreen(
                 value = password,
                 modifier = Modifier
                     .padding(top = 8.dp)
-                    .fillMaxWidth(0.8f),
-                shape = RoundedCornerShape(
-                    10
-                ),
+                    .fillMaxWidth(0.8f)
+                    .focusRequester(passwordFieldFocus),
+                shape = RoundedCornerShape(10),
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
-                    focusedIndicatorColor = LightGreen
+                    focusedIndicatorColor = SportFinderLightColorScheme.primary
                 ),
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
@@ -107,22 +117,23 @@ fun RegistrationScreen(
                                   navigateToProfileScreen()
                               }
                           )
-/*                    viewModel.trySignUp(
-                        login,
-                        password,
-                        onSuccess = {
-                            Toast.makeText(context, "Вы авторизованы", Toast.LENGTH_SHORT).show()
-                            navHostController?.navigate(Screens.PROFILE_SCREEN.route)
-                        },
-                        onFailed = {
-                            Toast.makeText(context, "Ошибка регистрации", Toast.LENGTH_SHORT).show()
-                        }
-                    )*/
                 },
                 modifier = Modifier.fillMaxWidth(0.8f),
-                colors = ButtonDefaults.buttonColors(backgroundColor = LightGreen)
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = SportFinderLightColorScheme.primary
+                )
             ) {
-                Text(text = "ПОДТВЕРДИТЬ", color = White)
+                if (isLoading) {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .size(20.dp)
+                                .align(Alignment.Center),
+                            color = SportFinderLightColorScheme.onPrimary
+                        )
+                    }
+                } else
+                    Text(text = "ПОДТВЕРДИТЬ", color = SportFinderLightColorScheme.onPrimary)
             }
 
             Text(
@@ -135,7 +146,7 @@ fun RegistrationScreen(
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                color = LightGreen,
+                color = SportFinderLightColorScheme.primary,
             )
         }
     }

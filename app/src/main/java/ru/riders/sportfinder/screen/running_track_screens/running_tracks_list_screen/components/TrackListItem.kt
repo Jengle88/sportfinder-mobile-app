@@ -23,11 +23,14 @@ import ru.riders.sportfinder.screen.ui.theme.LightGray
 import ru.riders.sportfinder.screen.ui.theme.LightGreen
 
 @Composable
-fun TrackListItem(runningTrackDto: RunningTrackVOForList) {
+fun TrackListItem(
+    runningTrackDto: RunningTrackVOForList,
+    modifier: Modifier = Modifier
+) {
     val (trackId, title, distance, tags, tempOnStart) = runningTrackDto
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .border(BorderStroke(2.dp, LightGreen), RoundedCornerShape(5))
             .fillMaxWidth()
     ) {

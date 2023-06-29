@@ -21,6 +21,9 @@ class SportCourtListViewModel @Inject constructor(
     private val _listSportCourts = mutableStateOf(emptyList<SportCourtForList>())
     val listSportCourts: State<List<SportCourtForList>> = _listSportCourts
 
+    private var _isLoading = mutableStateOf(false)
+    val isLoading = _isLoading as State<Boolean>
+
     init {
         updateListSportCourts()
     }
@@ -29,7 +32,7 @@ class SportCourtListViewModel @Inject constructor(
         loadSportCourtsList.invoke().onEach { result ->
             when (result) {
                 is ApiResultState.Loading -> {
-
+                    _isLoading.value = true
                 }
 
                 is ApiResultState.Error -> {
@@ -37,6 +40,7 @@ class SportCourtListViewModel @Inject constructor(
                 }
 
                 is ApiResultState.Success -> {
+                    _isLoading.value = false
                     _listSportCourts.value = (result.data ?: emptyList()).map { it.toSportCourtForList() }
                 }
             }

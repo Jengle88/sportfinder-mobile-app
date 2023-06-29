@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.riders.sportfinder.R
 import ru.riders.sportfinder.screen.common_components.TopSearchBar
+import ru.riders.sportfinder.screen.common_components.shimmerEffect
 import ru.riders.sportfinder.screen.sport_court_screens.sport_courts_list_screen.components.SportCourtListItem
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
@@ -39,6 +41,7 @@ fun SportCourtsListScreen(
     viewModel: SportCourtListViewModel = hiltViewModel()
 ) {
     val listSportCourts = viewModel.listSportCourts.value
+    val isLoading by viewModel.isLoading
 
     var searchedText by remember { mutableStateOf("") }
 
@@ -61,8 +64,19 @@ fun SportCourtsListScreen(
                 else
                     listSportCourts
 
-                items(listOfFilteredSportCourts) {
-                    SportCourtListItem(it)
+                if (isLoading) {
+                    items(8) {
+                        Box(modifier = Modifier
+                            .height(100.dp)
+                            .fillMaxWidth()
+                            .padding(10.dp)
+                            .shimmerEffect()
+                        )
+                    }
+                } else {
+                    items(listOfFilteredSportCourts) {
+                        SportCourtListItem(it)
+                    }
                 }
             }
         }

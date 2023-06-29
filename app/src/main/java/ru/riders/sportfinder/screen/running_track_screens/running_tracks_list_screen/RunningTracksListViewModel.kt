@@ -21,6 +21,9 @@ class RunningTracksListViewModel @Inject constructor(
     private val _listRunningTracks = mutableStateOf(emptyList<RunningTrackVOForList>())
     val listRunningTracks: State<List<RunningTrackVOForList>> = _listRunningTracks
 
+    private var _isLoading = mutableStateOf(false)
+    val isLoading = _isLoading as State<Boolean>
+
     init {
         updateListRunningTracks()
     }
@@ -29,7 +32,7 @@ class RunningTracksListViewModel @Inject constructor(
         loadRunningTracksList.invoke().onEach { result ->
             when (result) {
                 is ApiResultState.Loading -> {
-
+                    _isLoading.value = true
                 }
 
                 is ApiResultState.Error -> {
@@ -37,6 +40,7 @@ class RunningTracksListViewModel @Inject constructor(
                 }
 
                 is ApiResultState.Success -> {
+                    _isLoading.value = false
                     _listRunningTracks.value = (result.data ?: emptyList()).map { it.toRunningTrackForList() }
                 }
             }
