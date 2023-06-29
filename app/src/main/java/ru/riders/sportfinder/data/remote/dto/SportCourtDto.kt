@@ -1,7 +1,7 @@
 package ru.riders.sportfinder.data.remote.dto
 
 import androidx.compose.ui.graphics.painter.Painter
-import com.yandex.mapkit.geometry.Point
+import com.google.android.gms.maps.model.LatLng
 import ru.riders.sportfinder.domain.model.sport_court.SportCourt
 
 data class SportCourtDto(
@@ -18,7 +18,7 @@ fun SportCourtDto.toSportCourt() =
     SportCourt(
         name = name,
         courtId = courtId,
-        coordinates = Point(coordinates[0], coordinates[1]),
+        coordinates = LatLng(coordinates[0], coordinates[1]),
         tags = tags,
         distance = distance,
         temperature = temperature,

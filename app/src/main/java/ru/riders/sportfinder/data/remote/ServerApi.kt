@@ -5,11 +5,15 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 import ru.riders.sportfinder.data.remote.dto.AuthDto
+import ru.riders.sportfinder.data.remote.dto.CreateRunningTrackDto
+import ru.riders.sportfinder.data.remote.dto.RunningTrackDto
 import ru.riders.sportfinder.data.remote.dto.RunningTracksDto
-import ru.riders.sportfinder.data.remote.dto.SignUpRequestBody
 import ru.riders.sportfinder.data.remote.dto.SportCourtsDto
 import ru.riders.sportfinder.data.remote.dto.UserProfileDto
+import ru.riders.sportfinder.data.remote.request_body.CreateRunningTrackBody
+import ru.riders.sportfinder.data.remote.request_body.SignUpRequestBody
 
 interface ServerApi {
 
@@ -38,4 +42,15 @@ interface ServerApi {
 
     @GET("get_all_running_routes")
     suspend fun getRunningTracks(): RunningTracksDto
+
+    @GET("get_running_route")
+    suspend fun getRunningTrack(
+        @Query("id") id: Int
+    ): RunningTrackDto
+
+    @POST("create_running_route")
+    suspend fun createRunningTrack(
+        @Header("Authorization") token: String,
+        @Body createRunningTrackBody: CreateRunningTrackBody
+    ): CreateRunningTrackDto
 }

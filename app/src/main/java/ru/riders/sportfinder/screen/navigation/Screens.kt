@@ -7,7 +7,7 @@ enum class Screens(val route: String) {
     SPORT_COURT_MAP_SCREEN("sport_court_map_screen"),
     SPORT_COURT_LIST_SCREEN("sport_court_list_screen"),
     RUNNING_TRACKS_LIST_SCREEN("running_tracks_list_screen"),
-    WATCH_RUNNING_TRACK_SCREEN("watch_running_track_screen"),
+    RUNNING_TRACK_MAP_SCREEN("running_track_map_screen"),
     CREATE_TRACK_SCREEN("create_track_screen"),
 }
 

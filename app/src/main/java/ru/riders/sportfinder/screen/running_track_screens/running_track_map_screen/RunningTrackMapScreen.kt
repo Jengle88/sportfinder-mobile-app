@@ -1,4 +1,4 @@
-package ru.riders.sportfinder.screen.running_track_screens.watch_running_track_screen
+package ru.riders.sportfinder.screen.running_track_screens.running_track_map_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,8 +33,8 @@ import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 
 @Composable
-fun WatchRunningTrackScreen(
-    viewModel: WatchRunningTracksViewModel = hiltViewModel()
+fun RunningTrackMapScreen(
+    viewModel: RunningTrackMapViewModel = hiltViewModel()
 ) {
     val (name, distance, tempOnStart, tags, points, tempOnEnd) = viewModel.runningTrackVO.value
         ?: RunningTrackVO("", 0.0, 0, "", emptyList(), 0, 0)
