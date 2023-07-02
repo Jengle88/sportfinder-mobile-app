@@ -21,13 +21,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.screen.common_components.BottomNavItem
 import ru.riders.sportfinder.screen.common_components.TopBarType
 import ru.riders.sportfinder.screen.navigation.MainScreenNavHost
-import ru.riders.sportfinder.screen.navigation.ScreensSubgraphs
+import ru.riders.sportfinder.screen.navigation.NavigationController
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
 
@@ -44,18 +43,21 @@ class MainActivity : ComponentActivity() {
             val topBarType = remember { mutableStateOf<TopBarType?>(null) }
 
             val engine = rememberNavHostEngine()
-            val navHostController = engine.rememberNavController()
+            val navigationController = NavigationController(engine.rememberNavController())
 
             val bottomItems = listOf(
                 BottomNavItem(
-                    painterResource(R.drawable.ic_account_white_24)
-                ) { it.navigate(ScreensSubgraphs.PROFILE.route) },
+                    painterResource(R.drawable.ic_account_white_24),
+                    navigationController::navigateToProfile
+                ),
                 BottomNavItem(
-                    painterResource(R.drawable.ic_location_white_24)
-                ) { it.navigate(ScreensSubgraphs.SPORT_COURT.route) },
+                    painterResource(R.drawable.ic_location_white_24),
+                    navigationController::navigateToSportCourt
+                ),
                 BottomNavItem(
-                    painterResource(R.drawable.ic_runner_white_24)
-                ) { it.navigate(ScreensSubgraphs.RUNNING_TRACK.route) },
+                    painterResource(R.drawable.ic_runner_white_24),
+                    navigationController::navigateToRunningTrack
+                ),
             )
 
             SportFinderTheme {
@@ -71,7 +73,7 @@ class MainActivity : ComponentActivity() {
                         },
                         bottomBar = {
                             if (isSupportedBottomNav.value) {
-                                BottomBar(bottomItems, navHostController)
+                                BottomBar(bottomItems)
                             }
                         }
                     ) { paddingValues ->
@@ -81,7 +83,7 @@ class MainActivity : ComponentActivity() {
                                 .padding(paddingValues)
                         ) {
                             MainScreenNavHost(
-                                navHostController = navHostController,
+                                navigationController = navigationController,
                                 isSupportedBottomNav = isSupportedBottomNav,
                                 topBarType = topBarType,
                                 viewModel = viewModel
@@ -97,8 +99,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun BottomBar(
-    items: List<BottomNavItem>,
-    navHostController: NavHostController,
+    items: List<BottomNavItem>
 ) {
     var selectedId by remember { mutableStateOf(0) }
     BottomNavigation(
@@ -109,7 +110,7 @@ private fun BottomBar(
                 selected = selectedId == index,
                 onClick = {
                     selectedId = index
-                    bottomNavItem.onItemClick(navHostController)
+                    bottomNavItem.onItemClick()
                 },
                 selectedContentColor = SportFinderLightColorScheme.onPrimary,
                 unselectedContentColor = SportFinderLightColorScheme.onPrimary,
