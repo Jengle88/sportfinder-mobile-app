@@ -42,6 +42,9 @@ val SportFinderLightColorScheme = lightColorScheme(
     secondary = Green,
     onPrimary = White,
     onSecondary = LightGray,
+    onSurface = Black,
+    onSurfaceVariant = LightGray,
+    onError = Red,
     tertiary = Pink40
 )
 

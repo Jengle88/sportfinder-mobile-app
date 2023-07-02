@@ -44,6 +44,7 @@ import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AuthorizationScreen(
+    isForceAuth: Boolean,
     navigateToProfileScreen: () -> Unit,
     navigateToRegistrationScreen: () -> Unit,
     viewModel: AuthorizationViewModel = hiltViewModel()
@@ -51,16 +52,18 @@ fun AuthorizationScreen(
     val context = LocalContext.current
 
     // Проверка на то, что пользователь уже заходил и его токен активен
-    LaunchedEffect(key1 = true) {
-        viewModel.checkTokenValidity(
-            onValidToken = {
-                Toast.makeText(context, "Вход выполнен", Toast.LENGTH_SHORT).show()
-                navigateToProfileScreen()
-            },
-            onOutdatedToken = {
-                Toast.makeText(context, "Ошибка получения токена или токен недействителен", Toast.LENGTH_SHORT).show()
-            }
-        )
+    if (!isForceAuth) {
+        LaunchedEffect(key1 = true) {
+            viewModel.checkTokenValidity(
+                onValidToken = {
+                    Toast.makeText(context, "Вход выполнен", Toast.LENGTH_SHORT).show()
+                    navigateToProfileScreen()
+                },
+                onOutdatedToken = {
+                    Toast.makeText(context, "Ошибка получения токена или токен недействителен", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
     }
 
     val (login, password, errorMessage, isLoading) = viewModel.state.value
@@ -170,7 +173,7 @@ fun AuthorizationScreen(
 @Composable
 @Preview
 fun AuthorizationPreview() {
-    AuthorizationScreen({}, {})
+    AuthorizationScreen(false, {}, {})
 }
 
 

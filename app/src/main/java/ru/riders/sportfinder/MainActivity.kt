@@ -3,6 +3,7 @@ package ru.riders.sportfinder
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,6 +25,7 @@ import androidx.navigation.NavHostController
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
 import ru.riders.sportfinder.screen.common_components.BottomNavItem
+import ru.riders.sportfinder.screen.common_components.TopBarType
 import ru.riders.sportfinder.screen.navigation.MainScreenNavHost
 import ru.riders.sportfinder.screen.navigation.ScreensSubgraphs
 import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
@@ -31,12 +33,15 @@ import ru.riders.sportfinder.screen.ui.theme.SportFinderTheme
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    val viewModel by viewModels<MainActivityViewModel>()
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             val isSupportedBottomNav = remember { mutableStateOf(false) }
+            val topBarType = remember { mutableStateOf<TopBarType?>(null) }
 
             val engine = rememberNavHostEngine()
             val navHostController = engine.rememberNavController()
@@ -61,6 +66,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
+                        topBar = {
+                            topBarType.value?.let { it.topBar() }
+                        },
                         bottomBar = {
                             if (isSupportedBottomNav.value) {
                                 BottomBar(bottomItems, navHostController)
@@ -74,7 +82,9 @@ class MainActivity : ComponentActivity() {
                         ) {
                             MainScreenNavHost(
                                 navHostController = navHostController,
-                                isSupportedBottomNav = isSupportedBottomNav
+                                isSupportedBottomNav = isSupportedBottomNav,
+                                topBarType = topBarType,
+                                viewModel = viewModel
                             )
                         }
                     }
