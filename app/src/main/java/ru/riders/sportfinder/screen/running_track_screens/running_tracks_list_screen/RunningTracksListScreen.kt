@@ -34,7 +34,7 @@ import ru.riders.sportfinder.screen.ui.theme.SportFinderLightColorScheme
 
 @Composable
 fun RunningTracksListScreen(
-    navigateToWatchRunningTrackScreen: (Int) -> Unit,
+    navigateToRunningTrackScreen: (Int) -> Unit,
     navigateToCreateTrackScreen: () -> Unit,
     viewModel: RunningTracksListViewModel = hiltViewModel()
 ) {
@@ -76,7 +76,7 @@ fun RunningTracksListScreen(
                         TrackListItem(
                             trackInfo,
                             modifier = Modifier.clickable {
-                                navigateToWatchRunningTrackScreen(trackInfo.trackId)
+                                navigateToRunningTrackScreen(trackInfo.trackId)
                             }
                         )
                     }
