@@ -9,11 +9,13 @@ enum class Screens(val route: String) {
     RUNNING_TRACKS_LIST_SCREEN("running_tracks_list_screen"),
     RUNNING_TRACK_MAP_SCREEN("running_track_map_screen"),
     CREATE_TRACK_SCREEN("create_track_screen"),
+    MAIN_SETTINGS_SCREEN("main_settings_screen")
 }
 
 enum class ScreensSubgraphs(val route: String) {
     AUTH("auth"),
     PROFILE("profile"),
     SPORT_COURT("sport_court"),
-    RUNNING_TRACK("running_track")
+    RUNNING_TRACK("running_track"),
+    SETTINGS("settings")
 }

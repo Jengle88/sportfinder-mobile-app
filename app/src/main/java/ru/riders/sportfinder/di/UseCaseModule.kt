@@ -14,6 +14,7 @@ import ru.riders.sportfinder.domain.use_case.GetUserProfile
 import ru.riders.sportfinder.domain.use_case.LoadRunningTrack
 import ru.riders.sportfinder.domain.use_case.LoadRunningTracksList
 import ru.riders.sportfinder.domain.use_case.LoadSportCourtsList
+import ru.riders.sportfinder.domain.use_case.LogoutUserProfile
 import ru.riders.sportfinder.domain.use_case.SignInUser
 import ru.riders.sportfinder.domain.use_case.SignUpUser
 
@@ -30,6 +31,11 @@ object UseCaseModule {
     fun provideSignInUser(
         userProfileRepository: UserProfileRepository
     ) = SignInUser(userProfileRepository)
+
+    @Provides
+    fun provideLogoutUser(
+        userProfileRepository: UserProfileRepository
+    ) = LogoutUserProfile(userProfileRepository)
 
     @Provides
     fun provideGetUserProfile(

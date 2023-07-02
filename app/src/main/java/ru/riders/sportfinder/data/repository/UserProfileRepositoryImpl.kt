@@ -33,6 +33,12 @@ class UserProfileRepositoryImpl @Inject constructor(
         return signInData
     }
 
+    override suspend fun logoutUser(): Boolean {
+        val currToken = userProfileDao.getUserToken() ?: return false// null может возникать, если таблица пустая
+        userProfileDao.deleteUserProfile(currToken)
+        return true
+    }
+
     override suspend fun getUserInfo(): UserProfileDto {
         val userToken = userProfileDao.getUserToken().token
         return serverApi.getUserProfile(userToken)
