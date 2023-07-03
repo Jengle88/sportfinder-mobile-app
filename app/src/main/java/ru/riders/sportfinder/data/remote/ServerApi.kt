@@ -14,6 +14,7 @@ import ru.riders.sportfinder.data.remote.dto.SportCourtsDto
 import ru.riders.sportfinder.data.remote.dto.UserProfileDto
 import ru.riders.sportfinder.data.remote.request_body.CreateRunningTrackBody
 import ru.riders.sportfinder.data.remote.request_body.SignUpRequestBody
+import ru.riders.sportfinder.network.interceptor.WithUserToken
 
 interface ServerApi {
 
@@ -28,9 +29,8 @@ interface ServerApi {
     ): AuthDto
 
     @GET("token")
-    suspend fun refreshToken(
-        @Header("Authorization") token: String
-    ): AuthDto
+    @WithUserToken
+    suspend fun refreshToken(): AuthDto
 
     @GET("spot")
     suspend fun getSportCourts(): SportCourtsDto
@@ -49,8 +49,8 @@ interface ServerApi {
     ): RunningTrackDto
 
     @POST("create_running_route")
+    @WithUserToken
     suspend fun createRunningTrack(
-        @Header("Authorization") token: String,
         @Body createRunningTrackBody: CreateRunningTrackBody
     ): CreateRunningTrackDto
 }
