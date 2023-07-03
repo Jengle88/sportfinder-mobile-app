@@ -9,7 +9,8 @@ import java.io.IOException
 import javax.inject.Inject
 
 class SignUpUser @Inject constructor(
-    private val userProfileRepository: UserProfileRepository
+    private val userProfileRepository: UserProfileRepository,
+    private val updateToken: (String?) -> Unit
 ) {
     operator fun invoke(login: String, password: String): Flow<ApiResultState<Boolean>> =
         flow {
@@ -17,7 +18,11 @@ class SignUpUser @Inject constructor(
                 emit(ApiResultState.Loading())
 
                 val signUpData = userProfileRepository.signUpUser(login, password)
-                emit(ApiResultState.Success(signUpData.token.isNotEmpty()))
+                if (signUpData.token.isNotEmpty()) {
+                    updateToken(signUpData.token)
+                    emit(ApiResultState.Success(true))
+                } else
+                    emit(ApiResultState.Success(false))
             } catch (e: HttpException) {
                 emit(ApiResultState.Error(e.localizedMessage ?: "An unexpected error occurred"))
             } catch (e: IOException) {

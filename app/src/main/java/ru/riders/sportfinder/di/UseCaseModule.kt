@@ -17,6 +17,7 @@ import ru.riders.sportfinder.domain.use_case.LoadSportCourtsList
 import ru.riders.sportfinder.domain.use_case.LogoutUserProfile
 import ru.riders.sportfinder.domain.use_case.SignInUser
 import ru.riders.sportfinder.domain.use_case.SignUpUser
+import ru.riders.sportfinder.network.interceptor.TokenInterceptor
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -24,18 +25,21 @@ object UseCaseModule {
 
     @Provides
     fun provideSignUpUser(
+        tokenInterceptor: TokenInterceptor,
         userProfileRepository: UserProfileRepository
-    ) = SignUpUser(userProfileRepository)
+    ) = SignUpUser(userProfileRepository, tokenInterceptor::updateToken)
 
     @Provides
     fun provideSignInUser(
+        tokenInterceptor: TokenInterceptor,
         userProfileRepository: UserProfileRepository
-    ) = SignInUser(userProfileRepository)
+    ) = SignInUser(userProfileRepository, tokenInterceptor::updateToken)
 
     @Provides
     fun provideLogoutUser(
+        tokenInterceptor: TokenInterceptor,
         userProfileRepository: UserProfileRepository
-    ) = LogoutUserProfile(userProfileRepository)
+    ) = LogoutUserProfile(userProfileRepository, tokenInterceptor::updateToken)
 
     @Provides
     fun provideGetUserProfile(

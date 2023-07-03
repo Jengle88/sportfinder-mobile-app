@@ -1,7 +1,5 @@
 package ru.riders.sportfinder.data.repository
 
-import ru.riders.sportfinder.common.utils.NetworkUtils
-import ru.riders.sportfinder.data.db.UserProfileDao
 import ru.riders.sportfinder.data.remote.ServerApi
 import ru.riders.sportfinder.data.remote.dto.CreateRunningTrackDto
 import ru.riders.sportfinder.data.remote.dto.RunningTrackDto
@@ -11,7 +9,6 @@ import ru.riders.sportfinder.domain.repository.RunningTracksRepository
 import javax.inject.Inject
 
 class RunningTracksRepositoryImpl @Inject constructor(
-    private val userProfileDao: UserProfileDao,
     private val api: ServerApi
 ) : RunningTracksRepository {
     override suspend fun getRunningTracks(): RunningTracksDto {
@@ -28,7 +25,6 @@ class RunningTracksRepositoryImpl @Inject constructor(
         points: Array<Array<Double>>
     ): CreateRunningTrackDto {
         return api.createRunningTrack(
-            NetworkUtils.asBearerHeader(userProfileDao.getUserToken().token),
             CreateRunningTrackBody(name, distance, points)
         )
     }

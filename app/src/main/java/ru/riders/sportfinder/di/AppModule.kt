@@ -14,6 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.riders.sportfinder.common.Constants.API_URL_SERVER
 import ru.riders.sportfinder.data.db.SportFinderDatabase
 import ru.riders.sportfinder.data.remote.ServerApi
+import ru.riders.sportfinder.network.interceptor.TokenInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -23,9 +24,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient() = OkHttpClient().newBuilder()
+    fun provideTokenInterceptor() = TokenInterceptor()
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(
+        tokenInterceptor: TokenInterceptor
+    ) = OkHttpClient().newBuilder()
         .readTimeout(10, TimeUnit.SECONDS)
         .writeTimeout(10, TimeUnit.SECONDS)
+        .addInterceptor(tokenInterceptor)
         .build()
 
     @Provides

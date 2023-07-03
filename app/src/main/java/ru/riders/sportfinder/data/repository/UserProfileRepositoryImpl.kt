@@ -1,7 +1,6 @@
 package ru.riders.sportfinder.data.repository
 
 import okhttp3.Credentials
-import ru.riders.sportfinder.common.utils.NetworkUtils
 import ru.riders.sportfinder.data.db.UserProfileDao
 import ru.riders.sportfinder.data.remote.ServerApi
 import ru.riders.sportfinder.data.remote.dto.AuthDto
@@ -45,8 +44,6 @@ class UserProfileRepositoryImpl @Inject constructor(
     }
 
     override suspend fun checkTokenValidity(): Boolean {
-        val currToken = userProfileDao.getUserToken()?.token ?: return false // null может возникать, если таблица пустая
-        val serverToken = serverApi.refreshToken(NetworkUtils.asBearerHeader(currToken)).token
-        return serverToken.isNotEmpty()
+        return serverApi.refreshToken().token.isNotEmpty()
     }
 }
