@@ -22,12 +22,12 @@ class TokenInterceptor: Interceptor {
             .annotations
             .any { it.annotationClass == WithUserToken::class }
 
-        return if (shouldAttachToken && token != null) {
+        return if (shouldAttachToken) {
             Log.d("TokenInterceptor", "Add user Token")
             chain.proceed(
                 chain.request()
                     .newBuilder()
-                    .addHeader("Authorization", NetworkUtils.asBearerHeader(token!!))
+                    .addHeader("Authorization", NetworkUtils.asBearerHeader(token ?: ""))
                     .build()
             )
         } else {
