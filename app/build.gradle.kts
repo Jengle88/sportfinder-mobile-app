@@ -114,6 +114,8 @@ dependencies {
     // Kotlin Extensions and Coroutines support for Room
     implementation(libs.room.ktx)
 
+    implementation(libs.datastore.preferences)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
